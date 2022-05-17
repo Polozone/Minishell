@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../pipex/pipex_bonus/rendu/Bonus"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"minishell.h": "c"
+		}
+	}
+}
