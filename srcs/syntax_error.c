@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:29:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/17 11:02:56 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:20:48 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,27 @@ static t_bool	ft_printf_error(int mode)
 	if (mode == ONE_PIPE)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
-		g_error = 258;
 		return (true);
 	}
-	if (mode == TWO_PIPE)
+	else if (mode == TWO_PIPE)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `||'\n", 2);
-		g_error = 258;
 		return (true);
 	}
-	if (mode == ONE_RED)
+	else if (mode == ONE_RED)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `>'\n", 2);
-		g_error = 258;
 		return (true);
 	}
-	if (mode == TWO_RED)
+	else if (mode == TWO_RED)
 	{
 		ft_putstr_fd(" syntax error near unexpected token `>>'\n", 2);
-		g_error = 258;
 		return (true);
 	}
 	return (false);
 }
 
-t_bool	ft_pipe_error(char *line, int line_len)
+static t_bool	ft_pipe_error(char *line, int line_len)
 {
 	int	i;
 	int	pipe_ct;
@@ -58,7 +54,7 @@ t_bool	ft_pipe_error(char *line, int line_len)
 	while (line[++i])
 	{
 		pipe_ct = 0;
-		while (line[i] == '|')
+		while (line[i] && line[i] == '|')
 		{
 			pipe_ct ++;
 			i ++;
@@ -68,5 +64,43 @@ t_bool	ft_pipe_error(char *line, int line_len)
 		else if (pipe_ct > 3)
 			return (ft_printf_error(TWO_PIPE));
 	}
+	return (false);
+}
+
+static t_bool	ft_chevron_error(char *line, int line_len)
+{
+	int	i;
+	int	chev_ct;
+
+	i = -1;
+
+	if (line[0] == '>')
+	{
+		if (line_len > 1 && line[1] == '>')
+			return (ft_printf_error(TWO_RED));
+		return (ft_printf_error(ONE_RED));
+	}
+	while (line[++i])
+	{
+		chev_ct = 0;
+		while (line[i] && line[i] == '>')
+		{
+			chev_ct ++;
+			i ++;
+		}
+		if (chev_ct == 3)
+			return (ft_printf_error(ONE_RED));
+		else if (chev_ct > 3)
+			return (ft_printf_error(TWO_RED));
+	}
+	return (false);
+}
+
+t_bool	ft_syntax_error(t_prg *prg)
+{
+	if (ft_chevron_error(prg->line, prg->line_len) == true)
+		return (true);
+	if (ft_pipe_error(prg->line, prg->line_len) == true)
+		return (true);
 	return (false);
 }
