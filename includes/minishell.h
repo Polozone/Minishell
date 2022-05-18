@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/17 11:02:56 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:41:26 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 
 # define ONE_PIPE 1
 # define TWO_PIPE 2
-# define ONE_RED 1
-# define TWO_RED 2
+# define ONE_RED 3
+# define TWO_RED 4
 
 int	g_error;
 
@@ -49,6 +49,23 @@ typedef enum	s_builtin
 	env,
 	quit
 }				t_builtin;
+
+typedef enum	s_redir
+{
+	input,
+	output,
+	out_append
+}				t_redir;
+
+typedef struct s_cmd_list
+{
+	char		**cmd_and_dep;
+	char		*path;
+	char		**files;
+	t_redir		*redir_type;
+	t_builtin	is_cmd_builtin;
+	void		*next;
+}				t_cmd_lst;
 
 typedef struct s_prg
 {
@@ -93,7 +110,7 @@ t_bool		ft_is_in_quote(const char *line, int index);
 
 /***** PIPE_ERROR.C *****/
 
-t_bool		ft_pipe_error(char *line, int line_len);
+t_bool		ft_syntax_error(t_prg *prg);
 
 /***** BUILTIN_CHECK.C *****/
 
