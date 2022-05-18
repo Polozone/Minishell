@@ -1,6 +1,5 @@
 SRCS =	srcs/main.c				\
 		srcs/split.c			\
-		srcs/Path_list_maker.c	\
 		srcs/strings_manip.c	\
 		srcs/printing_ft.c		\
 		srcs/quote.c			\

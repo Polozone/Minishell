@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/18 11:41:26 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/05/18 14:34:19 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ typedef struct s_cmd_list
 typedef struct s_prg
 {
 	char		**env_p;
-	char		**path;
 	char		**cells;
 	char		***cmd_list;
 	char		*line;
@@ -85,15 +84,11 @@ typedef struct s_prg
 int			ft_strlen(const char *str);
 char		*ft_strstr(char *str, char *to_find);
 char		*ft_substr(const char *s, unsigned int start, size_t len);
+int			ft_array_len(char **envp);
 
 /***** SPLIT.C *****/
 
 char		**ft_split(char *str, char sep);
-
-/***** PATH_LIST_MAKER.C *****/
-
-char		**ft_path_list_maker(char **envp, t_prg *prg);
-int			ft_array_len(char **envp);
 
 /***** PRINTF_FT.C *****/
 
