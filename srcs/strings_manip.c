@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 11:26:43 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/12 14:47:11 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/05/18 14:23:28 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@
 	else if (close(fd2) < 0)
 		return (perror("close : "));
 }*/
+
+int	ft_array_len(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+		i ++;
+	return (i);
+}
 
 int	ft_strlen(const char *str)
 {
