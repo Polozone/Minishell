@@ -6,23 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 11:06:40 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/12 16:18:14 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/05/30 10:28:00 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static void	ft_builtin_init(t_prg *prg)
-{
-	int	i;
-
-	i = 0;
-	while (prg->is_cmd_builtin[i])
-	{
-		prg->is_cmd_builtin[i] = not_built_in;
-		i ++;
-	}
-}
 
 static char	*ft_builtin_strstr(char *cmd, char *to_find)
 {
@@ -58,26 +46,27 @@ static char	*ft_builtin_strstr(char *cmd, char *to_find)
 void	ft_is_cmd_builtin(t_prg *prg)
 {
 	int	i;
+	t_cmd_lst *buff;
 
 	i = 0;
-	prg->is_cmd_builtin = malloc((prg->cmd_nbr + 1) * sizeof(prg->is_cmd_builtin));
-	ft_builtin_init(prg);
-	while (prg->cmd_list[i])
+	buff = prg->cmd_list;
+	while (i < prg->cmd_nbr && buff)
 	{
-		if (ft_builtin_strstr(prg->cmd_list[i][0], "echo") != NULL)
-			prg->is_cmd_builtin[i] = echo;
-		else if (ft_builtin_strstr(prg->cmd_list[i][0], "cd") != NULL)
-			prg->is_cmd_builtin[i] = cd;
-		else if (ft_builtin_strstr(prg->cmd_list[i][0], "pwd") != NULL)
-			prg->is_cmd_builtin[i] = pwd;
-		else if (ft_builtin_strstr(prg->cmd_list[i][0], "export") != NULL)
-			prg->is_cmd_builtin[i] = export;
-		else if (ft_builtin_strstr(prg->cmd_list[i][0], "unset") != NULL)
-			prg->is_cmd_builtin[i] = unset;
-		else if (ft_builtin_strstr(prg->cmd_list[i][0], "env") != NULL)
-			prg->is_cmd_builtin[i] = env;
-		else if (ft_builtin_strstr(prg->cmd_list[i][0], "exit") != NULL)
-			prg->is_cmd_builtin[i] = quit;
+		if (ft_builtin_strstr(prg->cells[i], "echo") != NULL)
+			buff->is_cmd_builtin = echo;
+		else if (ft_builtin_strstr(prg->cells[i], "cd") != NULL)
+			buff->is_cmd_builtin = cd;
+		else if (ft_builtin_strstr(prg->cells[i], "pwd") != NULL)
+			buff->is_cmd_builtin = pwd;
+		else if (ft_builtin_strstr(prg->cells[i], "export") != NULL)
+			buff->is_cmd_builtin = export;
+		else if (ft_builtin_strstr(prg->cells[i], "unset") != NULL)
+			buff->is_cmd_builtin = unset;
+		else if (ft_builtin_strstr(prg->cells[i], "env") != NULL)
+			buff->is_cmd_builtin = env;
+		else if (ft_builtin_strstr(prg->cells[i], "exit") != NULL)
+			buff->is_cmd_builtin = quit;
 		i ++;
+		buff = buff->next;
 	}
 }
