@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 12:59:48 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/14 15:18:45 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/06/15 11:40:32 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 	return (env);
 }
 
-static void	ft_make_elem(char *line, t_env_lst *env_lst, int index)
+static void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
 {
 	int		i;
 	int		j;
@@ -71,17 +71,29 @@ static void	ft_make_elem(char *line, t_env_lst *env_lst, int index)
 		i ++;
 	name = malloc((i + 2) * sizeof(char));
 	name = ft_substr(line, 0, i + 1);
-	printf("NAME = %s\n", name);
 	j = i;
 	while (line[j])
 		j ++;
 	content = malloc ((j - i + 1) * sizeof(char));
 	content = ft_substr(line, i + 1, j);
-	printf("COTENT = %s\n", content);
 	if (index == 0)
-		env_lst = ft_lstnew_env_list(name, content);
+		*env_lst = ft_lstnew_env_list(name, content);
 	else
-		ft_add_back_env_list(&env_lst, ft_lstnew_env_list(name, content));
+		ft_add_back_env_list(env_lst, ft_lstnew_env_list(name, content));
+}
+
+t_env_lst	*ft_search_in_env_lst(t_prg *prg, char *name)
+{
+	t_env_lst *buff;
+
+	buff = prg->env_lst;
+	while (buff != NULL)
+	{
+		if (ft_strstr(buff->name, name) != 0)
+			return(buff);
+		buff = buff->next;
+	}
+	return (0);
 }
 
 t_env_lst	*ft_create_env_lst(char **envp, t_prg *prg)
@@ -89,10 +101,14 @@ t_env_lst	*ft_create_env_lst(char **envp, t_prg *prg)
 	int	i;
 
 	i = 1;
-	ft_make_elem(envp[0], prg->env_lst, 0);
+	if (envp[0] == NULL)
+	{
+		return (ft_lstnew_env_list(0, 0));
+	}
+	ft_make_elem(envp[0], &prg->env_lst, 0);
 	while(envp[i])
 	{
-		ft_make_elem(envp[i], prg->env_lst, i);
+		ft_make_elem(envp[i], &prg->env_lst, i);
 		i ++;
 	}
 	return (prg->env_lst);

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/14 15:08:54 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/06/16 11:22:56 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,14 @@ int main(int ac, char **av, char **env)
 
 	(void) ac;
 	(void) av;
+	prg.env_lst = ft_create_env_lst(env, &prg);
+	printf("%p\n", ft_search_in_env_lst(&prg, "PATH"));
 	while (1)
 	{
 		g_error = 0;
-		prg.env_lst = ft_create_env_lst(env, &prg);
 		prg.line = readline("Minichell_Drucker1.3$ ");
+		printf("line = %s\n", prg.line);
+		printf("test0\n");
 		ft_parse(&prg);
 		/*if (g_error != 258)
 		{

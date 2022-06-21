@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:29:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/14 10:52:48 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/06/16 11:28:22 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,14 +142,27 @@ char	*ft_trim_space(char *line)
 	int		spc_ct;
 	char	*trim;
 
-	i = -1;
+	i = 0;
 	j = 0;
 	spc_ct = 0;
-	while (line[++i])
+	printf("line = %s test4\n", line);
+	if (line == 0)
+	{
+		printf("test5\n");
+		return (0);
+	}
+	printf("test6\n");
+	while (line[i])
+	{
 		if (line[i] != ' ')
 			spc_ct ++;
+		i ++;
+	}
+	printf("test7\n");
 	i = 0;
 	trim = malloc(spc_ct + 1 * sizeof(char));
+	if (!trim)
+		exit (1);
 	while (line[i])
 	{
 		if (line[i] != ' ')
@@ -159,6 +172,7 @@ char	*ft_trim_space(char *line)
 		}
 		i ++;
 	}
+	printf("test8\n");
 	return (trim);
 }
 t_bool	ft_syntax_error(t_prg *prg)
@@ -168,7 +182,10 @@ t_bool	ft_syntax_error(t_prg *prg)
 	t_bool	error;
 
 	error = false;
+	printf("test2\n");
 	line = ft_trim_space(prg->line);
+	if (line == 0)
+		return (false);
 	line_len = ft_strlen(line);
 	if (ft_chevron_error(line, line_len, '>', '<') == true)
 		error = true;
@@ -178,7 +195,8 @@ t_bool	ft_syntax_error(t_prg *prg)
 		error = true;
 	else if (ft_quote_error(line) == true)
 		error = true;
-	free(line);
+	printf("test9\n");
+	// free(line);
 	if (error == true)
 		return (true);
 	return (false);

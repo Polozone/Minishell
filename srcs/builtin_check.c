@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 11:06:40 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/30 10:28:00 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/06/16 11:37:18 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	ft_is_cmd_builtin(t_prg *prg)
 	buff = prg->cmd_list;
 	while (i < prg->cmd_nbr && buff)
 	{
+		printf("SAM CASSE LES COUILLES\n");
 		if (ft_builtin_strstr(prg->cells[i], "echo") != NULL)
 			buff->is_cmd_builtin = echo;
 		else if (ft_builtin_strstr(prg->cells[i], "cd") != NULL)

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/14 15:10:11 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/06/15 11:55:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct	l_env_list
 
 typedef struct s_prg
 {
-	char		**env_p;
+	char		**envp;
 	char		**cells;
 	char		*line;
 	int			line_len;
@@ -105,6 +105,7 @@ t_cmd_lst	*ft_lstnew_cmd_list(void);
 /***** ENV_LIST.C *****/
 
 t_env_lst		*ft_create_env_lst(char **envp, t_prg *prg);
+t_env_lst		*ft_search_in_env_lst(t_prg *prg, char *name);
 
 /***** FILL_CMD_LST.C *****/
 

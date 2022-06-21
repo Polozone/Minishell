@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 11:26:43 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/18 15:21:06 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/06/16 08:44:27 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
-	if (!str)
-		return (1);
+	if (str == 0)
+		return (0);
 	while (str[i])
 		i ++;
 	return (i);
@@ -48,6 +48,8 @@ char	*ft_strstr(char *str, char *to_find)
 	int	j;
 
 	i = 0;
+	if (str == 0)
+		return (0);
 	if (to_find[0] == '\0')
 		return (str);
 	while (str[i])
