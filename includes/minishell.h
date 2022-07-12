@@ -31,11 +31,6 @@
 # define TWO_RED 4
 # define SYNT_ER 5
 
-<<<<<<< HEAD
-// extern int	kirby;
-=======
->>>>>>> 1f4f22be03c1e67c06fde71a7325fd55bdaf05e0
-
 typedef enum	s_bool
 {
 	true,
