@@ -19,7 +19,7 @@ CC = gcc
 
 RM = rm -f
 
-FLAGS = -Wall -Werror -Wextra -lreadline #-fsanitize=address -g3
+FLAGS = -Wall -Werror -Wextra -lreadline -fsanitize=address -g3
 
 %.o.c: $(INCL) Makefile
 	$(CC) $(FLAGS) -c $< -o $@

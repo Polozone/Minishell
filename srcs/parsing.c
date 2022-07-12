@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+extern int g_error;
+
 static t_cmd_lst	*ft_create_cmd_lst(t_prg *prg)
 {
 	int	i;

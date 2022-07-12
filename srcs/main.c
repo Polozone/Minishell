@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+int	g_error;
+
 static void	ft_free_char_array(char **array)
 {
 	int	i;
@@ -46,6 +48,7 @@ void	ft_free_parsing(t_prg *prg)
 	}
 	free(prg->cmd_list);*/
 }
+
 
 int main(int ac, char **av, char **env)
 {
