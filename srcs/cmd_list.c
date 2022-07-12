@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chained_lst.c                                      :+:      :+:    :+:   */
+/*   cmd_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:27:13 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/18 14:20:36 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:15:22 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static t_cmd_lst	*ft_last(t_cmd_lst *lst)
+static t_cmd_lst	*ft_last_cmd_list(t_cmd_lst *lst)
 {
 	void	*p;
 
@@ -26,7 +26,7 @@ static t_cmd_lst	*ft_last(t_cmd_lst *lst)
 	return (p);
 }
 
-void	ft_add_back(t_cmd_lst **alpha, t_cmd_lst *newb)
+void	ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb)
 {
 	t_cmd_lst	*tmp;
 
@@ -39,27 +39,30 @@ void	ft_add_back(t_cmd_lst **alpha, t_cmd_lst *newb)
 	}
 	else
 	{
-		tmp = ft_last(*alpha);
+		tmp = ft_last_cmd_list(*alpha);
 		tmp->next = newb;
 	}
 }
 
-t_cmd_lst	*ft_lstnew(t_prg *content)
+t_cmd_lst	*ft_lstnew_cmd_list(void)
 {
 	t_cmd_lst	*cmd;
 
 	cmd = malloc(sizeof(t_cmd_lst));
 	if (!cmd)
 		return (0);
-	cmd->cmd_and_dep = content->cmd_and_dep;
-	cmd->file = content->file;
-	cmd->redir_type = content->redir_type;
-	cmd->is_cmd_builtin = content->is_cmd_builtin;
+	cmd->cmd_and_dep = 0;
+	cmd->path = 0;
+	cmd->file = 0;
+	cmd->redir_type = 0;
+	cmd->is_cmd_builtin = 0;
 	cmd->next = NULL;
 	return (cmd);
 }
 
-void	ft_lstclear(t_cmd_lst **lst)
+
+
+void	ft_lstclear_cmd_list(t_cmd_lst **lst)
 {
 	t_cmd_lst	*elem;
 

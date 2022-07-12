@@ -6,13 +6,13 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:34:01 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/10 16:18:12 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:44:11 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static t_bool	ft_is_in_double(const char *line, int index)
+t_bool	ft_is_in_double(const char *line, int index)
 {
 	int	q_one;
 	int	q_two;
@@ -30,16 +30,18 @@ static t_bool	ft_is_in_double(const char *line, int index)
 			q_one = -1;
 			q_two = -1;
 		}
-		if (q_one != -1 && line[i] == 34)
+		else if (q_one != -1 && line[i] == 34)
 			q_two = i;
 		else if (line[i] == 34)
 			q_one = i;
 		i ++;
 	}
+	if (q_one != -1 && q_two != -1 && index > q_one && index < q_two)
+		return (true);
 	return (false);
 }
 
-static t_bool	ft_is_in_single(const char *line, int index)
+t_bool	ft_is_in_single(const char *line, int index)
 {
 	int	q_one;
 	int	q_two;
@@ -57,12 +59,14 @@ static t_bool	ft_is_in_single(const char *line, int index)
 			q_one = -1;
 			q_two = -1;
 		}
-		if (q_one != -1 && line[i] == 39)
+		else if (q_one != -1 && line[i] == 39)
 			q_two = i;
 		else if (line[i] == 39)
 			q_one = i;
 		i ++;
 	}
+	if (q_one != -1 && q_two != -1 && index > q_one && index < q_two)
+		return (true);
 	return (false);
 }
 

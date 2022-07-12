@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 11:26:43 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/18 14:23:28 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/06/16 08:44:27 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,15 @@ int	ft_array_len(char **envp)
 	return (i);
 }
 
-int	ft_strlen(const char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (!str)
-		return (1);
+	if (str == 0)
+		return (0);
 	while (str[i])
-	{
 		i ++;
-	}
 	return (i);
 }
 
@@ -50,6 +48,8 @@ char	*ft_strstr(char *str, char *to_find)
 	int	j;
 
 	i = 0;
+	if (str == 0)
+		return (0);
 	if (to_find[0] == '\0')
 		return (str);
 	while (str[i])
@@ -66,7 +66,7 @@ char	*ft_strstr(char *str, char *to_find)
 	return (0);
 }
 
-char	*ft_substr(const char *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	unsigned int	i;
 	unsigned int	j;
