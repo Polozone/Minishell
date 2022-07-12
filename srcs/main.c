@@ -32,8 +32,6 @@ void	ft_free_parsing(t_prg *prg)
 
 	i = 0;
 	free(prg->line);
-	if (prg->path != NULL)
-		ft_free_char_array(prg->path);
 	ft_free_char_array(prg->cells);
 	while (prg->cmd_list[i])
 	{
@@ -52,10 +50,11 @@ void	ft_free_parsing(t_prg *prg)
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
+	// int : kirby;
 
 	(void) ac;
 	(void) av;
-	g_error = 0;
+	// kirby = 0;
 	while (1)
 	{
 		prg.env_p = env;

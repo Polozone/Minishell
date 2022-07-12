@@ -30,7 +30,7 @@
 # define ONE_RED 3
 # define TWO_RED 4
 
-int	g_error;
+// extern int	kirby;
 
 typedef enum	s_bool
 {

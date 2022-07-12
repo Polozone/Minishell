@@ -39,7 +39,7 @@ void	ft_parse(t_prg *prg)
 	if (prg->line == NULL)
 		return;
 	if (ft_syntax_error(prg) == true)
-		g_error = 258;
+		// kirby = 258;
 	prg->line_len = ft_strlen(prg->line);
 	prg->cells = ft_split(prg->line, '|');
 	prg->cmd_nbr = ft_array_len(prg->cells);
