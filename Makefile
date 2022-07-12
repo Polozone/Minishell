@@ -5,6 +5,10 @@ SRCS =	srcs/main.c				\
 		srcs/quote.c			\
 		srcs/syntax_error.c		\
 		srcs/builtin_check.c	\
+		srcs/cmd_list.c			\
+		srcs/env_list.c			\
+		srcs/fill_cmd_lst.c		\
+		srcs/redirections.c		\
 		srcs/parsing.c		
 
 OBJS = $(SRCS:.c=.o)

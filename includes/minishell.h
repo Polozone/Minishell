@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/18 14:34:19 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/06/15 11:55:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@
 # define TWO_PIPE 2
 # define ONE_RED 3
 # define TWO_RED 4
+# define SYNT_ER 5
 
+<<<<<<< HEAD
 // extern int	kirby;
+=======
+>>>>>>> 1f4f22be03c1e67c06fde71a7325fd55bdaf05e0
 
 typedef enum	s_bool
 {
@@ -54,37 +58,61 @@ typedef enum	s_redir
 {
 	input,
 	output,
-	out_append
+	out_append,
+	heredoc
 }				t_redir;
 
-typedef struct s_cmd_list
+typedef struct l_cmd_list
 {
 	char		**cmd_and_dep;
 	char		*path;
-	char		**files;
+	char		**file;
+	int			redir_nbr;
 	t_redir		*redir_type;
 	t_builtin	is_cmd_builtin;
 	void		*next;
 }				t_cmd_lst;
 
+typedef struct	l_env_list
+{
+	char	*name;
+	char	*content;
+	void	*next;
+}				t_env_lst;
+
 typedef struct s_prg
 {
-	char		**env_p;
+	char		**envp;
 	char		**cells;
-	char		***cmd_list;
 	char		*line;
 	int			line_len;
 	int			cmd_nbr;
-	t_builtin	*is_cmd_builtin;
+	t_cmd_lst	*cmd_list;
+	t_env_lst	*env_lst;
 	t_bool		is_there_path;
 }			t_prg;
 
 /***** STRING_MANIP.C *****/
 
-int			ft_strlen(const char *str);
+int			ft_strlen(char *str);
 char		*ft_strstr(char *str, char *to_find);
-char		*ft_substr(const char *s, unsigned int start, size_t len);
+char		*ft_substr(char *s, unsigned int start, size_t len);
 int			ft_array_len(char **envp);
+
+/***** CMD_LIST.C *****/
+
+void		ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb);
+void		ft_lstclear_cmd_list(t_cmd_lst **lst);
+t_cmd_lst	*ft_lstnew_cmd_list(void);
+
+/***** ENV_LIST.C *****/
+
+t_env_lst		*ft_create_env_lst(char **envp, t_prg *prg);
+t_env_lst		*ft_search_in_env_lst(t_prg *prg, char *name);
+
+/***** FILL_CMD_LST.C *****/
+
+void		ft_fill_cmd_lst(t_prg *prg);
 
 /***** SPLIT.C *****/
 
@@ -101,6 +129,8 @@ void		ft_parse(t_prg *prg);
 
 /***** QUOTE.C *****/
 
+t_bool		ft_is_in_single(const char *line, int index);
+t_bool		ft_is_in_double(const char *line, int index);
 t_bool		ft_is_in_quote(const char *line, int index);
 
 /***** PIPE_ERROR.C *****/
@@ -110,5 +140,9 @@ t_bool		ft_syntax_error(t_prg *prg);
 /***** BUILTIN_CHECK.C *****/
 
 void		ft_is_cmd_builtin(t_prg *prg);
+
+/***** REDIRECTIONS.C *****/
+
+void		ft_redir_assignation(t_prg *prg);
 
 #endif
