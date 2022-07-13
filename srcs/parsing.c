@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:42:34 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/16 11:32:52 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/13 15:01:05 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_cmd_lst	*ft_create_cmd_lst(t_prg *prg)
 
 	prg->cmd_list = ft_lstnew_cmd_list();
 	i = 1;
+
 	while (i < prg->cmd_nbr)
 	{
 		ft_add_back_cmd_list(&prg->cmd_list, ft_lstnew_cmd_list());
@@ -45,13 +46,5 @@ void	ft_parse(t_prg *prg)
 	prg->cmd_nbr = ft_array_len(prg->cells);
 	prg->cmd_list = ft_create_cmd_lst(prg);
 	ft_fill_cmd_lst(prg);
-	while (prg->cmd_list)
-	{
-		printf("is_built_in cmd #%d = %u\n", i,  prg->cmd_list->is_cmd_builtin);
-		for (int i = 0; i < prg->cmd_list->redir_nbr; i++)
-			printf("redir type cmd #%d = %u\n", i, prg->cmd_list->redir_type[i]);
-		prg->cmd_list = prg->cmd_list->next;
-		i ++;
-	}
 	// ft_builtin_args(prg);
 }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 10:17:55 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/17 13:21:05 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/13 16:26:09 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,32 @@ int	ft_array_len(char **envp)
 	return (i);
 }
 
-char	**ft_path_list_maker(char **envp, t_prg *prg)
+char	**ft_path_list_maker(t_prg *prg)
 {
 	int	i;
 	int	j;
 	int	len;
 
 	i = -1;
-	len = ft_array_len(envp);
-	while (envp[++i])
-		if (ft_strstr(envp[i], "PATH="))
+	len = ft_array_len(prg->envp);
+	while (prg->envp[++i])
+		if (ft_strstr(prg->envp[i], "PATH="))
 			break ;
 	if (i == len)
 	{
-		ft_putstr_fd("PATH env var is unset, no shell command will work.\n", 2);
 		prg->is_there_path = false;
 		return (0);
 	}
 	prg->is_there_path = true;
 	j = 0;
-	while (envp[i][j])
+	while (prg->envp[i][j])
 	{
-		if (envp[i][j] == '=')
+		if (prg->envp[i][j] == '=')
 		{
 			j ++;
 			break ;
 		}
 		j ++;
 	}
-	return (ft_split(&envp[i][j], ':'));
+	return (ft_split(&prg->envp[i][j], ':'));
 }
