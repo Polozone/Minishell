@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:29:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/16 11:28:22 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/13 10:37:37 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,40 +135,40 @@ static t_bool ft_quote_error(char *line)
 	return (false);
 }
 
-char	*ft_trim_space(char *line)
-{
-	int		i;
-	int		j;
-	int		spc_ct;
-	char	*trim;
+// char	*ft_trim_space(char *line)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		spc_ct;
+// 	char	*trim;
 
-	i = 0;
-	j = 0;
-	spc_ct = 0;
-	if (line == 0)
-		return (0);
-	while (line[i])
-	{
-		if (line[i] != ' ')
-			spc_ct ++;
-		i ++;
-	}
-	i = 0;
-	trim = malloc((spc_ct + 1) * sizeof(char));
-	if (!trim)
-		exit (1);
-	while (line[i])
-	{
-		if (line[i] != ' ')
-		{
-			trim[j] = line[i];
-			j ++;
-		}
-		i ++;
-	}
-	trim[j] = 0;
-	return (trim);
-}
+// 	i = 0;
+// 	j = 0;
+// 	spc_ct = 0;
+// 	if (line == 0)
+// 		return (0);
+// 	while (line[i])
+// 	{
+// 		if (line[i] != ' ')
+// 			spc_ct ++;
+// 		i ++;
+// 	}
+// 	i = 0;
+// 	trim = malloc((spc_ct + 1) * sizeof(char));
+// 	if (!trim)
+// 		exit (1);
+// 	while (line[i])
+// 	{
+// 		if (line[i] != ' ')
+// 		{
+// 			trim[j] = line[i];
+// 			j ++;
+// 		}
+// 		i ++;
+// 	}
+// 	trim[j] = 0;
+// 	return (trim);
+// }
 t_bool	ft_syntax_error(t_prg *prg)
 {
 	t_bool	error;
