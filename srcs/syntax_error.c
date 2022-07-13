@@ -85,12 +85,12 @@ static t_bool	ft_chevron_error(char *line, int line_len, char chevron, char che_
 	{
 		chev_ct = 0;
 		while ((line[i])
-		&& (line[i] == chevron || line[i] == che_two))
+		&& (line[i] == chevron || line[i] == che_two || line[i] == ' '))
 		{
 			if (line[i] == chevron || line[i] == che_two)
 				chev_ct ++;
 			i ++;
-			if (i == line_len && line[0] == chevron &&  chev_ct < 3)
+			if (i == line_len - 1 && line[0] == chevron &&  chev_ct < 3)
 				return (ft_printf_error(SYNT_ER, chevron));
 		}
 		if (chev_ct == 3)
@@ -145,22 +145,16 @@ char	*ft_trim_space(char *line)
 	i = 0;
 	j = 0;
 	spc_ct = 0;
-	printf("line = %s test4\n", line);
 	if (line == 0)
-	{
-		printf("test5\n");
 		return (0);
-	}
-	printf("test6\n");
 	while (line[i])
 	{
 		if (line[i] != ' ')
 			spc_ct ++;
 		i ++;
 	}
-	printf("test7\n");
 	i = 0;
-	trim = malloc(spc_ct + 1 * sizeof(char));
+	trim = malloc((spc_ct + 1) * sizeof(char));
 	if (!trim)
 		exit (1);
 	while (line[i])
@@ -172,31 +166,22 @@ char	*ft_trim_space(char *line)
 		}
 		i ++;
 	}
-	printf("test8\n");
+	trim[j] = 0;
 	return (trim);
 }
 t_bool	ft_syntax_error(t_prg *prg)
 {
-	char	*line;
-	int		line_len;
 	t_bool	error;
 
 	error = false;
-	printf("test2\n");
-	line = ft_trim_space(prg->line);
-	if (line == 0)
-		return (false);
-	line_len = ft_strlen(line);
-	if (ft_chevron_error(line, line_len, '>', '<') == true)
+	if (ft_chevron_error(prg->line, prg->line_len, '>', '<') == true)
 		error = true;
-	else if (ft_chevron_error(line, line_len, '<', '>') == true)
+	else if (ft_chevron_error(prg->line, prg->line_len, '<', '>') == true)
 		error = true;
-	else if (ft_pipe_error(line, line_len) == true)
+	else if (ft_pipe_error(prg->line, prg->line_len) == true)
 		error = true;
-	else if (ft_quote_error(line) == true)
+	else if (ft_quote_error(prg->line) == true)
 		error = true;
-	printf("test9\n");
-	// free(line);
 	if (error == true)
 		return (true);
 	return (false);

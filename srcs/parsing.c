@@ -45,7 +45,6 @@ void	ft_parse(t_prg *prg)
 	prg->cmd_nbr = ft_array_len(prg->cells);
 	prg->cmd_list = ft_create_cmd_lst(prg);
 	ft_fill_cmd_lst(prg);
-	printf("test10\n");
 	while (prg->cmd_list)
 	{
 		printf("is_built_in cmd #%d = %u\n", i,  prg->cmd_list->is_cmd_builtin);
