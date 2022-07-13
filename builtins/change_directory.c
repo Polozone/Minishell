@@ -53,6 +53,8 @@ t_env	*ft_lstnew(void *content)
 	t_env	*element;
 
 	element = malloc(sizeof(t_env));
+	if (!element)
+	exit (0);
 	if (element == NULL)
 		return (NULL);
 	element->env_var = content;

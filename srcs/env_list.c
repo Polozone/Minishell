@@ -50,8 +50,8 @@ static t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 	t_env_lst	*env;
 
 	env = malloc(sizeof(t_env_lst));
-	if (!env)
-		return (0);
+	if (env == NULL)
+		exit (0);
 	env->name = name;
 	env->content = content;
 	env->next = NULL;
@@ -70,11 +70,15 @@ static void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
 	while (line[i] != '=')
 		i ++;
 	name = malloc((i + 2) * sizeof(char));
+	if (name == 0)
+		exit (0);
 	name = ft_substr(line, 0, i + 1);
 	j = i;
 	while (line[j])
 		j ++;
 	content = malloc ((j - i + 1) * sizeof(char));
+	if (content == 0)
+		exit (0);
 	content = ft_substr(line, i + 1, j);
 	if (index == 0)
 		*env_lst = ft_lstnew_env_list(name, content);

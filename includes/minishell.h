@@ -31,7 +31,6 @@
 # define TWO_RED 4
 # define SYNT_ER 5
 
-
 typedef enum	s_bool
 {
 	true,

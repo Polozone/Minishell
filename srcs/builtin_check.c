@@ -52,7 +52,6 @@ void	ft_is_cmd_builtin(t_prg *prg)
 	buff = prg->cmd_list;
 	while (i < prg->cmd_nbr && buff)
 	{
-		printf("SAM CASSE LES COUILLES\n");
 		if (ft_builtin_strstr(prg->cells[i], "echo") != NULL)
 			buff->is_cmd_builtin = echo;
 		else if (ft_builtin_strstr(prg->cells[i], "cd") != NULL)

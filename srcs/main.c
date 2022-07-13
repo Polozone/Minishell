@@ -58,13 +58,11 @@ int main(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
-	printf("%p\n", ft_search_in_env_lst(&prg, "PATH"));
 	while (1)
 	{
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		printf("line = %s\n", prg.line);
-		printf("test0\n");
 		ft_parse(&prg);
 		/*if (g_error != 258)
 		{
