@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 10:17:55 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/04 11:14:02 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:21:05 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	**ft_path_list_maker(char **envp, t_prg *prg)
 	{
 		ft_putstr_fd("PATH env var is unset, no shell command will work.\n", 2);
 		prg->is_there_path = false;
+		return (0);
 	}
 	prg->is_there_path = true;
 	j = 0;

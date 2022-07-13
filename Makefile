@@ -1,6 +1,5 @@
 SRCS =	srcs/main.c				\
 		srcs/split.c			\
-		srcs/Path_list_maker.c	\
 		srcs/strings_manip.c	\
 		srcs/printing_ft.c		\
 		srcs/quote.c			\
@@ -16,7 +15,7 @@ CC = gcc
 
 RM = rm -f
 
-FLAGS = -Wall -Werror -Wextra -lreadline
+FLAGS = -Wall -Werror -Wextra -lreadline -fsanitize=address -g3
 
 %.o.c: $(INCL) Makefile
 	$(CC) $(FLAGS) -c $< -o $@
