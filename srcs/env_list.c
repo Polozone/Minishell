@@ -13,7 +13,7 @@
 
 #include "../includes/minishell.h"
 
-static t_env_lst	*ft_last_env_list(t_env_lst *lst)
+t_env_lst	*ft_last_env_list(t_env_lst *lst)
 {
 	void	*p;
 
@@ -27,7 +27,7 @@ static t_env_lst	*ft_last_env_list(t_env_lst *lst)
 	return (p);
 }
 
-static void	ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb)
+void	ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb)
 {
 	t_env_lst	*tmp;
 
@@ -45,7 +45,7 @@ static void	ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb)
 	}
 }
 
-static t_env_lst	*ft_lstnew_env_list(char *name, char *content)
+t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 {
 	t_env_lst	*env;
 
@@ -58,7 +58,7 @@ static t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 	return (env);
 }
 
-static void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
+void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
 {
 	int		i;
 	int		j;
