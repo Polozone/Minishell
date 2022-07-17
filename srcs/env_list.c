@@ -13,7 +13,7 @@
 
 #include "../includes/minishell.h"
 
-static t_env_lst	*ft_last_env_list(t_env_lst *lst)
+t_env_lst	*ft_last_env_list(t_env_lst *lst)
 {
 	void	*p;
 
@@ -27,7 +27,7 @@ static t_env_lst	*ft_last_env_list(t_env_lst *lst)
 	return (p);
 }
 
-static void	ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb)
+void	ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb)
 {
 	t_env_lst	*tmp;
 
@@ -45,20 +45,20 @@ static void	ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb)
 	}
 }
 
-static t_env_lst	*ft_lstnew_env_list(char *name, char *content)
+t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 {
 	t_env_lst	*env;
 
 	env = malloc(sizeof(t_env_lst));
-	if (!env)
-		return (0);
+	if (env == NULL)
+		exit (0);
 	env->name = name;
 	env->content = content;
 	env->next = NULL;
 	return (env);
 }
 
-static void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
+void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
 {
 	int		i;
 	int		j;
@@ -70,11 +70,15 @@ static void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
 	while (line[i] != '=')
 		i ++;
 	name = malloc((i + 2) * sizeof(char));
+	if (name == 0)
+		exit (0);
 	name = ft_substr(line, 0, i + 1);
 	j = i;
 	while (line[j])
 		j ++;
 	content = malloc ((j - i + 1) * sizeof(char));
+	if (content == 0)
+		exit (0);
 	content = ft_substr(line, i + 1, j);
 	if (index == 0)
 		*env_lst = ft_lstnew_env_list(name, content);

@@ -58,14 +58,29 @@ int main(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
-	printf("%p\n", ft_search_in_env_lst(&prg, "PATH"));
 	while (1)
 	{
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
-		printf("line = %s\n", prg.line);
-		printf("test0\n");
+		// printf("%s\n\n\n", prg.cmd_list->cmd_and_dep[0]);
+		// printf("line = %s\n", prg.line);
 		ft_parse(&prg);
+		prg.cmd_list->cmd_and_dep = malloc(1000);
+		prg.cmd_list->cmd_and_dep[0] = malloc(1000);
+		prg.cmd_list->cmd_and_dep[1] = malloc(1000);
+		prg.cmd_list->cmd_and_dep[2] = malloc(1000);
+		prg.cmd_list->cmd_and_dep[3] = malloc(1000);
+		prg.cmd_list->cmd_and_dep[4] = malloc(1000);
+		prg.cmd_list->cmd_and_dep[5] = malloc(1000);
+		prg.cmd_list->cmd_and_dep[0] = "export";
+		prg.cmd_list->cmd_and_dep[1] = "a=CONTENT1";
+		prg.cmd_list->cmd_and_dep[2] = "b= CONTENT2";
+		prg.cmd_list->cmd_and_dep[3] = "c=CONTENT3";
+		prg.cmd_list->cmd_and_dep[4] = "ddddd=CONTENT4";
+		prg.cmd_list->cmd_and_dep[5] = NULL;
+		// _unset_env_parent(&prg);
+		_export_env(&prg);
+		// _ft_execution(prg);
 		/*if (g_error != 258)
 		{
 		for (int i = 0; prg.cells[i]; i ++)
@@ -79,9 +94,9 @@ int main(int ac, char **av, char **env)
 				printf ("nbr %d is not built in %d\n", i, prg.is_cmd_builtin[i]);
 			else
 				printf ("nbr %d is built in %d\n", i, prg.is_cmd_builtin[i]);
-		}*/
-		printf("g_error = %d\n", g_error);
+		}
+		// printf("g_error = %d\n", g_error);
 		// if (g_error != 258)
-			// ft_free_parsing(&prg);
+		ft_free_parsing(&prg);*/
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/15 11:55:47 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/05/18 14:34:19 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ typedef enum	s_redir
 
 typedef struct l_cmd_list
 {
-	char		**cmd_and_dep;
-	char		*path;
-	char		**file;
-	int			redir_nbr;
-	t_redir		*redir_type;
-	t_builtin	is_cmd_builtin;
+	char		**cmd_and_dep;	// command and his flags ___ exemple => (s1)unset (s2)variable
+	char		*path;			// path to the command (extract of PATH= in env variables)
+	char		**file;			// duble char array of each files -> infile and outfile (wrtie at the last outfile)
+	int			redir_nbr;		// nbr on redirections
+	t_redir		*redir_type;	// enum to know the nature of the redirection
+	t_builtin	is_cmd_builtin; // enum to know if the command is a builtins and the nature of the builtins.
 	void		*next;
 }				t_cmd_lst;
 
@@ -77,13 +77,13 @@ typedef struct	l_env_list
 
 typedef struct s_prg
 {
-	char		**envp;
-	char		**cells;
-	char		*line;
-	int			line_len;
-	int			cmd_nbr;
-	t_cmd_lst	*cmd_list;
-	t_env_lst	*env_lst;
+	char		**envp;		// envp variables
+	char		**cells; 	// return of split(); take the content of each pipe in a string
+	char		*line;   	// return of readline(); take the prompt
+	int			line_len;	// lenght of *line;
+	int			cmd_nbr; 
+	t_cmd_lst	*cmd_list; 	// pointer on the head of the t_cmd_lst;
+	t_env_lst	*env_lst; 	// pointer on the head of the t_env_lst;
 	t_bool		is_there_path;
 }			t_prg;
 
@@ -93,6 +93,10 @@ int			ft_strlen(char *str);
 char		*ft_strstr(char *str, char *to_find);
 char		*ft_substr(char *s, unsigned int start, size_t len);
 int			ft_array_len(char **envp);
+char		*ft_strjoin(char const *s1, char const *s2);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strlen_2d(char **str);
+int			ft_strcmp(const char *s1, const char *s2);
 
 /***** CMD_LIST.C *****/
 
@@ -102,8 +106,15 @@ t_cmd_lst	*ft_lstnew_cmd_list(void);
 
 /***** ENV_LIST.C *****/
 
-t_env_lst		*ft_create_env_lst(char **envp, t_prg *prg);
-t_env_lst		*ft_search_in_env_lst(t_prg *prg, char *name);
+t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
+t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
+t_env_lst	*ft_last_env_list(t_env_lst *lst);
+void			ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb);
+t_env_lst	*ft_lstnew_env_list(char *name, char *content);
+void			ft_make_elem(char *line, t_env_lst **env_lst, int index);
+t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
+t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
+
 
 /***** FILL_CMD_LST.C *****/
 
@@ -139,5 +150,22 @@ void		ft_is_cmd_builtin(t_prg *prg);
 /***** REDIRECTIONS.C *****/
 
 void		ft_redir_assignation(t_prg *prg);
+
+/***** BUILTINS.C *****/
+
+void		_print_env(t_env_lst *head);
+void		_unset_env(t_prg *prg, size_t i);
+void		_unset_env_parent(t_prg *prg);
+int			_export_env(t_prg *prg);
+int			_export_env_parse(t_prg *prg);
+void		_lst_add_env(t_prg *prg, int i, int boole, char **result);
+int			_is_name_in_env(t_prg *prg, char *name_to_find);
+void		_set_content_env(t_env_lst *node, char *content, char **content2d, int mode);
+
+
+/***** EXECUTIONS.C *****/
+
+void _ft_execution(t_prg prg);
+
 
 #endif

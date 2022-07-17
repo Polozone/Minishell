@@ -55,7 +55,9 @@ void	ft_redir_assignation(t_prg *prg)
 		j = 0;
 		redir_ct = 0;
 		buff->redir_nbr = ft_count_redir(prg->cells[i]);
-		buff->redir_type = malloc(buff->redir_nbr * sizeof(buff->redir_type));
+		buff->redir_type = malloc(buff->redir_nbr * sizeof(t_redir));
+		if (buff->redir_type == 0)
+			exit (0);
 		while (prg->cells[i][j] && buff)
 		{
 			if ((j < ft_strlen(prg->cells[i]) - 1 && prg->cells[i][j] == '>')
