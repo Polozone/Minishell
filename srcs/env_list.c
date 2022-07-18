@@ -13,7 +13,7 @@
 
 #include "../includes/minishell.h"
 
-static t_env_lst	*ft_last_env_list(t_env_lst *lst)
+t_env_lst	*ft_last_env_list(t_env_lst *lst)
 {
 	void	*p;
 
@@ -27,7 +27,7 @@ static t_env_lst	*ft_last_env_list(t_env_lst *lst)
 	return (p);
 }
 
-static void	ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb)
+void	ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb)
 {
 	t_env_lst	*tmp;
 
@@ -45,20 +45,32 @@ static void	ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb)
 	}
 }
 
-static t_env_lst	*ft_lstnew_env_list(char *name, char *content)
+t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 {
 	t_env_lst	*env;
 
 	env = malloc(sizeof(t_env_lst));
 	if (env == NULL)
 		exit (0);
+	env->name = malloc(ft_strlen(name) + 1);       // Auparavant ces contents n etaient pas malloc et ca marchait
+	if (env->name == NULL)
+	{
+		// TOUT FREE
+		exit (0);
+	}
+	env->content = malloc(ft_strlen(content) + 1); // on s'est dit qu on les mqlloc ici pr pouvoir tout free a la fin (possible d'enlever ces malloc pr tester)
+	if (env->content == NULL)
+	{
+		// TOUT FREE
+		exit (0);
+	}
 	env->name = name;
 	env->content = content;
 	env->next = NULL;
 	return (env);
 }
 
-static void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
+void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
 {
 	int		i;
 	int		j;

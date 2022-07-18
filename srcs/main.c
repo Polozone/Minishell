@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/18 09:24:49 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/18 16:59:20 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,9 @@ void	ft_free_parsing(t_prg *prg)
 	free(prg->cmd_list);*/
 }
 
-
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
-	// int : kirby;
 
 	(void) ac;
 	(void) av;
@@ -63,16 +61,22 @@ int main(int ac, char **av, char **env)
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		ft_parse(&prg);
-		// prg.cmd_list->cmd_and_dep = malloc(100);
 		// if (g_error != 258)
 		// {
 		// for (int i = 0; prg.cells[i]; i ++)
-		// 	printf("cells %d = %s\n", i, prg.cells[i]);
+		// 	printf("%s\n", prg.cells[i]);
+		// for (int i = 0; prg.cmd_list[i]; i ++)
+		// 	for (int j = 0; prg.cmd_list[i][j]; j ++)
+		// 		printf("%s\n", prg.cmd_list[i][j]);
+		
+		// for (int i = 0; i < prg.cmd_nbr; i ++)
+		// 	if (prg.is_cmd_builtin[i] == not_built_in)
+		// 		printf ("nbr %d is not built in %d\n", i, prg.is_cmd_builtin[i]);
+		// 	else
+		// 		printf ("nbr %d is built in %d\n", i, prg.is_cmd_builtin[i]);
 		// }
-		/*for (int i = 0; prg.cmd_list[i]; i ++)
-			for (int j = 0; prg.cmd_list[i][j]; j ++)
-				printf("%s\n", prg.cmd_list[i][j]);*/
-		// if (g_error != 258)
-			// ft_free_parsing(&prg);
+		// printf("g_error = %d\n", g_error);
+		// // if (g_error != 258)
+		// 	// ft_free_parsing(&prg);
 	}
 }
