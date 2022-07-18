@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:29:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/13 11:09:53 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/18 17:02:03 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,29 @@ static t_bool	ft_pipe_error(char *line, int line_len)
 	return (false);
 }
 
+t_bool ft_discontinuous_chevron(char *line, char chevron, char chev_two)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == chev_two || line[i] == chevron)
+		{
+			j = i + 1;
+			while (line[j] && line[j] == ' ')
+			{
+				j ++;
+				if (line[j] == chev_two || line[j] == chevron)
+					return (true);
+			}
+		}
+		i ++;
+	}
+	return (false);
+}
+
 static t_bool	ft_chevron_error(char *line, int line_len, char chevron, char che_two)
 {
 	int	i;
@@ -87,24 +110,27 @@ static t_bool	ft_chevron_error(char *line, int line_len, char chevron, char che_
 		while ((line[i])
 		&& (line[i] == chevron || line[i] == che_two || line[i] == ' '))
 		{
-			if (line[i] == chevron || line[i] == che_two)
+			if ((line[i] == chevron || line[i] == che_two) 
+			&& (ft_is_in_quote(line, i) != true))
 				chev_ct ++;
 			i ++;
-			if (i == line_len - 1 && line[0] == chevron &&  chev_ct < 3)
+			if (i == line_len && line[0] == chevron &&  chev_ct < 3)
 				return (ft_printf_error(SYNT_ER, chevron));
 		}
 		if (chev_ct == 3)
 			return (ft_printf_error(ONE_RED, chevron));
 		else if (chev_ct > 3)
 			return (ft_printf_error(TWO_RED, chevron));
-		else if ((i == line_len - 1)
-		&& (line[i] == chevron || line[i] == che_two))
+		if ((i == line_len)
+		&& (line[i - 1] == chevron || line[i - 1] == che_two))
 			return (ft_printf_error(SYNT_ER, chevron));
 		i ++;
 	}
+	if (ft_discontinuous_chevron(line, chevron, che_two) == true)
+		return (ft_printf_error(SYNT_ER, chevron));
 	return (false);
 }
-
+// erreur chevron : '<l' et 'l>'
 static t_bool ft_quote_error(char *line)
 {
 	int	i;
@@ -135,40 +161,6 @@ static t_bool ft_quote_error(char *line)
 	return (false);
 }
 
-// char	*ft_trim_space(char *line)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		spc_ct;
-// 	char	*trim;
-
-// 	i = 0;
-// 	j = 0;
-// 	spc_ct = 0;
-// 	if (line == 0)
-// 		return (0);
-// 	while (line[i])
-// 	{
-// 		if (line[i] != ' ')
-// 			spc_ct ++;
-// 		i ++;
-// 	}
-// 	i = 0;
-// 	trim = malloc((spc_ct + 1) * sizeof(char));
-// 	if (!trim)
-// 		exit (1);
-// 	while (line[i])
-// 	{
-// 		if (line[i] != ' ')
-// 		{
-// 			trim[j] = line[i];
-// 			j ++;
-// 		}
-// 		i ++;
-// 	}
-// 	trim[j] = 0;
-// 	return (trim);
-// }
 t_bool	ft_syntax_error(t_prg *prg)
 {
 	t_bool	error;
