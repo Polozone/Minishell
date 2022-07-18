@@ -90,20 +90,20 @@ typedef struct s_prg
 
 /***** STRING_MANIP.C *****/
 
-int			ft_strlen(char *str);
-char		*ft_strstr(char *str, char *to_find);
-char		*ft_substr(char *s, unsigned int start, size_t len);
-int			ft_array_len(char **envp);
-char		*ft_strjoin(char const *s1, char const *s2);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-int			ft_strlen_2d(char **str);
-int			ft_strcmp(const char *s1, const char *s2);
+int				ft_strlen(char *str);
+char			*ft_strstr(char *str, char *to_find);
+char			*ft_substr(char *s, unsigned int start, size_t len);
+int				ft_array_len(char **envp);
+char			*ft_strjoin(char const *s1, char const *s2);
+int				ft_strncmp(const char *s1, const char *s2, size_t n);
+int				ft_strlen_2d(char **str);
+int				ft_strcmp(const char *s1, const char *s2);
 
 /***** CMD_LIST.C *****/
 
-void		ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb);
-void		ft_lstclear_cmd_list(t_cmd_lst **lst);
-t_cmd_lst	*ft_lstnew_cmd_list(void);
+void			ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb);
+void			ft_lstclear_cmd_list(t_cmd_lst **lst);
+t_cmd_lst		*ft_lstnew_cmd_list(void);
 
 /***** ENV_LIST.C *****/
 
