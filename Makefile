@@ -9,7 +9,12 @@ SRCS =	srcs/main.c				\
 		srcs/env_list.c			\
 		srcs/fill_cmd_lst.c		\
 		srcs/redirections.c		\
-		srcs/parsing.c		
+		srcs/parsing.c			\
+		builtins/env.c			\
+		builtins/echo.c			\
+		builtins/cd.c			\
+		builtins/pwd.c			\
+		srcs/execution/ft_execution.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -35,6 +40,6 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 
-re: clean all
+re: fclean $(NAME)
 
 .PHONY: make clean fclean all re

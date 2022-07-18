@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "minishell.h": "c"
-    }
+		"minishell.h": "c",
+		"stdio.h": "c",
+		"dirent.h": "c",
+		"history.h": "c",
+		"termios.h": "c",
+		"errno.h": "c"
+	}
 }

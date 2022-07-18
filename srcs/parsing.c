@@ -45,13 +45,5 @@ void	ft_parse(t_prg *prg)
 	prg->cmd_nbr = ft_array_len(prg->cells);
 	prg->cmd_list = ft_create_cmd_lst(prg);
 	ft_fill_cmd_lst(prg);
-	// while (prg->cmd_list)
-	// {
-	// 	printf("is_built_in cmd #%d = %u\n", i,  prg->cmd_list->is_cmd_builtin);
-	// 	for (int i = 0; i < prg->cmd_list->redir_nbr; i++)
-	// 		printf("redir type cmd #%d = %u\n", i, prg->cmd_list->redir_type[i]);
-	// 	prg->cmd_list = prg->cmd_list->next;
-	// 	i ++;
-	// }
 	// ft_builtin_args(prg);
 }

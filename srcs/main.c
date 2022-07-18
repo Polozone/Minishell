@@ -49,7 +49,6 @@ void	ft_free_parsing(t_prg *prg)
 	free(prg->cmd_list);*/
 }
 
-
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
