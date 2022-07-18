@@ -9,6 +9,8 @@ SRCS =	srcs/main.c				\
 		srcs/env_list.c			\
 		srcs/fill_cmd_lst.c		\
 		srcs/redirections.c		\
+		srcs/token.c			\
+		srcs/parsing.c			\
 		srcs/parsing.c			\
 		builtins/env.c			\
 		builtins/echo.c			\
@@ -24,7 +26,7 @@ CC = gcc
 
 RM = rm -f
 
-FLAGS = -lreadline -Wall -Werror -Wextra -g3
+FLAGS = -lreadline -Wall -Werror -Wextra -fsanitize=address -g3
 
 %.o.c: $(INCL) Makefile
 	$(CC) $(FLAGS) -c $< -o $@
