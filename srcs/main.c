@@ -49,7 +49,6 @@ void	ft_free_parsing(t_prg *prg)
 	free(prg->cmd_list);*/
 }
 
-
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
@@ -72,15 +71,12 @@ int main(int ac, char **av, char **env)
 		prg.cmd_list->cmd_and_dep[3] = malloc(1000);
 		prg.cmd_list->cmd_and_dep[4] = malloc(1000);
 		prg.cmd_list->cmd_and_dep[5] = malloc(1000);
-		prg.cmd_list->cmd_and_dep[0] = "export";
-		prg.cmd_list->cmd_and_dep[1] = "a=CONTENT1";
-		prg.cmd_list->cmd_and_dep[2] = "b= CONTENT2";
-		prg.cmd_list->cmd_and_dep[3] = "c=CONTENT3";
-		prg.cmd_list->cmd_and_dep[4] = "ddddd=CONTENT4";
+		prg.cmd_list->cmd_and_dep[0] = "cd";
+		prg.cmd_list->cmd_and_dep[1] = "/Users";
+		prg.cmd_list->cmd_and_dep[2] = NULL;
+		prg.cmd_list->cmd_and_dep[3] = "";
+		prg.cmd_list->cmd_and_dep[4] = "";
 		prg.cmd_list->cmd_and_dep[5] = NULL;
-		// _unset_env_parent(&prg);
-		_export_env(&prg);
-		// _ft_execution(prg);
 		/*if (g_error != 258)
 		{
 		for (int i = 0; prg.cells[i]; i ++)

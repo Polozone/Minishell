@@ -52,6 +52,18 @@ t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 	env = malloc(sizeof(t_env_lst));
 	if (env == NULL)
 		exit (0);
+	env->name = malloc(ft_strlen(name) + 1);       // Auparavant ces contents n etaient pas malloc et ca marchait
+	if (env->name == NULL)
+	{
+		// TOUT FREE
+		exit (0);
+	}
+	env->content = malloc(ft_strlen(content) + 1); // on s'est dit qu on les mqlloc ici pr pouvoir tout free a la fin (possible d'enlever ces malloc pr tester)
+	if (env->content == NULL)
+	{
+		// TOUT FREE
+		exit (0);
+	}
 	env->name = name;
 	env->content = content;
 	env->next = NULL;

@@ -11,6 +11,9 @@ SRCS =	srcs/main.c				\
 		srcs/redirections.c		\
 		srcs/parsing.c			\
 		builtins/env.c			\
+		builtins/echo.c			\
+		builtins/cd.c			\
+		builtins/pwd.c			\
 		srcs/execution/ft_execution.c
 
 OBJS = $(SRCS:.c=.o)

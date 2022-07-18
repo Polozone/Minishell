@@ -24,6 +24,7 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <termios.h>
 
 # define ONE_PIPE 1
 # define TWO_PIPE 2
@@ -108,10 +109,10 @@ t_cmd_lst	*ft_lstnew_cmd_list(void);
 
 t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
-t_env_lst	*ft_last_env_list(t_env_lst *lst);
-void			ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb);
-t_env_lst	*ft_lstnew_env_list(char *name, char *content);
-void			ft_make_elem(char *line, t_env_lst **env_lst, int index);
+t_env_lst			*ft_last_env_list(t_env_lst *lst);
+void				ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb);
+t_env_lst			*ft_lstnew_env_list(char *name, char *content);
+void				ft_make_elem(char *line, t_env_lst **env_lst, int index);
 t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
 t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 
@@ -161,7 +162,9 @@ int			_export_env_parse(t_prg *prg);
 void		_lst_add_env(t_prg *prg, int i, int boole, char **result);
 int			_is_name_in_env(t_prg *prg, char *name_to_find);
 void		_set_content_env(t_env_lst *node, char *content, char **content2d, int mode);
-
+int			_echo_exe(t_prg *data, int i);
+int			_pwd_exe();
+int			_ch_dir(t_prg *data);
 
 /***** EXECUTIONS.C *****/
 
