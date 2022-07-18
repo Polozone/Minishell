@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/13 16:29:59 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/18 16:41:22 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ typedef enum	s_bool
 	true,
 	false
 }				t_bool;
+
+typedef enum	s_token
+{
+	red,
+	file,
+	rednfile,
+	none
+}				t_token;
 
 typedef enum	s_builtin
 {
@@ -95,6 +103,8 @@ char		*ft_strstr(char *str, char *to_find);
 char		*ft_substr(char *s, unsigned int start, size_t len);
 int			ft_array_len(char **envp);
 int 		ft_strncmp(const char *s1, const char *s2, size_t n);
+char		*ft_strdup(char *str);
+char		*ft_strjoin_backslash(char const *s1, char const *s2);
 
 /***** CMD_LIST.C *****/
 
@@ -110,6 +120,12 @@ t_env_lst		*ft_search_in_env_lst(t_prg *prg, char *name);
 /***** FILL_CMD_LST.C *****/
 
 void		ft_fill_cmd_lst(t_prg *prg);
+
+/***** TOKEN.C *****/
+
+
+t_token			ft_redir_token(char *word);
+t_token			*ft_assign_token(char **line_split, t_token *line_token);
 
 /***** SPLIT.C *****/
 
@@ -136,7 +152,7 @@ t_bool		ft_syntax_error(t_prg *prg);
 
 /***** BUILTIN_CHECK.C *****/
 
-void		ft_is_cmd_builtin(t_prg *prg);
+void		ft_is_cmd_builtin(t_prg *prg, t_cmd_lst *cmd_lst);
 
 /***** REDIRECTIONS.C *****/
 

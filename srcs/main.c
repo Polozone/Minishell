@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/13 14:54:23 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/18 09:24:49 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,7 @@ int main(int ac, char **av, char **env)
 		// }
 		/*for (int i = 0; prg.cmd_list[i]; i ++)
 			for (int j = 0; prg.cmd_list[i][j]; j ++)
-				printf("%s\n", prg.cmd_list[i][j]);
-		
-		for (int i = 0; i < prg.cmd_nbr; i ++)
-			if (prg.is_cmd_builtin[i] == not_built_in)
-				printf ("nbr %d is not built in %d\n", i, prg.is_cmd_builtin[i]);
-			else
-				printf ("nbr %d is built in %d\n", i, prg.is_cmd_builtin[i]);
-		}*/
+				printf("%s\n", prg.cmd_list[i][j]);*/
 		// if (g_error != 258)
 			// ft_free_parsing(&prg);
 	}
