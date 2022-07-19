@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/18 14:34:19 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/18 16:59:31 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ typedef enum	s_bool
 	true,
 	false
 }				t_bool;
+
+typedef enum	s_token
+{
+	red,
+	file,
+	rednfile,
+	none
+}				t_token;
 
 typedef enum	s_builtin
 {
@@ -78,13 +86,14 @@ typedef struct	l_env_list
 
 typedef struct s_prg
 {
-	char		**envp;		// envp variables
-	char		**cells; 	// return of split(); take the content of each pipe in a string
-	char		*line;   	// return of readline(); take the prompt
-	int			line_len;	// lenght of *line;
-	int			cmd_nbr; 
-	t_cmd_lst	*cmd_list; 	// pointer on the head of the t_cmd_lst;
-	t_env_lst	*env_lst; 	// pointer on the head of the t_env_lst;
+	char		**path_list;
+	char		**envp;
+	char		**cells;
+	char		*line;
+	int			line_len;
+	int			cmd_nbr;
+	t_cmd_lst	*cmd_list;
+	t_env_lst	*env_lst;
 	t_bool		is_there_path;
 }			t_prg;
 
@@ -94,16 +103,18 @@ int			ft_strlen(char *str);
 char		*ft_strstr(char *str, char *to_find);
 char		*ft_substr(char *s, unsigned int start, size_t len);
 int			ft_array_len(char **envp);
+char		*ft_strdup(char *str);
 char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strjoin_backslash(char const *s1, char const *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strlen_2d(char **str);
 int			ft_strcmp(const char *s1, const char *s2);
 
 /***** CMD_LIST.C *****/
 
-void		ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb);
-void		ft_lstclear_cmd_list(t_cmd_lst **lst);
-t_cmd_lst	*ft_lstnew_cmd_list(void);
+void			ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb);
+void			ft_lstclear_cmd_list(t_cmd_lst **lst);
+t_cmd_lst		*ft_lstnew_cmd_list(void);
 
 /***** ENV_LIST.C *****/
 
@@ -120,6 +131,12 @@ t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 /***** FILL_CMD_LST.C *****/
 
 void		ft_fill_cmd_lst(t_prg *prg);
+
+/***** TOKEN.C *****/
+
+
+t_token			ft_redir_token(char *word);
+t_token			*ft_assign_token(char **line_split, t_token *line_token);
 
 /***** SPLIT.C *****/
 
@@ -146,7 +163,7 @@ t_bool		ft_syntax_error(t_prg *prg);
 
 /***** BUILTIN_CHECK.C *****/
 
-void		ft_is_cmd_builtin(t_prg *prg);
+void		ft_is_cmd_builtin(t_prg *prg, t_cmd_lst *cmd_lst);
 
 /***** REDIRECTIONS.C *****/
 
