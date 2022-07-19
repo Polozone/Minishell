@@ -11,7 +11,6 @@ SRCS =	srcs/main.c				\
 		srcs/redirections.c		\
 		srcs/token.c			\
 		srcs/parsing.c			\
-		srcs/parsing.c			\
 		builtins/env.c			\
 		builtins/echo.c			\
 		builtins/cd.c			\
@@ -26,7 +25,9 @@ CC = gcc
 
 RM = rm -f
 
-FLAGS = -lreadline -Wall -Werror -Wextra -fsanitize=address -g3
+#FLAGS = -lreadline -Wall -Werror -Wextra -fsanitize=address -g3
+
+FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra -fsanitize=address -g3
 
 %.o.c: $(INCL) Makefile
 	$(CC) $(FLAGS) -c $< -o $@
