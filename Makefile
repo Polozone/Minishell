@@ -11,7 +11,6 @@ SRCS =	srcs/main.c				\
 		srcs/redirections.c		\
 		srcs/token.c			\
 		srcs/parsing.c			\
-		srcs/parsing.c			\
 		builtins/env.c			\
 		builtins/echo.c			\
 		builtins/cd.c			\
