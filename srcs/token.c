@@ -6,12 +6,28 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:13:31 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/18 16:47:43 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 14:46:59 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/minishell.h"
+
+int ft_count_token(t_token *line_token, t_token token_name, int len)
+{
+	int	i;
+	int ct;
+
+	i = 0;
+	ct = 0;
+	while (i < len)
+	{
+		if (line_token[i] == token_name)
+			ct ++;
+		i ++;
+	}
+	return (ct);
+}
 
 t_token	ft_redir_token(char *word)
 {
