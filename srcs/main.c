@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/20 14:55:47 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:10:11 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int main(int ac, char **av, char **env)
 	{
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
-		printf("%s\n", prg.line);
+		// printf("%s\n", prg.line);
 		if (prg.line == NULL)
 			exit (0);
 		add_history(prg.line);

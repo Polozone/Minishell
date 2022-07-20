@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/20 14:47:18 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:25:53 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_create_path_list(t_prg *prg)
 		prg->path_list = ft_split(buff->content, ':');
 }
 
-/*int	ft_dollz_ct(char *line)
+int	ft_dollz_ct(char *line)
 {
 	int	i;
 	int	ct;
@@ -40,14 +40,16 @@ void	ft_create_path_list(t_prg *prg)
 	ct = 0;
 	while (line[i])
 	{
-		if (line[i] == '$');
+		if (line[i] == '$')
+		{
 			ct ++;
+		}
 		i ++;
 	}
 	return (ct);	
 }
 
-ft_get_dollz_index(int **dollz_index_list, char *line)
+void	ft_get_dollz_index(int **dollz_index_list, char *line)
 {
 	int	i;
 	int j;
@@ -56,9 +58,10 @@ ft_get_dollz_index(int **dollz_index_list, char *line)
 	j = 0;
 	while (line[i])
 	{
+		printf("test\n");
 		if (line[i] == '$')
 		{
-			dollz_index_list[j] = i;
+			*dollz_index_list[j] = i;
 			j ++;
 		}
 		i ++;
@@ -78,19 +81,21 @@ char	**ft_fill_env_var_array(t_prg *prg, int *dollz_i_lst, char *line, int dollz
 		env_lst_buff = prg->env_lst;
 		while (env_lst_buff != NULL)
 		{
-			if (ft_strcmp(env_lst_buff.name, &line[dollz_i_lst[i] + 1]) == 61)
+			if (ft_strcmp(env_lst_buff->name, &line[dollz_i_lst[i] + 1]) == 61)
 				break;
-			env_lst_buff = env_lst_buff.next;
+			env_lst_buff = env_lst_buff->next;
 		}
-		if (ft_is_in_single(line[dollz_i_lst[i]]) == true || env_lst_buff == NULL)
+		if (ft_is_in_single(line, dollz_i_lst[i]) == true || env_lst_buff == NULL)
 			if (i < dollz_nbr)
 				env_var_array[i] = ft_substr(line, dollz_i_lst[i], dollz_i_lst[i + 1]);
 			else 
 				env_var_array[i] = ft_strdup(&line[dollz_i_lst[i]]);
 		else
-			env_var_array[i] = ft_strdup(env_lst_buff.content);
+			env_var_array[i] = ft_strdup(env_lst_buff->content);
 		i ++;
 	}
+	env_var_array[i] = 0;
+	return (env_var_array);
 }
 
 char	*ft_recreate_line(char **array)
@@ -110,7 +115,7 @@ char	*ft_recreate_line(char **array)
 		else
 		{
 			buff = new_line;
-			new_line = ft_strjoin (new_line, array[i]);
+			new_line = ft_strjoin(new_line, array[i]);
 			free(buff);
 		}
 		i ++;
@@ -169,7 +174,7 @@ void	ft_expend_env_variable(t_prg *prg, t_cmd_lst *cmd_lst)
 		}
 		i ++;
 	}
-}*/
+}
 
 void	ft_fill_cmd_lst(t_prg *prg)
 {
@@ -182,11 +187,11 @@ void	ft_fill_cmd_lst(t_prg *prg)
 	while (prg->cells[i])
 	{
 		ft_fill_node(prg->cells[i], buff, prg);
-		//ft_expend_env_variable(prg, buff);
+		ft_expend_env_variable(prg, buff);
 		i ++;
 		buff = buff->next;
 	}
-	/*t_cmd_lst *buff2 = prg->cmd_list;
+	t_cmd_lst *buff2 = prg->cmd_list;
 	
 	while (buff2)
 	{
@@ -207,6 +212,6 @@ void	ft_fill_cmd_lst(t_prg *prg)
 		if (buff2->heredoc_delimiter != 0)
 			printf("heredoc truc = %s\n", buff2->heredoc_delimiter);
 		buff2 = buff2->next;
-	}*/
+	}
 	// ft_free_array(prg->path_list);
 }
