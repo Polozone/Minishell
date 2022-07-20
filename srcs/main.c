@@ -6,26 +6,13 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/18 16:59:20 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 14:55:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int	g_error;
-
-static void	ft_free_char_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i ++;
-	}
-	free (array);
-}
 
 void	ft_free_parsing(t_prg *prg)
 {
@@ -93,6 +80,6 @@ int main(int ac, char **av, char **env)
 			exit (0);
 		add_history(prg.line);
 		ft_parse(&prg);
-		
+		// 	// ft_free_parsing(&prg);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 11:26:43 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/18 17:01:47 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/19 13:12:08 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,22 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (0);
 }
 
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
 
+	i = 0;
+	while ((((unsigned char *)s1)[i] || ((unsigned char *)s2)[i]) && i < n)
+	{
+		if (((unsigned char *)s1)[i] == ((unsigned char *)s2)[i])
+			i++;
+		else
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+	}
+	return (0);
+}
 
-void	ft_free_array(char **array)
+void	ft_free_char_array(char **array)
 {
 	int	i;
 
@@ -165,20 +178,18 @@ void	ft_free_array(char **array)
 	free(array);
 }
 
-int ft_strncmp(const char *s1, const char *s2, size_t n)
+/*void	ft_free_array(void **array, int len)
 {
-    size_t  i;
+	int	i;
 
-    i = 0;
-    while ((((unsigned char *)s1)[i] || ((unsigned char *)s2)[i]) && i < n)
-    {
-        if (((unsigned char *)s1)[i] == ((unsigned char *)s2)[i])
-            i++;
-        else
-            return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
-    }
-    return (0);
-}
+	i = 0;
+	while (i < len)
+	{
+		free(array[i]);
+		i ++;
+	}
+	free(array);
+}*/
 
 char    *ft_strjoin_backslash(char const *s1, char const *s2)
 {

@@ -10,6 +10,7 @@ SRCS =	srcs/main.c				\
 		srcs/fill_cmd_lst.c		\
 		srcs/redirections.c		\
 		srcs/token.c			\
+		srcs/fill_nodes.c		\
 		srcs/parsing.c			\
 		builtins/env.c			\
 		builtins/echo.c			\
