@@ -48,7 +48,7 @@ typedef enum	s_token
 
 typedef enum	s_builtin
 {
-	not_built_in,
+	not_built_in, //egale a zero si il n y a pas de builtins, sinon valeur de 1 a 7
 	echo,
 	cd,
 	pwd,
