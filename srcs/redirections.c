@@ -6,89 +6,74 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 11:00:01 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/14 11:03:49 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 08:33:32 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	ft_count_redir(char *cells)
+static int ft_count_redir(t_token *line_token, int split_len)
 {
-	int	j;
-	int	redir_ct;
-	int	cells_len = ft_strlen(cells); 
+	int i;
+	int redir_ct;
 
-	j = 0;
+	i = 0;
 	redir_ct = 0;
-	while (cells[j])
+	while (i < split_len)
 	{
-		if (j < cells_len - 1 && cells[j] == '>' &&cells[j + 1] == '>')
-		{
-			j ++;
+		if (line_token[i] == red || line_token[i] == rednfile)
 			redir_ct ++;
-		}
-		else if (j < cells_len - 1 && cells[j] == '>'&& cells[j + 1] != '>')
-			redir_ct ++;
-		else if (j < cells_len - 1 && cells[j] == '<'&& cells[j + 1] == '<')
-		{
-			j ++;
-			redir_ct ++;
-		}
-		else if (j < cells_len - 1 && cells[j] == '<' && cells[j + 1] != '<')
-			redir_ct ++;
-		j ++;
+		i ++;
 	}
 	return (redir_ct);
 }
 
-void	ft_redir_assignation(t_prg *prg)
+static t_redir ft_redir_t_finder(t_cmd_lst *cmd_lst, char **line_split, int index)
 {
-	int	i;
-	int	j;
-	int	redir_ct; 
-	t_cmd_lst *buff;
+	int	line_len;
+
+	line_len = ft_strlen(line_split[index]);
+	if (line_split[index][0] == '<')
+	{
+		if (line_len > 1 && line_split[index][1] == '<')
+		{
+			if (ft_array_len(line_split) > 1 && line_len == 2)
+				cmd_lst->heredoc_delimiter = ft_strdup(line_split[index + 1]);
+			else
+				cmd_lst->heredoc_delimiter = ft_substr(line_split[index], 2, line_len);
+			return (heredoc);
+		}
+		return (input);
+	}
+	else if (line_split[index][0] == '>')
+	{
+		if (line_len > 1 && line_split[index][1] == '>')
+			return (out_append);
+		return (output);
+	}
+	return (error);
+}
+
+void ft_redir_assignation(t_prg *prg, t_cmd_lst *cmd_lst,
+t_token *line_token, char **line_split)
+{
+	int i;
+	int red_ct;
+	int	split_len;
 
 	i = 0;
-	buff = prg->cmd_list;
-	while (prg->cells[i] && buff)
+	red_ct = 0;
+	split_len = ft_array_len(line_split);
+	cmd_lst->redir_nbr = ft_count_redir(line_token, split_len);
+	cmd_lst->redir_type = malloc(cmd_lst->redir_nbr * sizeof(t_redir));
+	while (i < split_len)
 	{
-		j = 0;
-		redir_ct = 0;
-		buff->redir_nbr = ft_count_redir(prg->cells[i]);
-		buff->redir_type = malloc(buff->redir_nbr * sizeof(t_redir));
-		if (buff->redir_type == 0)
-			exit (0);
-		while (prg->cells[i][j] && buff)
+		if (line_token[i] == red || line_token[i] == rednfile)
 		{
-			if ((j < ft_strlen(prg->cells[i]) - 1 && prg->cells[i][j] == '>')
-			&& (prg->cells[i][j + 1] == '>'))
-			{
-				buff->redir_type[redir_ct] = out_append;
-				redir_ct ++;
-				j ++;
-			}
-			else if ((j < ft_strlen(prg->cells[i]) - 1 && prg->cells[i][j] == '>')
-			&& (prg->cells[i][j + 1] != '>'))
-			{
-				buff->redir_type[redir_ct] = output;
-				redir_ct ++;
-			}
-			else if ((j < ft_strlen(prg->cells[i]) - 1 && prg->cells[i][j] == '<')
-			&& (prg->cells[i][j + 1] == '<'))
-			{
-				buff->redir_type[redir_ct] = heredoc;
-				redir_ct ++;
-				j ++;
-			}
-			else if ((j < ft_strlen(prg->cells[i]) - 1 && prg->cells[i][j] == '<')
-			&& (prg->cells[i][j + 1] != '<'))
-			{
-				buff->redir_type[redir_ct] = input;
-				redir_ct ++;
-			}
-			j ++;
+			cmd_lst->redir_type[red_ct] =
+			ft_redir_t_finder(cmd_lst, line_split, i);
+			red_ct ++;
 		}
-		buff = buff->next;
 		i ++;
 	}
 }

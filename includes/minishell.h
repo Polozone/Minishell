@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/18 16:59:31 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 13:47:30 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ typedef enum	s_redir
 	input,
 	output,
 	out_append,
-	heredoc
+	heredoc,
+	error
 }				t_redir;
 
 typedef struct l_cmd_list
@@ -73,6 +74,7 @@ typedef struct l_cmd_list
 	char		**file;			// duble char array of each files -> infile and outfile (wrtie at the last outfile)
 	int			redir_nbr;		// nbr on redirections
 	t_redir		*redir_type;	// enum to know the nature of the redirection
+	char		*heredoc_delimiter; //the heredoc delimiter
 	t_builtin	is_cmd_builtin; // enum to know if the command is a builtins and the nature of the builtins.
 	void		*next;
 }				t_cmd_lst;
@@ -109,6 +111,8 @@ char		*ft_strjoin_backslash(char const *s1, char const *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strlen_2d(char **str);
 int			ft_strcmp(const char *s1, const char *s2);
+void		ft_free_char_array(char **array);
+// void		ft_free_array(void array, int len);
 
 /***** CMD_LIST.C *****/
 
@@ -132,20 +136,29 @@ t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 
 void		ft_fill_cmd_lst(t_prg *prg);
 
+/***** FILL_NODES.C *****/
+
+void				ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
+
 /***** TOKEN.C *****/
 
 
-t_token			ft_redir_token(char *word);
-t_token			*ft_assign_token(char **line_split, t_token *line_token);
+t_token				ft_redir_token(char *word);
+t_token				*ft_assign_token(char **line_split, t_token *line_token);
+int					ft_count_token(t_token *line_token, t_token token_name, int len);
 
 /***** SPLIT.C *****/
 
-char		**ft_split(char *str, char sep);
+char				**ft_split(char *str, char sep);
+
+/***** SPLIT_NO_QUOTES.C *****/
+
+char				**ft_split_no_quotes(char const *str, char sep);
 
 /***** PRINTF_FT.C *****/
 
-void		ft_putstr_fd(char *str, int fd);
-void		ft_putchar_fd(char c, int fd);
+void				ft_putstr_fd(char *str, int fd);
+void				ft_putchar_fd(char c, int fd);
 
 /***** PARSING.C *****/
 
@@ -167,7 +180,7 @@ void		ft_is_cmd_builtin(t_prg *prg, t_cmd_lst *cmd_lst);
 
 /***** REDIRECTIONS.C *****/
 
-void		ft_redir_assignation(t_prg *prg);
+void		ft_redir_assignation(t_prg *prg, t_cmd_lst *cmd_lst, t_token *line_token, char **line_split);
 
 /***** BUILTINS.C *****/
 
