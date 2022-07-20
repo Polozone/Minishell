@@ -71,7 +71,7 @@ typedef struct l_cmd_list
 {
 	char		**cmd_and_dep;	// command and his flags ___ exemple => (s1)unset (s2)variable
 	char		*path;			// path to the command (extract of PATH= in env variables)
-	char		**file;			// duble char array of each files -> infile and outfile (wrtie at the last outfile)
+	char		**file;			// duble char array of each files -> infile and outfile (write at the last outfile)
 	int			redir_nbr;		// nbr on redirections
 	t_redir		*redir_type;	// enum to know the nature of the redirection
 	char		*heredoc_delimiter; //the heredoc delimiter
@@ -198,7 +198,7 @@ int			_ch_dir(t_prg *data);
 
 /***** EXECUTIONS.C *****/
 
-void _ft_execution(t_prg prg);
+void		_ft_exe(t_prg prg);
 
 
 #endif
