@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/20 14:47:01 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 14:50:49 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,33 @@ void	ft_free_parsing(t_prg *prg)
 	free(prg->cmd_list);*/
 }
 
+void setup_term(void) {
+    struct termios t;
+    tcgetattr(0, &t);
+    t.c_lflag &= ~ECHOCTL;
+    tcsetattr(0, TCSANOW, &t);
+}
+
+void	handle_sigstp(int sig)
+{
+	if (sig == 2)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
+void	_sig_handler()
+{
+	setup_term();
+	struct sigaction sa;
+	sa.sa_handler = &handle_sigstp;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
@@ -43,10 +70,15 @@ int main(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
+	_sig_handler();
 	while (1)
 	{
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
+		printf("%s\n", prg.line);
+		if (prg.line == NULL)
+			exit (0);
+		add_history(prg.line);
 		ft_parse(&prg);
 		// 	// ft_free_parsing(&prg);
 	}

@@ -48,7 +48,7 @@ typedef enum	s_token
 
 typedef enum	s_builtin
 {
-	not_built_in,
+	not_built_in, //egale a zero si il n y a pas de builtins, sinon valeur de 1 a 7
 	echo,
 	cd,
 	pwd,
@@ -116,9 +116,9 @@ void		ft_free_char_array(char **array);
 
 /***** CMD_LIST.C *****/
 
-void		ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb);
-void		ft_lstclear_cmd_list(t_cmd_lst **lst);
-t_cmd_lst	*ft_lstnew_cmd_list(void);
+void			ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb);
+void			ft_lstclear_cmd_list(t_cmd_lst **lst);
+t_cmd_lst		*ft_lstnew_cmd_list(void);
 
 /***** ENV_LIST.C *****/
 
