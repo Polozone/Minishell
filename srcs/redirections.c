@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 11:00:01 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/19 13:30:45 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 08:33:32 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ static t_redir ft_redir_t_finder(t_cmd_lst *cmd_lst, char **line_split, int inde
 	{
 		if (line_len > 1 && line_split[index][1] == '<')
 		{
-			cmd_lst->heredoc_delimiter = ft_strdup(line_split[index + 1]);
+			if (ft_array_len(line_split) > 1 && line_len == 2)
+				cmd_lst->heredoc_delimiter = ft_strdup(line_split[index + 1]);
+			else
+				cmd_lst->heredoc_delimiter = ft_substr(line_split[index], 2, line_len);
 			return (heredoc);
 		}
 		return (input);

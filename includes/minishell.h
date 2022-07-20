@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/19 13:28:46 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 13:47:30 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,20 +136,29 @@ t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 
 void		ft_fill_cmd_lst(t_prg *prg);
 
+/***** FILL_NODES.C *****/
+
+void				ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
+
 /***** TOKEN.C *****/
 
 
-t_token			ft_redir_token(char *word);
-t_token			*ft_assign_token(char **line_split, t_token *line_token);
+t_token				ft_redir_token(char *word);
+t_token				*ft_assign_token(char **line_split, t_token *line_token);
+int					ft_count_token(t_token *line_token, t_token token_name, int len);
 
 /***** SPLIT.C *****/
 
-char		**ft_split(char *str, char sep);
+char				**ft_split(char *str, char sep);
+
+/***** SPLIT_NO_QUOTES.C *****/
+
+char				**ft_split_no_quotes(char const *str, char sep);
 
 /***** PRINTF_FT.C *****/
 
-void		ft_putstr_fd(char *str, int fd);
-void		ft_putchar_fd(char c, int fd);
+void				ft_putstr_fd(char *str, int fd);
+void				ft_putchar_fd(char c, int fd);
 
 /***** PARSING.C *****/
 

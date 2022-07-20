@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/19 13:16:40 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 14:47:18 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,132 +31,145 @@ void	ft_create_path_list(t_prg *prg)
 		prg->path_list = ft_split(buff->content, ':');
 }
 
-void		ft_find_path(t_prg *prg, t_cmd_lst *cmd_list)
-{
-	int		i;
-	char	*path;
-
-	i = 0;
-	if (access(cmd_list->cmd_and_dep[0], F_OK) == 0)
-	{
-		cmd_list->path = ft_strdup(cmd_list->cmd_and_dep[0]);
-		return ;
-	}
-	while (prg->path_list[i])
-	{
-		path = ft_strjoin_backslash(prg->path_list[i], cmd_list->cmd_and_dep[0]); 
-		if (access(path, F_OK) == 0)
-		{
-			cmd_list->path = path;
-			return ;
-		}
-		free(path);
-		i ++;
-	}
-	cmd_list->path = NULL;
-}
-
-void	ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split, t_token *line_token)
-{
-	int	end;
-	int	start;
-	int	i;
-	int	len;
-
-	i = 0;
-	start = 0;
-	len = ft_array_len(line_split);
-	while (start < len && line_token[start] != none)
-		start ++;
-	end = start;
-	while (end < len && line_token[end] == none)
-		end ++;
-	cmd_lst->cmd_and_dep = malloc ((end - start + 1) * sizeof(char *));
-	if (!cmd_lst->cmd_and_dep)
-		exit (1);
-	while (start < end)
-	{
-		cmd_lst->cmd_and_dep[i] =  ft_strdup(line_split[start]);
-		i ++;
-		start ++;
-	}
-	cmd_lst->cmd_and_dep[i] = 0;
-}
-
-static unsigned int	ft_go_to_chev_end(char *file_name)
+/*int	ft_dollz_ct(char *line)
 {
 	int	i;
-
-	i = 0;
-	while (file_name[i] == '<' || file_name[i] == '>')
-		i ++;
-	return (i);
-}
-
-static int ft_count_token(t_token *line_token, t_token token_name, int len)
-{
-	int	i;
-	int ct;
+	int	ct;
 
 	i = 0;
 	ct = 0;
-	while (i < len)
+	while (line[i])
 	{
-		if (line_token[i] == token_name)
+		if (line[i] == '$');
 			ct ++;
 		i ++;
 	}
-	printf("ct = %d\n", ct);
-	return (ct);
+	return (ct);	
 }
 
-void	ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token, int len)
+ft_get_dollz_index(int **dollz_index_list, char *line)
 {
 	int	i;
-	int	file_ct;
-	int file_nbr;
+	int j;
 
 	i = 0;
-	file_nbr = ft_count_token(line_token, red, len) + ft_count_token(line_token, rednfile, len);
-	file_ct = 0;
-	cmd_list->file = malloc((file_nbr + 1) * sizeof(char*));
-	while (i < len)
+	j = 0;
+	while (line[i])
 	{
-		if (line_token[i] == file)
+		if (line[i] == '$')
 		{
-			cmd_list->file[file_ct] = ft_strdup(line_split[i]);
-			file_ct ++;
-		}
-		else if (line_token[i] == rednfile)
-		{
-			cmd_list->file[file_ct] = ft_substr(line_split[i],
-			ft_go_to_chev_end(line_split[i]), ft_strlen(line_split[i]));
-			file_ct ++;
+			dollz_index_list[j] = i;
+			j ++;
 		}
 		i ++;
 	}
-	cmd_list->file[file_ct] = 0;
 }
 
-void	ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg)
+char	**ft_fill_env_var_array(t_prg *prg, int *dollz_i_lst, char *line, int dollz_nbr)
 {
-	char	**line_split;
-	t_token	*line_token;
-	int		split_len;
-	int		i;
+	int			i;
+	t_env_lst	*env_lst_buff;
+	char		**env_var_array;
 
 	i = 0;
-	line_split = ft_split(cell, ' ');
-	split_len = ft_array_len(line_split);
-	line_token = ft_assign_token(line_split, line_token);
-	ft_fill_cmd_and_dep(cmd_lst, line_split, line_token);
-	ft_find_path(prg, cmd_lst);
-	ft_fill_file(cmd_lst, line_split, line_token, split_len);
-	ft_is_cmd_builtin(prg, cmd_lst);
-	ft_redir_assignation(prg, cmd_lst, line_token, line_split);
-	ft_free_char_array(line_split);
-	free(line_token);
+	env_var_array = malloc((dollz_nbr + 1) * sizeof(char *));
+	while (i < dollz_nbr)
+	{
+		env_lst_buff = prg->env_lst;
+		while (env_lst_buff != NULL)
+		{
+			if (ft_strcmp(env_lst_buff.name, &line[dollz_i_lst[i] + 1]) == 61)
+				break;
+			env_lst_buff = env_lst_buff.next;
+		}
+		if (ft_is_in_single(line[dollz_i_lst[i]]) == true || env_lst_buff == NULL)
+			if (i < dollz_nbr)
+				env_var_array[i] = ft_substr(line, dollz_i_lst[i], dollz_i_lst[i + 1]);
+			else 
+				env_var_array[i] = ft_strdup(&line[dollz_i_lst[i]]);
+		else
+			env_var_array[i] = ft_strdup(env_lst_buff.content);
+		i ++;
+	}
 }
+
+char	*ft_recreate_line(char **array)
+{
+	int		i;
+	int		len;
+	char	*buff;
+	char	*new_line;
+	
+	i = 0;
+	len = ft_array_len(array);
+	new_line = NULL;
+	while (array[i])
+	{
+		if (i == 0)
+			new_line = ft_strdup(array[i]);
+		else
+		{
+			buff = new_line;
+			new_line = ft_strjoin (new_line, array[i]);
+			free(buff);
+		}
+		i ++;
+	}
+	return (new_line);
+}
+
+static char	*ft_replace_dollzzz(t_prg *prg, char *line, int dollz_i)
+{
+	int 	*dollz_index_list;
+	int		dollz_nbr;
+	char	**env_var_array;
+	char	*expended_line;
+
+	dollz_nbr = ft_dollz_ct(line);
+	dollz_index_list = malloc ((dollz_nbr + 1) * sizeof(int));
+	ft_get_dollz_index(&dollz_index_list, line);
+	env_var_array = ft_fill_env_var_array(prg, dollz_index_list, line, dollz_nbr);
+	expended_line = ft_recreate_line(env_var_array);
+	free(dollz_index_list);
+	ft_free_char_array(env_var_array);
+	return (expended_line);
+}
+
+t_bool	ft_is_there_dollzzz(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+			return (true);
+		i ++;
+	}
+	return (false);
+}
+
+void	ft_expend_env_variable(t_prg *prg, t_cmd_lst *cmd_lst)
+{
+	int	i;
+	int	dollz_i;
+	char *buff;
+
+	i = 0;
+	if (cmd_lst->cmd_and_dep == 0)
+		return;
+	while (cmd_lst->cmd_and_dep[i])
+	{
+		if (ft_is_there_dollzzz(cmd_lst->cmd_and_dep[i]) == true)
+		{
+		buff = cmd_lst->cmd_and_dep[i];
+		cmd_lst->cmd_and_dep[i] =
+		ft_replace_dollzzz(prg, cmd_lst->cmd_and_dep[i], dollz_i);
+		free(buff);
+		}
+		i ++;
+	}
+}*/
 
 void	ft_fill_cmd_lst(t_prg *prg)
 {
@@ -169,10 +182,11 @@ void	ft_fill_cmd_lst(t_prg *prg)
 	while (prg->cells[i])
 	{
 		ft_fill_node(prg->cells[i], buff, prg);
+		//ft_expend_env_variable(prg, buff);
 		i ++;
 		buff = buff->next;
 	}
-	t_cmd_lst *buff2 = prg->cmd_list;
+	/*t_cmd_lst *buff2 = prg->cmd_list;
 	
 	while (buff2)
 	{
@@ -190,7 +204,9 @@ void	ft_fill_cmd_lst(t_prg *prg)
 				printf("redir_type[%d] = %u\n", i, buff2->redir_type[i]);
 		if (buff2->is_cmd_builtin != 0)
 			printf("is_cmd_builtin = %d\n", buff2->is_cmd_builtin);
+		if (buff2->heredoc_delimiter != 0)
+			printf("heredoc truc = %s\n", buff2->heredoc_delimiter);
 		buff2 = buff2->next;
-	}
+	}*/
 	// ft_free_array(prg->path_list);
 }
