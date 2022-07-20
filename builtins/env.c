@@ -27,10 +27,8 @@ void	_unset_env_parent(t_prg *prg)
 	while (i < lenght)
 	{
 		_unset_env(prg, i);
-		//printf("%s\n\n\n", prg->cmd_list->cmd_and_dep[i]);
 		i++;
 	}
-	// _print_env(prg->env_lst);
 }
 
 void	_unset_env(t_prg *prg, size_t i)
@@ -40,14 +38,14 @@ void	_unset_env(t_prg *prg, size_t i)
 
 	tmp = prg->env_lst;
 	prg->env_lst = tmp;
-	if (!strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
+	if (!ft_strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
 	{
 		prg->env_lst = ((t_env_lst*)prg->env_lst->next);
 		return ;
 	}
 	while (prg->env_lst != NULL)
 	{
-		if (!strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
+		if (!ft_strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
 		{
 			before->next = ((t_env_lst*)prg->env_lst->next);
 			break ;
@@ -108,6 +106,5 @@ int		_export_env(t_prg *prg)
 	//_export_env_parse(prg);
 	char **result;
 	_lst_add_env(prg, 0, 0, result);
-	_print_env(prg->env_lst);
 	return (0);
 }

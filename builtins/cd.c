@@ -4,17 +4,6 @@
 #include <stdlib.h>
 #include "../includes/minishell.h"
 
-// void	_set_oldpwd(t_prg *data, char *old_pwd)
-// {
-// 	printf("%s\n", old_pwd);
-// 	ft_add_back_env_list(&data->env_lst, ft_lstnew_env_list("OLDPWD=", old_pwd));
-// 	// while (tmp)
-// 	// {
-// 	// 	printf("%s\n", old_pwd);
-// 	// 	tmp = tmp->next;
-// 	// }
-// }
-
 int		_is_old_pwd(t_prg *data, int mode, char* old_pwd)
 {
 	t_env_lst	*tmp;

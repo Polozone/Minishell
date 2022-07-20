@@ -75,11 +75,11 @@ int main(int ac, char **av, char **env)
 	{
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
-		printf("%s\n", prg.line);
 		if (prg.line == NULL)
 			exit (0);
 		add_history(prg.line);
 		ft_parse(&prg);
-		// 	// ft_free_parsing(&prg);
+		_ft_exe(prg);
+		// ft_free_parsing(&prg);
 	}
 }
