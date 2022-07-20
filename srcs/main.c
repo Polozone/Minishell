@@ -67,6 +67,15 @@ void	handle_sigstp(int sig)
 	}
 }
 
+void	_sig_handler()
+{
+	setup_term();
+	struct sigaction sa;
+	sa.sa_handler = &handle_sigstp;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
@@ -74,35 +83,16 @@ int main(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
-
-	setup_term();
-	struct sigaction sa;
-	sa.sa_handler = &handle_sigstp;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
+	_sig_handler();
 	while (1)
 	{
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
+		printf("%s\n", prg.line);
+		if (prg.line == NULL)
+			exit (0);
 		add_history(prg.line);
-		// printf("%s\n", rl_line_buffer);
 		ft_parse(&prg);
-		// if (g_error != 258)
-		// {
-		// for (int i = 0; prg.cells[i]; i ++)
-		// 	printf("%s\n", prg.cells[i]);
-		// for (int i = 0; prg.cmd_list[i]; i ++)
-		// 	for (int j = 0; prg.cmd_list[i][j]; j ++)
-		// 		printf("%s\n", prg.cmd_list[i][j]);
 		
-		// for (int i = 0; i < prg.cmd_nbr; i ++)
-		// 	if (prg.is_cmd_builtin[i] == not_built_in)
-		// 		printf ("nbr %d is not built in %d\n", i, prg.is_cmd_builtin[i]);
-		// 	else
-		// 		printf ("nbr %d is built in %d\n", i, prg.is_cmd_builtin[i]);
-		// }
-		// printf("g_error = %d\n", g_error);
-		// // if (g_error != 258)
-		// 	// ft_free_parsing(&prg);
 	}
 }
