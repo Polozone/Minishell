@@ -84,7 +84,7 @@ void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
 	name = malloc((i + 2) * sizeof(char));
 	if (name == 0)
 		exit (0);
-	name = ft_substr(line, 0, i + 1);
+	name = ft_substr(line, 0, i);
 	j = i;
 	while (line[j])
 		j ++;

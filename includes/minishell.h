@@ -112,6 +112,8 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strlen_2d(char **str);
 int			ft_strcmp(const char *s1, const char *s2);
 void		ft_free_char_array(char **array);
+int			search_char(char *str, char c);
+int			ft_strlen_to_char(char *str, char c);
 // void		ft_free_array(void array, int len);
 
 /***** CMD_LIST.C *****/
@@ -189,12 +191,13 @@ void		_unset_env(t_prg *prg, size_t i);
 void		_unset_env_parent(t_prg *prg);
 int			_export_env(t_prg *prg);
 int			_export_env_parse(t_prg *prg);
-void		_lst_add_env(t_prg *prg, int i, int boole, char **result);
+void		_add_env(t_prg *prg, int i);
 int			_is_name_in_env(t_prg *prg, char *name_to_find);
 void		_set_content_env(t_env_lst *node, char *content, char **content2d, int mode);
 int			_echo_exe(t_prg *data, int i);
 int			_pwd_exe();
 int			_ch_dir(t_prg *data);
+void		_add_node(char *name, char *content, t_prg *prg);
 
 /***** EXECUTIONS.C *****/
 
