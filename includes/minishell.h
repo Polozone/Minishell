@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/20 13:47:30 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/21 12:54:46 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,10 @@ int					ft_count_token(t_token *line_token, t_token token_name, int len);
 
 char				**ft_split(char *str, char sep);
 
+/***** SPLIT.C *****/
+
+char				**ft_split_charset(char *str, char *charset);
+
 /***** SPLIT_NO_QUOTES.C *****/
 
 char				**ft_split_no_quotes(char const *str, char sep);
@@ -181,6 +185,11 @@ void		ft_is_cmd_builtin(t_prg *prg, t_cmd_lst *cmd_lst);
 /***** REDIRECTIONS.C *****/
 
 void		ft_redir_assignation(t_prg *prg, t_cmd_lst *cmd_lst, t_token *line_token, char **line_split);
+
+/***** REPLACE_DOLLZ.C *****/
+
+
+char		*ft_replace_dollz(t_prg *prg, char *line);
 
 /***** BUILTINS.C *****/
 

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 11:26:43 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/20 15:26:00 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/21 08:34:55 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	i = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	printf("test\n");
 	str = malloc((ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1)
 			* sizeof(char));
 	if (str == NULL)
