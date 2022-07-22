@@ -22,14 +22,25 @@ void	is_builtin(t_prg data)
 
 void _ft_exe(t_prg data)
 {
+	t_cmd_lst *tmp;
+
+	tmp = data.cmd_list;
 	int i = 0;
-	is_builtin(data);
-	if (data.cmd_list->cmd_and_dep != NULL)
+	while (tmp)
 	{
-		while (data.cmd_list->cmd_and_dep[i])
-		{
-			//printf("%s\n", data.cmd_list->cmd_and_dep[i]);
-			i++;
-		}
+		i = -1;
+		while (tmp->cmd_and_dep[++i])
+			printf("%s", tmp->cmd_and_dep[i]);
+		printf("\n");
+		tmp = tmp->next;
 	}
+	// if (data.cmd_list->cmd_and_dep != NULL)
+	// {
+	// 	while (data.cmd_list->cmd_and_dep[i])
+	// 	{
+	// 		// is_builtin(data);
+	// 		printf("%s\n", data.cmd_list->cmd_and_dep[i]);
+	// 		i++;
+	// 	}
+	// }
 }

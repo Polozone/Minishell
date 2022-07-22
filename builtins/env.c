@@ -105,11 +105,9 @@ void	_add_env(t_prg *prg, int i)
 
 void	_print_env_declare(t_prg *prg)
 {
-	t_env_lst	*tmp;
-	int			i;
+	t_env_lst* tmp;
 
 	tmp = prg->env_lst;
-	i = 0;
 	while (tmp)
 	{
 		printf("declare -x %s", tmp->name);
@@ -122,7 +120,6 @@ void	_print_env_declare(t_prg *prg)
 
 int		_export_env(t_prg *prg)
 {
-	//_export_env_parse(prg);
 	if (strcmp(prg->cmd_list->cmd_and_dep[0], "export") == 0 && prg->cmd_list->cmd_and_dep[1] == NULL)
 	{
 		_print_env_declare(prg);
