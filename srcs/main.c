@@ -79,7 +79,8 @@ int main(int ac, char **av, char **env)
 			exit (0);
 		add_history(prg.line);
 		ft_parse(&prg);
-		_ft_exe(prg);
+		_ft_exe(&prg);
+		_ft_free_exe(&prg);
 		// ft_free_parsing(&prg);
 	}
 }

@@ -92,6 +92,8 @@ typedef struct s_prg
 	char		**envp;
 	char		**cells;
 	char		*line;
+	int			*pipe;
+	int			*pid;
 	int			line_len;
 	int			cmd_nbr;
 	t_cmd_lst	*cmd_list;
@@ -121,6 +123,7 @@ int			ft_strlen_to_char(char *str, char c);
 void			ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb);
 void			ft_lstclear_cmd_list(t_cmd_lst **lst);
 t_cmd_lst		*ft_lstnew_cmd_list(void);
+size_t			get_size_lst(t_prg *data);
 
 /***** ENV_LIST.C *****/
 
@@ -201,7 +204,11 @@ void		_add_node(char *name, char *content, t_prg *prg);
 
 /***** EXECUTIONS.C *****/
 
-void		_ft_exe(t_prg prg);
+void		_ft_exe(t_prg *data);
+
+/***** FREE_EXECUTIONS.C *****/
+
+void		_ft_free_exe(t_prg *data);
 
 
 #endif

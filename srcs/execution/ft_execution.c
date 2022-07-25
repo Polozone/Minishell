@@ -20,27 +20,70 @@ void	is_builtin(t_prg data)
 			exit(0);
 }
 
-void _ft_exe(t_prg data)
+void	init_pipe(t_prg *data)
 {
-	t_cmd_lst *tmp;
+	int		i;
 
-	tmp = data.cmd_list;
-	int i = 0;
-	while (tmp)
+	i = -1;
+	data->pipe = malloc(sizeof(int) * (data->cmd_nbr - 1) * 2);
+	if (data->pipe == NULL)
 	{
-		i = -1;
-		while (tmp->cmd_and_dep[++i])
-			printf("%s", tmp->cmd_and_dep[i]);
-		printf("\n");
-		tmp = tmp->next;
+		// FREE ALL AND EXIT
+		// free_data();
 	}
-	// if (data.cmd_list->cmd_and_dep != NULL)
+	while (++i < data->cmd_nbr - 1)
+		pipe(&data->pipe[i * 2]);
+}
+
+void	_ft_forks(t_prg *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->cmd_nbr)
+	{
+		data->pid[i] = fork();
+	}
+	printf("%d", data->pid[i]);
+}
+
+void _ft_exe(t_prg *data)
+{
+	data->cmd_nbr = get_size_lst(data);
+	data->pipe = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PIPES FOR EACH CMD
+	init_pipe(data);
+	int i = 0;
+	while (i < (data->cmd_nbr - 1) * 2)
+	{
+		printf("%d\n", data->pipe[i]);
+		i++;
+	}
+	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
+	_ft_forks(data);
+	
+	// tmp = data.cmd_list;
+	// int i = 0;
+	// int j = 0;
+	// while (tmp)
 	// {
-	// 	while (data.cmd_list->cmd_and_dep[i])
+	// 	i = 0;
+	// 	while (tmp->cmd_and_dep[i])
 	// 	{
-	// 		// is_builtin(data);
-	// 		printf("%s\n", data.cmd_list->cmd_and_dep[i]);
+	// 		j = 0;
+	// 		while (tmp->file[j])
+	// 		{
+	// 			// printf("||||file = %s\n", tmp->file[j]);
+	// 			j++;
+	// 		}
+	// 		j = 0;
+	// 		while (j < tmp->redir_nbr)
+	// 		{
+	// 			printf("||||redir type == %d\n", tmp->redir_type[j]);
+	// 			j++;
+	// 		}
+	// 		printf("%s\n", tmp->cmd_and_dep[i]);
 	// 		i++;
 	// 	}
+	// 	tmp = tmp->next;
 	// }
 }
