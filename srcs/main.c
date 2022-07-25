@@ -63,6 +63,18 @@ void	_sig_handler()
 	sigaction(SIGINT, &sa, NULL);
 }
 
+void	_wait_pids(t_prg data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data.cmd_nbr)
+	{
+		waitpid(data.pid[i], NULL, 0);
+		i++;
+	}
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
@@ -79,7 +91,9 @@ int main(int ac, char **av, char **env)
 			exit (0);
 		add_history(prg.line);
 		ft_parse(&prg);
-		_ft_exe(prg);
+		// _ft_exe(&prg);
+		// _ft_free_exe(&prg);
+		// _wait_pids(prg);
 		// ft_free_parsing(&prg);
 	}
 }

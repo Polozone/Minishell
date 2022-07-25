@@ -16,7 +16,9 @@ SRCS =	srcs/main.c				\
 		builtins/echo.c			\
 		builtins/cd.c			\
 		builtins/pwd.c			\
-		srcs/execution/ft_execution.c
+		srcs/execution/ft_free_execution.c			\
+		srcs/execution/ft_execution.c	\
+		srcs/execution/_execute_cmds.c
 
 OBJS = $(SRCS:.c=.o)
 

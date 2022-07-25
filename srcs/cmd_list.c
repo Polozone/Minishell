@@ -44,6 +44,21 @@ void	ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb)
 	}
 }
 
+size_t	get_size_lst(t_prg *data)
+{
+	t_cmd_lst	*tmp;
+	size_t		cnt;
+
+	tmp = data->cmd_list;
+	cnt = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		cnt++;
+	}
+	return (cnt);
+}
+
 t_cmd_lst	*ft_lstnew_cmd_list(void)
 {
 	t_cmd_lst	*cmd;
@@ -60,8 +75,6 @@ t_cmd_lst	*ft_lstnew_cmd_list(void)
 	cmd->next = NULL;
 	return (cmd);
 }
-
-
 
 void	ft_lstclear_cmd_list(t_cmd_lst **lst)
 {

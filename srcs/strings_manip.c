@@ -99,8 +99,8 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	while (j < size)
 	{
 		ditto[j] = s[i];
-		i ++;
-		j ++;
+		i++;
+		j++;
 	}
 	ditto[j] = '\0';
 	return (ditto);
@@ -140,6 +140,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 	size_t	i;
 
 	i = 0;
+	if (!s1 || !s2)
+		return (0);
 	while ((((unsigned char *)s1)[i] || ((unsigned char *)s2)[i]))
 	{
 		if (((unsigned char *)s1)[i] == ((unsigned char *)s2)[i])
@@ -236,4 +238,26 @@ char	*ft_strdup(char *str)
 	}
 	dub[i] = '\0';
 	return (dub);
+}
+
+int		search_char(char *str, char c)
+{
+	int		i = 0;
+
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int		ft_strlen_to_char(char *str, char c)
+{
+	int i	= 0;
+
+	while (str[i] != c && str[i])
+		i++;
+	return (i);
 }

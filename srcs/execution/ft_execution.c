@@ -20,16 +20,56 @@ void	is_builtin(t_prg data)
 			exit(0);
 }
 
-void _ft_exe(t_prg data)
+void	init_pipe(t_prg *data)
 {
-	int i = 0;
-	is_builtin(data);
-	if (data.cmd_list->cmd_and_dep != NULL)
+	int		i;
+
+	i = -1;
+	data->pipe = malloc(sizeof(int) * (data->cmd_nbr - 1) * 2);
+	if (data->pipe == NULL)
 	{
-		while (data.cmd_list->cmd_and_dep[i])
-		{
-			//printf("%s\n", data.cmd_list->cmd_and_dep[i]);
-			i++;
-		}
+		// FREE ALL AND EXIT
+		// free_data();
 	}
+	while (++i < data->cmd_nbr - 1)
+		pipe(&data->pipe[i * 2]);
+}
+
+void	_ft_forks(t_prg *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->cmd_nbr)
+	{
+		data->pid[i] = fork();
+		if (data->pid[i] == -1)
+		{
+			// FREE ALL;
+			exit (0);
+		}
+		if (data->pid[i] == 0)
+		{
+			_execute_cmds(data, i);
+			exit (0);
+		}
+		i++;
+	}
+}
+
+void _ft_exe(t_prg *data)
+{
+	// data->cmd_nbr = get_size_lst(data);
+	// data->pipe = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PIPES FOR EACH CMD
+	// init_pipe(data);
+	// //_print_env(data->env_lst);
+	// int i = 0;
+	// int j = 0;
+	// while (i < (data->cmd_nbr - 1) * 2)
+	// {
+	// 	// printf("%d\n", data->pipe[i]);
+	// 	i++;
+	// }
+	// data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
+	// _ft_forks(data);
 }

@@ -19,7 +19,7 @@ void	ft_create_path_list(t_prg *prg)
 	buff = prg->env_lst;
 	while (buff != 0)
 	{
-		if (ft_strncmp(buff->name, "PATH=", 5) == 0)
+		if (ft_strncmp(buff->name, "PATH", 5) == 0)
 		{
 			prg->is_there_path = true;
 			break;
@@ -29,6 +29,8 @@ void	ft_create_path_list(t_prg *prg)
 	}
 	if (prg->is_there_path == true)
 		prg->path_list = ft_split(buff->content, ':');
+	else
+		prg->path_list = NULL;
 }
 
 /*int	ft_dollz_ct(char *line)
