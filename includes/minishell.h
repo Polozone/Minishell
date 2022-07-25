@@ -205,6 +205,8 @@ void		_add_node(char *name, char *content, t_prg *prg);
 /***** EXECUTIONS.C *****/
 
 void		_ft_exe(t_prg *data);
+void		_wait_pids(t_prg data);
+int			_execute_cmds(t_prg *data, size_t i);
 
 /***** FREE_EXECUTIONS.C *****/
 

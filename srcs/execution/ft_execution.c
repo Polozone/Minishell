@@ -43,47 +43,33 @@ void	_ft_forks(t_prg *data)
 	while (i < data->cmd_nbr)
 	{
 		data->pid[i] = fork();
+		if (data->pid[i] == -1)
+		{
+			// FREE ALL;
+			exit (0);
+		}
+		if (data->pid[i] == 0)
+		{
+			_execute_cmds(data, i);
+			exit (0);
+		}
+		i++;
 	}
-	printf("%d", data->pid[i]);
 }
 
 void _ft_exe(t_prg *data)
 {
-	data->cmd_nbr = get_size_lst(data);
-	data->pipe = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PIPES FOR EACH CMD
-	init_pipe(data);
-	int i = 0;
-	while (i < (data->cmd_nbr - 1) * 2)
-	{
-		printf("%d\n", data->pipe[i]);
-		i++;
-	}
-	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
-	_ft_forks(data);
-	
-	// tmp = data.cmd_list;
+	// data->cmd_nbr = get_size_lst(data);
+	// data->pipe = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PIPES FOR EACH CMD
+	// init_pipe(data);
+	// //_print_env(data->env_lst);
 	// int i = 0;
 	// int j = 0;
-	// while (tmp)
+	// while (i < (data->cmd_nbr - 1) * 2)
 	// {
-	// 	i = 0;
-	// 	while (tmp->cmd_and_dep[i])
-	// 	{
-	// 		j = 0;
-	// 		while (tmp->file[j])
-	// 		{
-	// 			// printf("||||file = %s\n", tmp->file[j]);
-	// 			j++;
-	// 		}
-	// 		j = 0;
-	// 		while (j < tmp->redir_nbr)
-	// 		{
-	// 			printf("||||redir type == %d\n", tmp->redir_type[j]);
-	// 			j++;
-	// 		}
-	// 		printf("%s\n", tmp->cmd_and_dep[i]);
-	// 		i++;
-	// 	}
-	// 	tmp = tmp->next;
+	// 	// printf("%d\n", data->pipe[i]);
+	// 	i++;
 	// }
+	// data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
+	// _ft_forks(data);
 }

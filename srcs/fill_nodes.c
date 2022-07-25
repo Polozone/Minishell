@@ -47,31 +47,31 @@ static void		ft_find_path(t_prg *prg, t_cmd_lst *cmd_list)
 	cmd_list->path = NULL;
 }
 
-static void	ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split, t_token *line_token)
+static void ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split, t_token *line_token)
 {
-	int	end;
-	int	start;
-	int	i;
-	int	len;
+    int cmd_dep_ct;
+    int i;
+    int j;
+    int len;
 
-	i = 0;
-	start = 0;
-	len = ft_array_len(line_split);
-	while (start < len && line_token[start] != none)
-		start ++;
-	end = start;
-	while (end < len && line_token[end] == none)
-		end ++;
-	cmd_lst->cmd_and_dep = malloc ((end - start + 1) * sizeof(char *));
-	if (!cmd_lst->cmd_and_dep)
-		exit (1);
-	while (start < end)
-	{
-		cmd_lst->cmd_and_dep[i] =  ft_strdup(line_split[start]);
-		i ++;
-		start ++;
-	}
-	cmd_lst->cmd_and_dep[i] = 0;
+    i = -1;
+    j = 0;
+    cmd_dep_ct = 0;
+    len = ft_array_len(line_split);
+    while (++i < len)
+        if (line_token[i] == none)
+            cmd_dep_ct ++;
+    cmd_lst->cmd_and_dep = malloc ((cmd_dep_ct + 1) * sizeof(char *));
+    i = -1;
+    while (line_split[++i])
+    {
+        if (line_token[i] == none)
+        {
+            cmd_lst->cmd_and_dep[j] =  ft_strdup(line_split[i]);
+            j ++;
+        }
+    }
+    cmd_lst->cmd_and_dep[j] = 0;
 }
 
 static void	ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token, int len)
