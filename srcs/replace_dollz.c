@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 08:26:55 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 16:47:53 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/25 17:35:38 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,20 @@ int	ft_scnd_q(char *line, int index, char q_type)
 char	*ft_strins(char *line, char *to_expend, int index)
 {
 	int	i;
+	int	start;
+	int end;
 
 	i = index;
+	start = 0;
+	end = index;
 	while (line[i] != '\'')
 		i ++;
-	return (ft_join_shortcut(ft_join_shortcut(ft_substr(line, 0, index), ft_strdup(to_expend)), ft_strdup(&line[i])));
+	while (line[start] && line[start] == '\"')
+		start ++;
+	while (line[end] && line[end] != '\"')
+		end ++;
+	printf("start = %d, end = %d, i = %d index = %d\n", start, end, i, index);
+	return (ft_join_shortcut(ft_join_shortcut(ft_substr(line, start, index - start), ft_strdup(to_expend)), ft_substr(line, i, end - i)));
 }
 
 char	*ft_double_quoting(char	*line, char *to_expend, int index)
@@ -90,7 +99,7 @@ char	*ft_double_quoting(char	*line, char *to_expend, int index)
 	qt_ct = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'' || line[i] != '\"')
+		if (line[i] == '\'' || line[i] == '\"')
 			qt_ct ++;
 		if (qt_ct == 2)
 		{
@@ -99,12 +108,14 @@ char	*ft_double_quoting(char	*line, char *to_expend, int index)
 		}
 		i ++;
 	}
-	while (i > 0 && line[i] != line[end])
-		i --;
+	while (--i > 0 && line[i] != line[end])
+		;
 	start = i;
-	// printf("start = %d, end = %d\n", i, line[i]);
 	if (line[i] == '\'')
+	{
+		printf("test\n");
 		return (ft_substr(line, start + 1, end - (start + 1)));
+	}
 	else if (line[i] == '\"')
 		return (ft_strins(line, to_expend, index));
 	return (NULL);

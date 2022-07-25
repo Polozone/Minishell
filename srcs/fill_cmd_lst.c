@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 16:51:17 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/25 17:13:02 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_fill_cmd_lst(t_prg *prg)
 	}
 	t_cmd_lst *buff2 = prg->cmd_list;
 	
-	/*while (buff2)
+	while (buff2)
 	{
 		if (buff2->cmd_and_dep != 0)
 			for (int i = 0; buff2->cmd_and_dep[i]; i ++)
@@ -103,6 +103,6 @@ void	ft_fill_cmd_lst(t_prg *prg)
 		if (buff2->heredoc_delimiter != 0)
 			printf("heredoc truc = %s\n", buff2->heredoc_delimiter);
 		buff2 = buff2->next;
-	}*/
+	}
 	// ft_free_array(prg->path_list);
 }

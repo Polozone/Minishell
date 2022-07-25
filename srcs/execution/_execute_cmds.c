@@ -24,4 +24,5 @@ int		_execute_cmds(t_prg *data, size_t i)
 	// 	j++;
 	// }
 	// close_pipe(data);
+	return(0);
 }

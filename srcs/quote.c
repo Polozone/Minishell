@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:34:01 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/22 15:08:59 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/25 17:38:38 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,13 +156,13 @@ t_bool	ft_is_in_single(const char *line, int index)
 	q_ct_after = 0;
 	while (line[i] && i < index)
 	{
-		if (line[i] == 39)
+		if (line[i] == 39 && ft_is_in_double(line, i) != true)
 			q_ct_before ++;
 		i ++;
 	}
 	while (line[i])
 	{
-		if (line[i] == 39)
+		if (line[i] == 39 && ft_is_in_double(line, i) != true)
 			q_ct_after ++;
 		i ++;
 	}
@@ -182,13 +182,13 @@ t_bool	ft_is_in_double(const char *line, int index)
 	q_ct_after = 0;
 	while (line[i] && i < index)
 	{
-		if (line[i] == 34)
+		if (line[i] == 34 && ft_is_in_single(line, i) != true)
 			q_ct_before ++;
 		i ++;
 	}
 	while (line[i])
 	{
-		if (line[i] == 34)
+		if (line[i] == 34 && ft_is_in_single(line, i) != true)
 			q_ct_after ++;
 		i ++;
 	}
