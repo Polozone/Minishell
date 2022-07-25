@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:27:13 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/20 08:40:50 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:12:02 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_cmd_lst	*ft_lstnew_cmd_list(void)
 	cmd->path = 0;
 	cmd->file = 0;
 	cmd->redir_type = 0;
+	cmd->redir_nbr = 0;
 	cmd->is_cmd_builtin = 0;
 	cmd->heredoc_delimiter = 0;
 	cmd->next = NULL;
