@@ -8,6 +8,7 @@ void	close_pipe(t_prg *data)
 	i = 0;
 	while (i < (data->cmd_nbr - 1) * 2)
 	{
+		// printf("awdawd");
 		close(data->pipe[i]);
 		i++;
 	}
@@ -15,13 +16,15 @@ void	close_pipe(t_prg *data)
 
 int		_execute_cmds(t_prg *data, size_t i)
 {
-	printf("i == %zu\n", i);
 	int j = 0;
-	printf("%s", data->cmd_list->cmd_and_dep[0]);
-	// while (data->cmd_list->file[j])
-	// {
-	// 	printf("file == %s\n", data->cmd_list->file[j]);
-	// 	j++;
-	// }
-	// close_pipe(data);
+	// printf("size == %d\n", ft_strlen_2d(data->cmd_list->file));
+	while (data->cmd_list->file[j])
+	{
+		printf("file == %s\n", data->cmd_list->file[j]);
+		printf("test\n");
+		j++;
+	}
+	close_pipe(data);
+	exit(0);
+	return (0);
 }

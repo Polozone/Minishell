@@ -59,17 +59,17 @@ void	_ft_forks(t_prg *data)
 
 void _ft_exe(t_prg *data)
 {
-	// data->cmd_nbr = get_size_lst(data);
-	// data->pipe = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PIPES FOR EACH CMD
-	// init_pipe(data);
-	// //_print_env(data->env_lst);
-	// int i = 0;
-	// int j = 0;
-	// while (i < (data->cmd_nbr - 1) * 2)
-	// {
-	// 	// printf("%d\n", data->pipe[i]);
-	// 	i++;
-	// }
-	// data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
-	// _ft_forks(data);
+	data->cmd_nbr = get_size_lst(data);
+	data->pipe = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PIPES FOR EACH CMD
+	init_pipe(data);
+	//_print_env(data->env_lst);
+	int i = 0;
+	int j = 0;
+	while (i < (data->cmd_nbr - 1) * 2)
+	{
+		// printf("%d\n", data->pipe[i]);
+		i++;
+	}
+	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
+	_ft_forks(data);
 }
