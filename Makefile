@@ -14,6 +14,7 @@ SRCS =	srcs/main.c				\
 		srcs/fill_nodes.c		\
 		srcs/replace_dollz.c	\
 		srcs/parsing.c			\
+		srcs/utilis_shortcut_fts.c	\
 		builtins/env.c			\
 		builtins/echo.c			\
 		builtins/cd.c			\

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/21 11:23:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/22 15:48:26 by mgolinva         ###   ########.fr       */
+/*   Created: 2022/07/25 08:26:55 by mgolinva          #+#    #+#             */
+/*   Updated: 2022/07/25 16:47:53 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,148 +30,168 @@ int	ft_dollz_ct(char *line)
 	return (ct);	
 }
 
-int	*ft_get_dollz_index(char *line)
+char	*ft_get_var_name(char *line, int index)
 {
 	int	i;
-	int j;
-	int	*dollz_index_array;
+
+	i = index + 1;
+	while (line[i])
+	{
+		if (line[i] == '$' || line[i] == 34 || line[i] == 39)
+		{
+			i --;
+			break;
+		}
+		i ++;
+	}
+	if (i == 0)
+		return (NULL);
+	return (ft_substr(line, index + 1, i - index));
+}
+
+int	ft_frst_q(char *line, int index, char q_type)
+{
+	int	i;
+
+	i = index;
+	while (i > 0 && line[i] != q_type)
+		i --;
+	return (i + 1);
+}
+
+int	ft_scnd_q(char *line, int index, char q_type)
+{
+	int	i;
+
+	i = index;
+	while (line[i] && line[i] != q_type)
+		i ++;
+	return (i - 1);	
+}
+
+char	*ft_strins(char *line, char *to_expend, int index)
+{
+	int	i;
+
+	i = index;
+	while (line[i] != '\'')
+		i ++;
+	return (ft_join_shortcut(ft_join_shortcut(ft_substr(line, 0, index), ft_strdup(to_expend)), ft_strdup(&line[i])));
+}
+
+char	*ft_double_quoting(char	*line, char *to_expend, int index)
+{
+	int	i;
+	int	qt_ct;
+	int	start;
+	int	end;
+
+	i = index;
+	qt_ct = 0;
+	while (line[i])
+	{
+		if (line[i] == '\'' || line[i] != '\"')
+			qt_ct ++;
+		if (qt_ct == 2)
+		{
+			end = i;
+			break;
+		}
+		i ++;
+	}
+	while (i > 0 && line[i] != line[end])
+		i --;
+	start = i;
+	// printf("start = %d, end = %d\n", i, line[i]);
+	if (line[i] == '\'')
+		return (ft_substr(line, start + 1, end - (start + 1)));
+	else if (line[i] == '\"')
+		return (ft_strins(line, to_expend, index));
+	return (NULL);
+}
+
+char	*ft_expend(t_prg *prg, char *line, int index, t_var_quote mark)
+{
+	t_env_lst	*env_lst;
+	char		*var_name;
+	char		*new_line;
+
+	env_lst = prg->env_lst;
+	var_name = ft_get_var_name(line, index);
+	// printf("var_name = %s\n", var_name);
+	while (env_lst != NULL)
+	{
+		if (ft_strcmp(env_lst->name, var_name) == 0)
+		{
+			if (mark == not_in_quote)
+				new_line = ft_strdup(env_lst->content);
+			if (mark == in_double)
+				new_line = ft_strdup(env_lst->content);
+			if (mark == in_single)
+				new_line = ft_substr(line, ft_frst_q(line, index, '\''), ft_scnd_q(line, index, '\'') - ft_frst_q(line, index, '\'') + 1);
+			if (mark == in_both)
+				new_line = ft_double_quoting(line, env_lst->content,index);
+			free(var_name);
+			return (new_line);
+		}
+		env_lst = env_lst->next;
+	}
+	free(var_name);
+	return (ft_strdup(""));
+}
+
+char	*ft_expend_or_not_expend(t_prg *prg, char *line, int index)
+{
+	if (ft_is_in_double(line, index) == false && ft_is_in_single(line, index) == false)
+		return (ft_expend(prg, line, index, not_in_quote));
+	else if (ft_is_in_double(line, index) == true && ft_is_in_single(line, index) == true)
+		return (ft_expend(prg, line, index, in_both));
+	else if (ft_is_in_double(line, index) == true && ft_is_in_single(line, index) == false)
+		return (ft_expend(prg, line, index, in_double));
+	else if (ft_is_in_double(line, index) == false && ft_is_in_single(line, index) == true)
+		return (ft_expend(prg, line, index, in_single));
+	return (NULL);
+}
+
+char	*ft_concatenate_array(char **new_lines, int new_lines_len)
+{
+	int		i;
+	char	*new_line;
+
+	i = 1;
+	new_line = ft_strdup(new_lines[0]);
+	while (new_lines[i] && i < new_lines_len)
+	{
+		new_line = ft_strjoin(new_line, new_lines[i]);
+		i ++;
+	}
+	return (new_line);
+}
+
+char	*ft_forge_new_line(t_prg *prg, char *line)
+{
+	char	**new_lines;
+	char	*new_line;
+	int		new_lines_len;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
-	dollz_index_array = malloc((ft_dollz_ct(line) + 1) * sizeof(dollz_index_array));
-	if (dollz_index_array == NULL)
-		exit(0);
+	new_lines_len = ft_dollz_ct(line);
+	new_lines = malloc((new_lines_len + 1) * sizeof(char *));
 	while (line[i])
 	{
 		if (line[i] == '$')
 		{
-			printf("i = %d j = %d\n", i, j);
-			dollz_index_array[j] = i;
+			new_lines[j] = ft_expend_or_not_expend(prg, line, i);
+			// printf("j = %d, new_lines = %s\n", j, new_lines[j]);
 			j ++;
 		}
 		i ++;
 	}
-	return (dollz_index_array);
-}
-
-char	*ft_get_word(char *line, int index, char c)
-{
-	int		i;
-	char	*word;
-
-	i = 0;
-	printf("LINE IN GET WORD = %s\n", line);
-	while (line[i])
-	{
-		printf("line[%d] = %c\n", i, line[i]);
-		if (line[i] == c || i == ft_strlen(line) || line[i] == 34 || line[i] == 39)
-		{
-			word = ft_substr(line, 0, i);
-			return (word);
-		}
-		i ++;
-	}
-	return (ft_strdup(line));
-}
-
-char	*ft_expender(t_prg *prg, char *line)
-{
-	int			i;
-	char		*word;
-	t_env_lst	*env_lst_buff;
-
-	i = 0;
-	env_lst_buff = prg->env_lst;
-	while (env_lst_buff != NULL)
-	{
-		word = ft_get_word(line, 1, '$');
-		// printf("WORD = %s\n", word);
-		if (ft_strcmp(env_lst_buff->name, word) == 0)
-		{
-			free(word);
-			return (ft_strdup(env_lst_buff->content));
-		}
-		free(word);
-		env_lst_buff = env_lst_buff->next;
-	}
-	return (ft_strdup(""));
-}
-
-t_bool	ft_dollz_is_first(char *line)
-{
-	int	i;
-	i = 0;
-	while ((line[i])
-	&& (line[i] == 34 || line[i] ==39))
-		i ++;
-	if (line[i] == '$')
-		return (true);
-	return (false);
-}
-
-char	*ft_forge_new_line(t_prg *prg, int *dollz_index, char *line)
-{
-	char		*new_line;
-	char		*buff;
-	char		*append;
-	int			index_nbr;
-	int			i;
-
-	i = 0;
-	index_nbr = ft_dollz_ct(line);
-	new_line = NULL;
-	if (ft_is_in_single(line, dollz_index[i]) == true && ft_dollz_is_first(line) == true)
-	{
-		new_line = ft_get_word(line/*[dollz_index[i]]*/,dollz_index[i], '\''); 
-		i ++;
-	}
-	else if (new_line == NULL && dollz_index[i] == 0)
-	{
-		new_line = ft_expender(prg, line);
-		i ++;
-	}
-	else if (new_line == NULL)
-	{
-		new_line = ft_get_word(line, 0, '$');
-		// printf("in forge new_line = %s\n", new_line);
-	}
-	while (i < index_nbr)
-	{
-		// printf("dollz_index[%d] = %d is it in single = %d\n", i, dollz_index[i], ft_is_in_single(line, dollz_index[i]));
-		if (ft_is_in_single(line, dollz_index[i]) == true)
-		{
-			buff = new_line;
-			append = ft_get_word(line, dollz_index[i - 1], '\''); 
-			printf("TEEEEEEEEEEEEEEEEEEEEST APPEND = %s\n", append);
-			new_line = ft_strjoin(new_line, append);
-			// free(buff);
-			// free(append);
-		}
-		else
-		{
-			buff = new_line;
-			append = ft_expender(prg, &line[dollz_index[i]]);
-			// printf("APPEND = %s\n", append);
-			new_line = ft_strjoin(new_line, append);
-			// free(buff);
-			// free(append);
-		}
-		i ++;
-	}
+	new_lines[j] = 0;
+	new_line = ft_concatenate_array(new_lines, new_lines_len);
+	ft_free_char_array(new_lines);
 	return (new_line);
 }
-
-char	*ft_replace_dollz(t_prg *prg, char *line)
-{
-	int		*dollz_index_array;
-	char	*new_line;
-
-	dollz_index_array = ft_get_dollz_index(line);
-	new_line = ft_forge_new_line(prg, dollz_index_array, line);
-	// printf("new_line = %s\n", new_line);
-	// for(int i = 0; i < ft_dollz_ct(line); i++)
-	// 	printf("index %d = %d\n", i, dollz_index_array[i]);
-	// ft_free_int_array(dollz_index_array);
-	// free(line);
-	return (new_line);
- }

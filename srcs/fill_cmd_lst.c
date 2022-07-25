@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/21 12:54:14 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/25 16:48:05 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_create_path_list(t_prg *prg)
 	buff = prg->env_lst;
 	while (buff != 0)
 	{
-		if (ft_strncmp(buff->name, "PATH=", 5) == 0)
+		if (ft_strncmp(buff->name, "PATH", 5) == 0)
 		{
 			prg->is_there_path = true;
 			break;
@@ -29,6 +29,7 @@ void	ft_create_path_list(t_prg *prg)
 	}
 	if (prg->is_there_path == true)
 		prg->path_list = ft_split(buff->content, ':');
+	// printf("buff name = %s path_list[0] =\n", buff->name);
 }
 
 t_bool	ft_is_there_dollzzz(char *line)
@@ -59,7 +60,7 @@ void	ft_expend_env_variable(t_prg *prg, t_cmd_lst *cmd_lst)
 		{
 			buff = cmd_lst->cmd_and_dep[i];
 			cmd_lst->cmd_and_dep[i] =
-			ft_replace_dollz(prg, cmd_lst->cmd_and_dep[i]);
+			ft_forge_new_line(prg, cmd_lst->cmd_and_dep[i]);
 			free(buff);
 		}
 		i ++;
@@ -83,7 +84,7 @@ void	ft_fill_cmd_lst(t_prg *prg)
 	}
 	t_cmd_lst *buff2 = prg->cmd_list;
 	
-	while (buff2)
+	/*while (buff2)
 	{
 		if (buff2->cmd_and_dep != 0)
 			for (int i = 0; buff2->cmd_and_dep[i]; i ++)
@@ -102,6 +103,6 @@ void	ft_fill_cmd_lst(t_prg *prg)
 		if (buff2->heredoc_delimiter != 0)
 			printf("heredoc truc = %s\n", buff2->heredoc_delimiter);
 		buff2 = buff2->next;
-	}
+	}*/
 	// ft_free_array(prg->path_list);
 }

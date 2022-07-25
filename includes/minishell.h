@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/21 12:54:46 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/25 14:29:15 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,14 @@ typedef enum	s_builtin
 	env,
 	quit
 }				t_builtin;
+
+typedef enum	s_var_quote
+{
+	not_in_quote,
+	in_single,
+	in_double,
+	in_both
+}				t_var_quote;
 
 typedef enum	s_redir
 {
@@ -113,6 +121,10 @@ int			ft_strlen_2d(char **str);
 int			ft_strcmp(const char *s1, const char *s2);
 void		ft_free_char_array(char **array);
 // void		ft_free_array(void array, int len);
+
+/***** UTILS_SHORTCUT_FTS.C *****/
+
+char		*ft_join_shortcut(char *str1, char *str2);
 
 /***** CMD_LIST.C *****/
 
@@ -189,7 +201,8 @@ void		ft_redir_assignation(t_prg *prg, t_cmd_lst *cmd_lst, t_token *line_token, 
 /***** REPLACE_DOLLZ.C *****/
 
 
-char		*ft_replace_dollz(t_prg *prg, char *line);
+// char		*ft_replace_dollz(t_prg *prg, char *line);
+char		*ft_forge_new_line(t_prg *prg, char *line);
 
 /***** BUILTINS.C *****/
 
