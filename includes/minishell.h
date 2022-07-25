@@ -79,7 +79,7 @@ typedef struct l_cmd_list
 {
 	char		**cmd_and_dep;	// command and his flags ___ exemple => (s1)unset (s2)variable
 	char		*path;			// path to the command (extract of PATH= in env variables)
-	char		**file;			// duble char array of each files -> infile and outfile (wrtie at the last outfile)
+	char		**file;			// duble char array of each files -> infile and outfile (write at the last outfile)
 	int			redir_nbr;		// nbr on redirections
 	t_redir		*redir_type;	// enum to know the nature of the redirection
 	char		*heredoc_delimiter; //the heredoc delimiter
@@ -100,6 +100,8 @@ typedef struct s_prg
 	char		**envp;
 	char		**cells;
 	char		*line;
+	int			*pipe;
+	int			*pid;
 	int			line_len;
 	int			cmd_nbr;
 	t_cmd_lst	*cmd_list;
@@ -120,6 +122,8 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strlen_2d(char **str);
 int			ft_strcmp(const char *s1, const char *s2);
 void		ft_free_char_array(char **array);
+int			search_char(char *str, char c);
+int			ft_strlen_to_char(char *str, char c);
 // void		ft_free_array(void array, int len);
 
 /***** UTILS_SHORTCUT_FTS.C *****/
@@ -131,6 +135,7 @@ char		*ft_join_shortcut(char *str1, char *str2);
 void			ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb);
 void			ft_lstclear_cmd_list(t_cmd_lst **lst);
 t_cmd_lst		*ft_lstnew_cmd_list(void);
+size_t			get_size_lst(t_prg *data);
 
 /***** ENV_LIST.C *****/
 
@@ -211,16 +216,23 @@ void		_unset_env(t_prg *prg, size_t i);
 void		_unset_env_parent(t_prg *prg);
 int			_export_env(t_prg *prg);
 int			_export_env_parse(t_prg *prg);
-void		_lst_add_env(t_prg *prg, int i, int boole, char **result);
+void		_add_env(t_prg *prg, int i);
 int			_is_name_in_env(t_prg *prg, char *name_to_find);
 void		_set_content_env(t_env_lst *node, char *content, char **content2d, int mode);
 int			_echo_exe(t_prg *data, int i);
 int			_pwd_exe();
 int			_ch_dir(t_prg *data);
+void		_add_node(char *name, char *content, t_prg *prg);
 
 /***** EXECUTIONS.C *****/
 
-void _ft_execution(t_prg prg);
+void		_ft_exe(t_prg *data);
+void		_wait_pids(t_prg data);
+int			_execute_cmds(t_prg *data, size_t i);
+
+/***** FREE_EXECUTIONS.C *****/
+
+void		_ft_free_exe(t_prg *data);
 
 
 #endif

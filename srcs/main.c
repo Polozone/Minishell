@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 16:47:37 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/25 16:52:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,18 @@ void	_sig_handler()
 	sigaction(SIGINT, &sa, NULL);
 }
 
+void	_wait_pids(t_prg data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data.cmd_nbr)
+	{
+		waitpid(data.pid[i], NULL, 0);
+		i++;
+	}
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
@@ -75,11 +87,13 @@ int main(int ac, char **av, char **env)
 	{
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
-		// printf("%s\n", prg.line);
 		if (prg.line == NULL)
 			exit (0);
 		add_history(prg.line);
 		ft_parse(&prg);
-		// 	// ft_free_parsing(&prg);
+		// _ft_exe(&prg);
+		// _ft_free_exe(&prg);
+		// _wait_pids(prg);
+		// ft_free_parsing(&prg);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 08:49:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 14:37:51 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/25 16:52:18 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void		ft_find_path(t_prg *prg, t_cmd_lst *cmd_list)
 	cmd_list->path = NULL;
 }
 
-static void	ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split, t_token *line_token)
+static void ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split, t_token *line_token)
 {
 	int	cmd_dep_ct;
 	int	i;
