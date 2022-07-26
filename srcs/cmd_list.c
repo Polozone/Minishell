@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:27:13 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/14 15:15:22 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:12:02 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,21 @@ void	ft_add_back_cmd_list(t_cmd_lst **alpha, t_cmd_lst *newb)
 	}
 }
 
+size_t	get_size_lst(t_prg *data)
+{
+	t_cmd_lst	*tmp;
+	size_t		cnt;
+
+	tmp = data->cmd_list;
+	cnt = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		cnt++;
+	}
+	return (cnt);
+}
+
 t_cmd_lst	*ft_lstnew_cmd_list(void)
 {
 	t_cmd_lst	*cmd;
@@ -55,12 +70,12 @@ t_cmd_lst	*ft_lstnew_cmd_list(void)
 	cmd->path = 0;
 	cmd->file = 0;
 	cmd->redir_type = 0;
+	cmd->redir_nbr = 0;
 	cmd->is_cmd_builtin = 0;
+	cmd->heredoc_delimiter = 0;
 	cmd->next = NULL;
 	return (cmd);
 }
-
-
 
 void	ft_lstclear_cmd_list(t_cmd_lst **lst)
 {

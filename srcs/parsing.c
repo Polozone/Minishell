@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:42:34 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/16 11:32:52 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/18 17:00:37 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_cmd_lst	*ft_create_cmd_lst(t_prg *prg)
 
 	prg->cmd_list = ft_lstnew_cmd_list();
 	i = 1;
+
 	while (i < prg->cmd_nbr)
 	{
 		ft_add_back_cmd_list(&prg->cmd_list, ft_lstnew_cmd_list());

@@ -11,8 +11,11 @@ void _print_env(t_env_lst *head)
 	tmp = head;
 	while (tmp != NULL)
 	{
-		printf("%s", tmp->name);
-		printf("%s\n", tmp->content);
+		if (tmp->content)
+		{
+			printf("%s=", tmp->name);
+			printf("%s\n", tmp->content);
+		}
 		tmp = tmp->next;
 	}
 }
@@ -27,10 +30,8 @@ void	_unset_env_parent(t_prg *prg)
 	while (i < lenght)
 	{
 		_unset_env(prg, i);
-		//printf("%s\n\n\n", prg->cmd_list->cmd_and_dep[i]);
 		i++;
 	}
-	// _print_env(prg->env_lst);
 }
 
 void	_unset_env(t_prg *prg, size_t i)
@@ -40,14 +41,14 @@ void	_unset_env(t_prg *prg, size_t i)
 
 	tmp = prg->env_lst;
 	prg->env_lst = tmp;
-	if (!strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
+	if (!ft_strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
 	{
 		prg->env_lst = ((t_env_lst*)prg->env_lst->next);
 		return ;
 	}
 	while (prg->env_lst != NULL)
 	{
-		if (!strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
+		if (!ft_strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
 		{
 			before->next = ((t_env_lst*)prg->env_lst->next);
 			break ;
@@ -58,56 +59,87 @@ void	_unset_env(t_prg *prg, size_t i)
 	prg->env_lst = tmp;
 }
 
-void	_set_content_env(t_env_lst *node, char *content, char **content2d, int mode)
+int		_parsing_export(char *cmd)
 {
-	if (mode == 1)
+	if (cmd[0] == '=')
 	{
-		if (content[0] == ' ')
-			node->content = "";
-		else
-			node->content = content;
+		printf("export: `%s': not a valid identifier\n", cmd);
+		return (1);
 	}
-	else
-	{
-		if (content[0] == ' ')
-			ft_add_back_env_list(&node, ft_lstnew_env_list(ft_strjoin(content2d[0], "="), ""));
-		else
-			ft_add_back_env_list(&node, ft_lstnew_env_list(ft_strjoin(content2d[0], "="), content2d[1]));
-	}
-
+	return (0);
 }
 
-void	_lst_add_env(t_prg *prg, int i, int boole, char **result)
+void	_add_node(char *name, char *content, t_prg *prg)
 {
-	t_env_lst *ptr_to_head;
-	t_env_lst *tmp;
+	t_env_lst	*tmp;
 
-	ptr_to_head = prg->env_lst;
 	tmp = prg->env_lst;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, name))
+		{
+			tmp->content = content;
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	ft_add_back_env_list(&prg->env_lst, ft_lstnew_env_list(name, content));
+}
+
+void	_add_env(t_prg *prg, int i)
+{
+	char	*name;
+	char	*content;
+	int		sep;
+
 	while (prg->cmd_list->cmd_and_dep[++i])
 	{
-		result = ft_split(prg->cmd_list->cmd_and_dep[i], '='); // I WILL HAVE TO FREE THAT 2D ARRAY FOR EACH ITERATION
-		boole = 0;
-		while (tmp)
-		{
-			if (!ft_strcmp(tmp->name, ft_strjoin(result[0], "="))) // if the variable we want to add is already in ENV
-			{
-				_set_content_env(tmp, result[1], NULL, 1);
-				boole = 1;
-			}
-			tmp = tmp->next;
-		}
-		if (boole != 1)
-			_set_content_env(ptr_to_head, result[1], result, 42);
-		tmp = prg->env_lst;
+		if (_parsing_export(prg->cmd_list->cmd_and_dep[i]))
+			i++ ;
+		sep = ft_strlen_to_char(prg->cmd_list->cmd_and_dep[i], '=');
+		name = ft_substr(prg->cmd_list->cmd_and_dep[i], 0, sep);
+		content = ft_substr(prg->cmd_list->cmd_and_dep[i], sep + 1, ft_strlen(prg->cmd_list->cmd_and_dep[i]) - sep);
+		_add_node(name, content, prg);
 	}
+}
+
+void	_print_env_declare(t_prg *prg)
+{
+	t_env_lst* tmp;
+
+	tmp = prg->env_lst;
+	while (tmp)
+	{
+		printf("declare -x %s", tmp->name);
+		if (tmp->content)
+			printf("=\"%s\"", tmp->content);
+		printf("\n");
+		tmp = tmp->next;
+	}
+}
+
+int		_lst_size_env(t_env_lst *head)
+{
+	t_env_lst	*tmp;
+	int			i;
+
+	tmp = head;
+	i = 0;
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
 }
 
 int		_export_env(t_prg *prg)
 {
-	//_export_env_parse(prg);
-	char **result;
-	_lst_add_env(prg, 0, 0, result);
-	_print_env(prg->env_lst);
+	if (strcmp(prg->cmd_list->cmd_and_dep[0], "export") == 0 && prg->cmd_list->cmd_and_dep[1] == NULL)
+	{
+		_print_env_declare(prg);
+		return (0);
+	}
+	_add_env(prg, 0);
 	return (0);
 }

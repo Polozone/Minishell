@@ -1,5 +1,6 @@
 SRCS =	srcs/main.c				\
 		srcs/split.c			\
+		srcs/split_charset.c	\
 		srcs/strings_manip.c	\
 		srcs/printing_ft.c		\
 		srcs/quote.c			\
@@ -9,11 +10,18 @@ SRCS =	srcs/main.c				\
 		srcs/env_list.c			\
 		srcs/fill_cmd_lst.c		\
 		srcs/redirections.c		\
+		srcs/token.c			\
+		srcs/fill_nodes.c		\
+		srcs/replace_dollz.c	\
 		srcs/parsing.c			\
+		srcs/utilis_shortcut_fts.c	\
 		builtins/env.c			\
 		builtins/echo.c			\
-		srcs/execution/ft_execution.c\
-
+		builtins/cd.c			\
+		builtins/pwd.c			\
+		srcs/execution/ft_free_execution.c			\
+		srcs/execution/ft_execution.c	\
+		srcs/execution/_execute_cmds.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -23,7 +31,9 @@ CC = gcc
 
 RM = rm -f
 
-FLAGS = -lreadline -Wall -Werror -Wextra -fsanitize=address -g3
+#FLAGS = -lreadline -Wall -Werror -Wextra -fsanitize=address -g3
+
+FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra -fsanitize=address -g3
 
 %.o.c: $(INCL) Makefile
 	$(CC) $(FLAGS) -c $< -o $@

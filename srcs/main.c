@@ -6,26 +6,13 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/16 11:22:56 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/25 16:52:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int	g_error;
-
-static void	ft_free_char_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i ++;
-	}
-	free (array);
-}
 
 void	ft_free_parsing(t_prg *prg)
 {
@@ -49,52 +36,81 @@ void	ft_free_parsing(t_prg *prg)
 	free(prg->cmd_list);*/
 }
 
+void setup_term(void) {
+    struct termios t;
+    tcgetattr(0, &t);
+    t.c_lflag &= ~ECHOCTL;
+    tcsetattr(0, TCSANOW, &t);
+}
+
+void	handle_sigstp(int sig)
+{
+	if (sig == 2)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
+void	_sig_handler()
+{
+	setup_term();
+	struct sigaction sa;
+	sa.sa_handler = &handle_sigstp;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+}
+
+void	_wait_pids(t_prg data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data.cmd_nbr)
+	{
+		waitpid(data.pid[i], NULL, 0);
+		i++;
+	}
+}
+
+void	env_to_tab(t_prg *prg)
+{
+	t_env_lst	*tmp;
+	int			size_lst;
+
+	size_lst = _lst_size_env(prg->env_lst);
+	printf("size lst == %d\n", size_lst);
+	tmp = prg->env_lst;
+	while (tmp)
+	{
+
+		printf("%s\n", tmp->name);
+		tmp = tmp->next;
+	}
+}
 
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
-	// int : kirby;
 
 	(void) ac;
 	(void) av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
+	_sig_handler();
 	while (1)
 	{
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
-		// printf("%s\n\n\n", prg.cmd_list->cmd_and_dep[0]);
-		// printf("line = %s\n", prg.line);
+		if (prg.line == NULL)
+			exit (0);
+		add_history(prg.line);
 		ft_parse(&prg);
-		prg.cmd_list->cmd_and_dep = malloc(1000);
-		prg.cmd_list->cmd_and_dep[0] = malloc(1000);
-		prg.cmd_list->cmd_and_dep[1] = malloc(1000);
-		prg.cmd_list->cmd_and_dep[2] = malloc(1000);
-		prg.cmd_list->cmd_and_dep[3] = malloc(1000);
-		prg.cmd_list->cmd_and_dep[4] = malloc(1000);
-		prg.cmd_list->cmd_and_dep[5] = malloc(1000);
-		prg.cmd_list->cmd_and_dep[0] = "echo";
-		prg.cmd_list->cmd_and_dep[1] = "blabliblouu";
-		prg.cmd_list->cmd_and_dep[2] = "mega";
-		prg.cmd_list->cmd_and_dep[3] = "echooo";
-		prg.cmd_list->cmd_and_dep[4] = "yessss";
-		prg.cmd_list->cmd_and_dep[5] = 0x0;
-		_echo_exe(&prg);
-		/*if (g_error != 258)
-		{
-		for (int i = 0; prg.cells[i]; i ++)
-			printf("%s\n", prg.cells[i]);
-		for (int i = 0; prg.cmd_list[i]; i ++)
-			for (int j = 0; prg.cmd_list[i][j]; j ++)
-				printf("%s\n", prg.cmd_list[i][j]);
-		
-		for (int i = 0; i < prg.cmd_nbr; i ++)
-			if (prg.is_cmd_builtin[i] == not_built_in)
-				printf ("nbr %d is not built in %d\n", i, prg.is_cmd_builtin[i]);
-			else
-				printf ("nbr %d is built in %d\n", i, prg.is_cmd_builtin[i]);
-		}
-		// printf("g_error = %d\n", g_error);
-		// if (g_error != 258)
-		ft_free_parsing(&prg);*/
+		_ft_exe(&prg);
+		// _ft_free_exe(&prg);
+		_wait_pids(prg);
+		ft_free_parsing(&prg);
+		env_to_tab(&prg);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 12:59:48 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/06/15 11:40:32 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/21 17:42:17 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 	env = malloc(sizeof(t_env_lst));
 	if (env == NULL)
 		exit (0);
+	env->name = malloc(ft_strlen(name) + 1);       // Auparavant ces contents n etaient pas malloc et ca marchait
+	if (env->name == NULL)
+	{
+		// TOUT FREE
+		exit (0);
+	}
+	env->content = malloc(ft_strlen(content) + 1); // on s'est dit qu on les mqlloc ici pr pouvoir tout free a la fin (possible d'enlever ces malloc pr tester)
+	if (env->content == NULL)
+	{
+		// TOUT FREE
+		exit (0);
+	}
 	env->name = name;
 	env->content = content;
 	env->next = NULL;
@@ -72,7 +84,7 @@ void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
 	name = malloc((i + 2) * sizeof(char));
 	if (name == 0)
 		exit (0);
-	name = ft_substr(line, 0, i + 1);
+	name = ft_substr(line, 0, i);
 	j = i;
 	while (line[j])
 		j ++;
@@ -110,7 +122,7 @@ t_env_lst	*ft_create_env_lst(char **envp, t_prg *prg)
 		return (ft_lstnew_env_list(0, 0));
 	}
 	ft_make_elem(envp[0], &prg->env_lst, 0);
-	while(envp[i])
+	while (envp[i])
 	{
 		ft_make_elem(envp[i], &prg->env_lst, i);
 		i ++;
