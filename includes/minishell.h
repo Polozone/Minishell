@@ -32,6 +32,9 @@
 # define TWO_RED 4
 # define SYNT_ER 5
 
+# define STDIN 0
+# define STDOUT 1
+
 typedef enum	s_bool
 {
 	true,
@@ -77,14 +80,16 @@ typedef enum	s_redir
 
 typedef struct l_cmd_list
 {
-	char		**cmd_and_dep;	// command and his flags ___ exemple => (s1)unset (s2)variable
-	char		*path;			// path to the command (extract of PATH= in env variables)
-	char		**file;			// duble char array of each files -> infile and outfile (write at the last outfile)
-	int			redir_nbr;		// nbr on redirections
-	t_redir		*redir_type;	// enum to know the nature of the redirection
+	char		**cmd_and_dep;		// command and his flags ___ exemple => (s1)unset (s2)variable
+	char		*path;				// path to the command (extract of PATH= in env variables)
+	char		**file;				// duble char array of each files -> infile and outfile (write at the last outfile)
+	int			redir_nbr;			// nbr of redirections
+	t_redir		*redir_type;		// enum to know the nature of the redirection
 	char		*heredoc_delimiter; //the heredoc delimiter
-	t_builtin	is_cmd_builtin; // enum to know if the command is a builtins and the nature of the builtins.
+	t_builtin	is_cmd_builtin; 	// enum to know if the command is a builtins and the nature of the builtins.
 	void		*next;
+	int			infile;
+	int			outfile;
 }				t_cmd_lst;
 
 typedef struct	l_env_list
@@ -147,6 +152,7 @@ t_env_lst			*ft_lstnew_env_list(char *name, char *content);
 void				ft_make_elem(char *line, t_env_lst **env_lst, int index);
 t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
 t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
+int					_lst_size_env(t_env_lst *head);
 
 
 /***** FILL_CMD_LST.C *****/
@@ -228,7 +234,7 @@ void		_add_node(char *name, char *content, t_prg *prg);
 
 void		_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
-int			_execute_cmds(t_prg *data, size_t i);
+int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 
 /***** FREE_EXECUTIONS.C *****/
 

@@ -75,6 +75,22 @@ void	_wait_pids(t_prg data)
 	}
 }
 
+void	env_to_tab(t_prg *prg)
+{
+	t_env_lst	*tmp;
+	int			size_lst;
+
+	size_lst = _lst_size_env(prg->env_lst);
+	printf("size lst == %d\n", size_lst);
+	tmp = prg->env_lst;
+	while (tmp)
+	{
+
+		printf("%s\n", tmp->name);
+		tmp = tmp->next;
+	}
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
@@ -93,7 +109,8 @@ int main(int ac, char **av, char **env)
 		ft_parse(&prg);
 		_ft_exe(&prg);
 		// _ft_free_exe(&prg);
-		// _wait_pids(prg);
-		// ft_free_parsing(&prg);
+		_wait_pids(prg);
+		ft_free_parsing(&prg);
+		env_to_tab(&prg);
 	}
 }
