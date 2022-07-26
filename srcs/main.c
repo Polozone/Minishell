@@ -72,15 +72,13 @@ int main(int ac, char **av, char **env)
 		prg.cmd_list->cmd_and_dep[3] = malloc(1000);
 		prg.cmd_list->cmd_and_dep[4] = malloc(1000);
 		prg.cmd_list->cmd_and_dep[5] = malloc(1000);
-		prg.cmd_list->cmd_and_dep[0] = "export";
-		prg.cmd_list->cmd_and_dep[1] = "a=CONTENT1";
-		prg.cmd_list->cmd_and_dep[2] = "b= CONTENT2";
-		prg.cmd_list->cmd_and_dep[3] = "c=CONTENT3";
-		prg.cmd_list->cmd_and_dep[4] = "ddddd=CONTENT4";
-		prg.cmd_list->cmd_and_dep[5] = NULL;
-		// _unset_env_parent(&prg);
-		_export_env(&prg);
-		// _ft_execution(prg);
+		prg.cmd_list->cmd_and_dep[0] = "echo";
+		prg.cmd_list->cmd_and_dep[1] = "blabliblouu";
+		prg.cmd_list->cmd_and_dep[2] = "mega";
+		prg.cmd_list->cmd_and_dep[3] = "echooo";
+		prg.cmd_list->cmd_and_dep[4] = "yessss";
+		prg.cmd_list->cmd_and_dep[5] = 0x0;
+		_echo_exe(&prg);
 		/*if (g_error != 258)
 		{
 		for (int i = 0; prg.cells[i]; i ++)

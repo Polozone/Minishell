@@ -161,7 +161,7 @@ int			_export_env_parse(t_prg *prg);
 void		_lst_add_env(t_prg *prg, int i, int boole, char **result);
 int			_is_name_in_env(t_prg *prg, char *name_to_find);
 void		_set_content_env(t_env_lst *node, char *content, char **content2d, int mode);
-
+void    	_echo_exe(t_prg *data);
 
 /***** EXECUTIONS.C *****/
 
