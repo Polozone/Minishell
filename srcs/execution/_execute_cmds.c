@@ -93,7 +93,18 @@ int		_is_outfile(t_cmd_lst *tmp)
 void	_ft_execve(t_prg *data)
 {
 	int i = 0;
+	dprintf(2, "\n\n\n\n");
 
+	while (data->cmd_list->cmd_and_dep[i])
+	{
+		dprintf(2, "varzzz=)%s\n", data->cmd_list->cmd_and_dep[i]);
+		i++;
+	}
+	dprintf(2, "last term=)%s\n", data->cmd_list->cmd_and_dep[i]);
+	dprintf(2, "\n\n\n\n");
+	// dprintf(2, "path == %s\n", data->cmd_list->path);
+	if (execve(data->cmd_list->path, data->cmd_list->cmd_and_dep, data->envp) == -1)
+		write(2, "Execve Failed to run\n", 21);
 }
 
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
@@ -103,13 +114,13 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	{
 		tmp->infile = open(tmp->file[_last_infile(tmp) - 1], O_RDWR);
 		int check = dup2(tmp->infile, 0);
-		printf("\ncheck == %d\n", check);
+		// printf("\ncheck == %d\n", check);
 	}
 	if (_is_outfile(tmp))
 	{
 		tmp->outfile = open(tmp->file[_last_outfile(tmp)], O_CREAT | O_RDWR, 0644);
 		int check = dup2(tmp->outfile, 1);
-		printf("\ncheck == %d\n", check);
+		// printf("\ncheck == %d\n", check);
 	}
 	// dprintf(1, "CECI EST UN TEST");
 	_ft_execve(data);
