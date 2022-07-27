@@ -83,7 +83,6 @@ void	env_to_tab(t_prg *prg)
 
 	size_lst = _lst_size_env(prg->env_lst);
 	prg->envp = malloc((sizeof(char *)) * size_lst + 1);
-	//printf("size lst == %d\n", size_lst);
 	tmp = prg->env_lst;
 	i = 0;
 	while (tmp)
@@ -93,12 +92,6 @@ void	env_to_tab(t_prg *prg)
 		i++;
 	}
 	prg->envp[i] = 0;
-	i = 0;
-	while (prg->envp[i])
-	{
-		// printf("%s\n", prg->envp[i]);
-		i++;
-	}
 }
 
 int main(int ac, char **av, char **env)
@@ -119,7 +112,7 @@ int main(int ac, char **av, char **env)
 		ft_parse(&prg);
 		env_to_tab(&prg);
 		_ft_exe(&prg);
-		// _ft_free_exe(&prg);
+		_ft_free_exe(&prg);
 		_wait_pids(prg);
 		ft_free_parsing(&prg);
 	}

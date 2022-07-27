@@ -61,19 +61,27 @@ void	_ft_forks(t_prg *data)
 	}
 }
 
+void	_set_index_list(t_prg *data)
+{
+	t_cmd_lst	*tmp;
+	int			i;
+
+	tmp = data->cmd_list;
+	i = 0;
+	while (tmp)
+	{
+		tmp->index = i;
+		i++;
+		tmp = tmp->next;
+	}
+}
+
 void _ft_exe(t_prg *data)
 {
 	data->cmd_nbr = get_size_lst(data);
+	_set_index_list(data);
 	data->pipe = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PIPES FOR EACH CMD
 	init_pipe(data);
-	int i = 0;
-	while (i < (data->cmd_nbr - 1) * 2)
-	{
-		// printf("%d\n", data->pipe[i]);
-		i++;
-	}
-	t_cmd_lst *tmp;
-	tmp = data->cmd_list;
 	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
 	_ft_forks(data);
 }

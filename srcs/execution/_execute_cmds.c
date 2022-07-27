@@ -36,110 +36,80 @@ void	_init_fd(t_prg *data)
 	}
 }
 
-int		_last_infile(t_cmd_lst *tmp)
+void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
-	int		i;
-
-	i = 0;
-	while (i < tmp->redir_nbr && tmp->redir_type[i] == 0)
-		i++;
-	return (i);
-}
-
-int		_last_outfile(t_cmd_lst *tmp)
-{
-	int		i;
-	int		buffer;
-
-	i = 0;
-	buffer = 0;
-	while (i < tmp->redir_nbr)
-	{
-		if (tmp->redir_type[i] == 1 || tmp->redir_type[i] == 2)
-			buffer = i;
-		i++;
-	}
-	return (buffer);
-}
-
-int		_is_infile(t_cmd_lst *tmp)
-{
-	int		i;
-
-	i = 0;
-	while (i < tmp->redir_nbr)
-	{
-		if (tmp->redir_type[i] == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int		_is_outfile(t_cmd_lst *tmp)
-{
-	int		i;
-
-	i = 0;
-	while (i < tmp->redir_nbr)
-	{
-		if (tmp->redir_type[i] == 1 || tmp->redir_type[i] == 2)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	_ft_execve(t_prg *data)
-{
-	int i = 0;
-	dprintf(2, "\n\n\n\n");
-
-	while (data->cmd_list->cmd_and_dep[i])
-	{
-		dprintf(2, "varzzz=)%s\n", data->cmd_list->cmd_and_dep[i]);
-		i++;
-	}
-	dprintf(2, "last term=)%s\n", data->cmd_list->cmd_and_dep[i]);
-	dprintf(2, "\n\n\n\n");
-	// dprintf(2, "path == %s\n", data->cmd_list->path);
-	if (execve(data->cmd_list->path, data->cmd_list->cmd_and_dep, data->envp) == -1)
+	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 		write(2, "Execve Failed to run\n", 21);
 }
+
+void	_set_dup_infile(t_cmd_lst *node)
+{
+	if (_is_infile(node))
+	{
+		node->infile = open(node->file[_last_infile(node) - 1], O_RDWR);
+		if (dup2(node->infile, 0) == -1)
+		{
+			write(2, "dup2 failed to run\n", 19);
+			// FREE AND EXIT
+		}
+	}
+}
+
+void	_set_dup_outfile(t_cmd_lst *node)
+{
+	if (_is_outfile(node))
+	{
+		node->outfile = open(node->file[_last_outfile(node)], O_CREAT | O_RDWR, 0644);
+		if (dup2(node->outfile, 1) == -1)
+		{
+			write(2, "dup2 failed to run\n", 19);
+			// FREE AND EXIT
+		}
+	}
+}
+
+void	_setup_dup_pipe(t_cmd_lst *node, t_prg *data)
+{
+	if (!_is_infile(node) && node->index == 0)
+	{
+		dprintf(2, "NO INFILE AND FIRST NODE (%s)\n", node->cmd_and_dep[0]);
+		dup2(data->pipe[1], 0);
+	}
+	else if (!_is_outfile(node) && (node->index + 1) == data->cmd_nbr)
+	{
+		dprintf(2, "NO OUTFILE AND LAST NODE (%s)\n", node->cmd_and_dep[0]);
+		dup2(1, data->pipe[(node->index - 1) * 2]);
+	}
+	else 
+	{
+		dup2(data->pipe[(node->index * 2)], 0);
+		dup2(data->pipe[node->index + 1], 1);
+	 	dprintf(2, "inside NODE(%s)\n", node->cmd_and_dep[0]);
+	}
+}
+
+// 				L   E
+// i =	0   	0   1
+// i = 1	    2   3
+// i = 2	    4   5
+// i = 3	    6   7
+// i = 4		8   9
+// i = 5		10  11   
+// i = 6		12	13
 
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	_init_fd(data);
-	if (_is_infile(tmp))
-	{
-		tmp->infile = open(tmp->file[_last_infile(tmp) - 1], O_RDWR);
-		int check = dup2(tmp->infile, 0);
-		// printf("\ncheck == %d\n", check);
-	}
-	if (_is_outfile(tmp))
-	{
-		tmp->outfile = open(tmp->file[_last_outfile(tmp)], O_CREAT | O_RDWR, 0644);
-		int check = dup2(tmp->outfile, 1);
-		// printf("\ncheck == %d\n", check);
-	}
-	// dprintf(1, "CECI EST UN TEST");
-	_ft_execve(data);
-	// _last_infile(tmp);
-	
-	// printf("redir nbr == %d (%s)", tmp->redir_nbr, tmp->cmd_and_dep[0]);
-	// while (i < tmp->redir_nbr)
-	// {
-	// 	printf("(%s)redir type == %d\n", tmp->cmd_and_dep[0], tmp->redir_type[i]);
-	// 	i++;
-	// }
-	// printf("\n\n\n");
+	_setup_dup_pipe(tmp, data);
+	_set_dup_infile(tmp);
+	_set_dup_outfile(tmp);
+	close_pipe(data);
+	_ft_execve(data, tmp);
 	return ;
 }
 
 int		_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp)
 {
 	_set_fd(tmp, data);
-	close_pipe(data);
-	exit(0);
 	return (0);
 }
