@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 08:26:55 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/28 10:02:44 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/28 18:09:09 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ char	*ft_get_var_name(char *line, int index)
 			i --;
 			break;
 		}
+		else if (ft_isalnum(line[i]) == false && line[i] != '_')
+		{
+			i --;
+			break;
+		}
 		i ++;
 	}
 	if (i == 0)
@@ -66,88 +71,59 @@ int	ft_scnd_q(char *line, int index, char q_type)
 	i = index;
 	while (line[i] && line[i] != q_type)
 		i ++;
-	return (i - 1);	
+	return (i);	
 }
 
-char	*ft_strins(char *line, char *to_expend, int index)
+static char	*ft_d_q_var(char *line, int index, char *content)
 {
-	int	i;
-	int	start;
-	int end;
-
-	i = index;
-	start = 0;
-	end = index;
-	while (line[i] != '\'')
-		i ++;
-	while (line[start] && line[start] == '\"')
-		start ++;
-	while (line[end] && line[end] != '\"')
-		end ++;
-	return (ft_join_shortcut(ft_join_shortcut(ft_substr(line, start, index - start), ft_strdup(to_expend)), ft_substr(line, i, end - i)));
-}
-
-char	*ft_double_quoting(char	*line, char *to_expend, int index)
-{
-	int	i;
-	int	qt_ct;
-	int	start;
-	int	end;
-
-	i = index;
-	qt_ct = 0;
-	while (line[i])
-	{
-		if (line[i] == '\'' || line[i] == '\"')
-			qt_ct ++;
-		if (qt_ct == 2)
-		{
-			end = i;
-			break;
-		}
-		i ++;
-	}
-	while (--i > 0 && line[i] != line[end])
-		;
-	start = i;
-	if (line[i] == '\'')
-	{
-		// printf("test\n");
-		return (ft_substr(line, start + 1, end - (start + 1)));
-	}
-	else if (line[i] == '\"')
-		return (ft_strins(line, to_expend, index));
-	return (NULL);
-}
-
-char	*ft_wrong_var_in_both_quote(char *line, int index)
-{
-	int		i;
-	int		start;
 	char	*new_line;
+	int		i;
+	int		fst_qt;
+	int		scd_qt;
 
-	i = index;
-	start = index + 1;
-	while (line[i])
-	{
-		if (line[i] == '\"')
-			return (ft_substr(line, ft_frst_q(line, index, '\''),
-			ft_scnd_q(line, index, '\'') - ft_frst_q(line, index, '\'') + 1));
-		else if (line[i] == '\'')
-		{
-			new_line = ft_substr(line, ft_frst_q(line, index, '\"'),
-			index - ft_frst_q(line, index, '\"'));
-			while (line[start] && ft_isalnum(line[start]) == true)
-				start ++;
-			return (ft_join_shortcut(new_line, ft_substr
-			(line, start, (ft_scnd_q(line, index, '\"') + 1) - start)));
-		}
+	i = index + 1;
+	new_line = NULL;
+	fst_qt = ft_frst_q(line, index, '\"');
+	scd_qt = ft_scnd_q(line, index, '\"');
+	if (index !=  ft_frst_q(line, index, '\"'))
+		new_line = ft_join_shrtct(ft_substr(line, fst_qt, (index - 1) - fst_qt), ft_strdup(content));
+	else 
+		new_line = ft_strdup(content);
+	printf("line premier join = %s\n", new_line);
+	while (line[i] && ft_isalnum(line[i]) == true)
 		i ++;
-	}
-	return (NULL);
+	if (i < scd_qt)
+		new_line = ft_join_shrtct(new_line, ft_substr(line, i, scd_qt - i));
+	printf("line second join = %s\n", new_line);
+	return (new_line);
 }
 
-char	*ft_expend(t_prg *prg, char *line, int index, t_var_quote mark)
+char	*ft_add_to_next_dollar(char *line, int index)
+{
+	int			i;
+	int			next_dollz;
+	t_var_quote	quote;
+
+	i = index + 1;
+	while ((line[i])
+	&& (ft_isalnum(line[i]) == true || line[i] == '_'))
+		i ++;
+	next_dollz = i;
+	while (line[next_dollz] && line[next_dollz] != '$')
+		next_dollz ++;
+	if (next_dollz == 0)
+		return (ft_strdup(""));
+	ft_is_in_quote(line, index, &quote);
+	printf("i = %d, next_dollz = %d index = %d\n", i, next_dollz, index);
+	if (quote == in_single)
+		return (ft_substr(line, i, ft_frst_q(line, i, '\'')) - i);
+	else if (quote == in_double)
+		return (ft_substr(line, i, ft_frst_q(line, i, '\"')) - i);
+	else
+		return (ft_substr(line, i, next_dollz - i));
+}
+
+char	*ft_expend(t_prg *prg, char *line, int index, t_var_quote quote_type)
 {
 	t_env_lst	*env_lst;
 	char		*var_name;
@@ -155,60 +131,84 @@ char	*ft_expend(t_prg *prg, char *line, int index, t_var_quote mark)
 
 	env_lst = prg->env_lst;
 	var_name = ft_get_var_name(line, index);
+	printf("var_name = %s\n", var_name);
+	new_line = NULL;
+	if (quote_type == in_single)
+	{
+		new_line = ft_substr(line, ft_frst_q(line, index, '\''),
+		ft_scnd_q(line, index, '\'') - ft_frst_q(line, index, '\''));
+		return (ft_join_shrtct(new_line, ft_add_to_next_dollar(line, index)));
+	}
 	while (env_lst != NULL)
 	{
 		if (ft_strcmp(env_lst->name, var_name) == 0)
 		{
-			if (mark == not_in_quote)
-				new_line = ft_strdup(env_lst->content);
-			else if (mark == in_double)
-				new_line = ft_strdup(env_lst->content);
-			else if (mark == in_both)
-				new_line = ft_double_quoting(line, env_lst->content,index);
+			if (quote_type == not_in_quote)
+				new_line = ft_join_shrtct(ft_strdup(env_lst->content), ft_add_to_next_dollar(line, index));
+			else if (quote_type == in_double)
+				new_line = ft_d_q_var(line, index, env_lst->content);
 			free(var_name);
 			return (new_line);
 		}
 		env_lst = env_lst->next;
 	}
-	if (env_lst == NULL && mark == in_both)
-	{
-		printf("ACAB\n");
-		return (ft_wrong_var_in_both_quote(line, index));
-	}
+	if (quote_type == in_double)
+		return (ft_d_q_var(line, index, ""));
 	return (ft_strdup(""));
 }
 
 char	*ft_expend_or_not_expend(t_prg *prg, char *line, int index)
 {
-	if (ft_is_in_double(line, index) == false && ft_is_in_single(line, index) == false)
-	{
-		printf("nik ses morts\n");
-		return (ft_expend(prg, line, index, not_in_quote));
-	}
-	else if (ft_is_in_double(line, index) == true && ft_is_in_single(line, index) == true)
-	{
-		printf("IN BOTH\n");
-		return (ft_expend(prg, line, index, in_both));
-	}
-	else if (ft_is_in_double(line, index) == true && ft_is_in_single(line, index) == false)
-		return (ft_expend(prg, line, index, in_double));
-	else if (ft_is_in_double(line, index) == false && ft_is_in_single(line, index) == true)
-	{
-		return (ft_substr(line, ft_frst_q(line, index, '\''),
-		ft_scnd_q(line, index, '\'') - ft_frst_q(line, index, '\'') + 1));
-		// return (ft_expend(prg, line, index, in_single));
-	}
+	t_var_quote quote;
+
+	if (ft_is_in_quote(line, index, &quote) == false)
+		return (ft_expend(prg, line, index, quote));
+	else if (ft_is_in_quote(line, index, &quote) == true)
+		return (ft_expend(prg, line, index, quote));
 	return (NULL);
 }
 
-char	*ft_concatenate_array(char **new_lines, int new_lines_len)
+char	*ft_add_line_start(char *line)
 {
-	int		i;
-	char	*new_line;
+	int			i;
+	int			fst_q;
+	t_var_quote	quote;
 
-	i = 1;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			if (ft_is_in_quote(line, i, &quote) == false)
+				return (NULL);
+			if (quote == in_single)
+				fst_q = ft_frst_q(line, i, '\'');
+			else if (quote == in_double)
+				fst_q = ft_frst_q(line, i, '\"');
+			break;
+		}
+		i ++;
+	}
+	if (fst_q > 1)
+		return (ft_substr(line, 0, fst_q - 1));
+	else
+		return (NULL);
+}
 
-	new_line = ft_strdup(new_lines[0]);
+char	*ft_concatenate_array(char **new_lines, int new_lines_len, char *line)
+{
+	int			i;
+	char		*new_line;
+	
+	new_line = ft_add_line_start(line);
+	// printf("test %s\n", new_line);
+	if (new_line == NULL)
+	{
+		new_line = ft_strdup(new_lines[0]);
+		i = 1;
+	}
+	else
+		i = 0;
 	while (new_lines[i] && i < new_lines_len)
 	{
 		new_line = ft_strjoin(new_line, new_lines[i]);
@@ -240,7 +240,7 @@ char	*ft_forge_new_line(t_prg *prg, char *line)
 		i ++;
 	}
 	new_lines[j] = 0;
-	new_line = ft_concatenate_array(new_lines, new_lines_len);
+	new_line = ft_concatenate_array(new_lines, new_lines_len, line);
 	ft_free_char_array(new_lines);
 	return (new_line);
 }

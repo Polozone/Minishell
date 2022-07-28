@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/28 10:18:31 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/28 18:00:32 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ t_bool		ft_isalnum(int c);
 
 /***** UTILS_SHORTCUT_FTS.C *****/
 
-char		*ft_join_shortcut(char *str1, char *str2);
+char		*ft_join_shrtct(char *str1, char *str2);
 
 /***** CMD_LIST.C *****/
 
@@ -191,9 +191,9 @@ void		ft_parse(t_prg *prg);
 
 /***** QUOTE.C *****/
 
-t_bool		ft_is_in_single(const char *line, int index);
-t_bool		ft_is_in_double(const char *line, int index);
-t_bool		ft_is_in_quote(const char *line, int index);
+// t_bool		ft_is_in_quote(const char *line, int index);
+// t_bool		ft_is_in_quote(const char *line, int index);
+t_bool			ft_is_in_quote(char *line, int index, t_var_quote *quote);
 
 /***** PIPE_ERROR.C *****/
 
