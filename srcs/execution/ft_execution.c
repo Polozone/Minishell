@@ -52,10 +52,7 @@ void	_ft_forks(t_prg *data)
 			exit (0);
 		}
 		if (data->pid[i] == 0)
-		{
 			_execute_cmds(data, i, tmp);
-			exit (0);
-		}
 		tmp = tmp->next;
 		i++;
 	}
@@ -80,7 +77,6 @@ void _ft_exe(t_prg *data)
 {
 	data->cmd_nbr = get_size_lst(data);
 	_set_index_list(data);
-	data->pipe = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PIPES FOR EACH CMD
 	init_pipe(data);
 	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
 	_ft_forks(data);
