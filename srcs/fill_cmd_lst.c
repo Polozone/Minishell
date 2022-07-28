@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 17:13:02 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/27 13:23:06 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,6 @@ void	ft_fill_cmd_lst(t_prg *prg)
 				printf("redir_type[%d] = %u\n", i, buff2->redir_type[i]);
 		if (buff2->is_cmd_builtin != 0)
 			printf("is_cmd_builtin = %d\n", buff2->is_cmd_builtin);
-		if (buff2->heredoc_delimiter != 0)
-			printf("heredoc truc = %s\n", buff2->heredoc_delimiter);
 		buff2 = buff2->next;
 	}
 	// ft_free_array(prg->path_list);

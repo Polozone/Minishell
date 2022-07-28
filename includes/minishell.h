@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 14:29:15 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/28 10:18:31 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ typedef struct l_cmd_list
 	char		**file;			// duble char array of each files -> infile and outfile (write at the last outfile)
 	int			redir_nbr;		// nbr on redirections
 	t_redir		*redir_type;	// enum to know the nature of the redirection
-	char		*heredoc_delimiter; //the heredoc delimiter
 	t_builtin	is_cmd_builtin; // enum to know if the command is a builtins and the nature of the builtins.
 	void		*next;
 }				t_cmd_lst;
@@ -124,6 +123,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 void		ft_free_char_array(char **array);
 int			search_char(char *str, char c);
 int			ft_strlen_to_char(char *str, char c);
+t_bool		ft_isalnum(int c);
 // void		ft_free_array(void array, int len);
 
 /***** UTILS_SHORTCUT_FTS.C *****/
@@ -153,6 +153,10 @@ t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 
 void		ft_fill_cmd_lst(t_prg *prg);
 
+/***** FILL_FILES.C *****/
+
+void				ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token, int len);
+
 /***** FILL_NODES.C *****/
 
 void				ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
@@ -162,7 +166,7 @@ void				ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
 
 t_token				ft_redir_token(char *word);
 t_token				*ft_assign_token(char **line_split, t_token *line_token);
-int					ft_count_token(t_token *line_token, t_token token_name, int len);
+int					ft_count_token(t_token *line_token, t_token token_name, char **line_split, int len);
 
 /***** SPLIT.C *****/
 

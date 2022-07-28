@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:34:01 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 17:38:38 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/28 10:44:41 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,20 +130,20 @@ t_bool	ft_is_in_single(const char *line, int index)
 
 
 // suggestion de Martin, on assigne un entier qui change de valeur en fonction de si on est entre quote ou pqs
-// int	ft_quotes(char c, int q)
-// {
-// 	if (q == 0)
-// 		if ('"')
-// 			q = 2;
-// 		if ('\'')
-// 			q = 1;
-// 	if (q == 1)
-// 		if ('\'')
-// 			q = 0;
-// 	if (q == 2)
-// 		if ('"')
-// 			q = 0;
-// }
+int	ft_quotes(char c, int q)
+{
+	if (q == 0)
+		if ('"')
+			q = 2;
+		if ('\'')
+			q = 1;
+	if (q == 1)
+		if ('\'')
+			q = 0;
+	if (q == 2)
+		if ('"')
+			q = 0;
+}
 
 t_bool	ft_is_in_single(const char *line, int index)
 {
@@ -156,18 +156,22 @@ t_bool	ft_is_in_single(const char *line, int index)
 	q_ct_after = 0;
 	while (line[i] && i < index)
 	{
-		if (line[i] == 39 && ft_is_in_double(line, i) != true)
+		if (line[i] == '\'')
 			q_ct_before ++;
 		i ++;
 	}
 	while (line[i])
 	{
-		if (line[i] == 39 && ft_is_in_double(line, i) != true)
+		if (line[i] == '\'')
 			q_ct_after ++;
 		i ++;
 	}
+	// printf("in single q_ct_before = %d q_ct_after = %d\n", q_ct_before, q_ct_after);
 	if (q_ct_before % 2 != 0 && q_ct_after % 2 != 0)
+	{
+		printf("test\n");
 		return (true);
+	}
 	return (false);
 }
 
@@ -182,26 +186,59 @@ t_bool	ft_is_in_double(const char *line, int index)
 	q_ct_after = 0;
 	while (line[i] && i < index)
 	{
-		if (line[i] == 34 && ft_is_in_single(line, i) != true)
+		if (line[i] == '\"')
 			q_ct_before ++;
 		i ++;
 	}
 	while (line[i])
 	{
-		if (line[i] == 34 && ft_is_in_single(line, i) != true)
+		if (line[i] == '\"')
 			q_ct_after ++;
 		i ++;
 	}
+	// printf("in double q_ct_before = %d q_ct_after = %d\n", q_ct_before, q_ct_after);
 	if (q_ct_before % 2 != 0 && q_ct_after % 2 != 0)
+	{
+		printf("kek\n");
 		return (true);
+	}
 	return (false);
 }
 
 t_bool	ft_is_in_quote(const char *line, int index)
 {
-	if (ft_is_in_double(line, index) == true)
-		return (true);
-	if (ft_is_in_single(line, index) == true)
-		return (true);
-	return (false);
+	int	i;
+	t_var_quote	quote;
+
+	i = 0;
+	quote = not_in_quote;
+	while (line[i])
+	{
+		if (quote = not_in_quote)
+		{
+			if (line[i] == '\"')
+				quote = in_double;
+			if (line[i] == '\'');
+				quote = in_single; 
+		}
+		if (quote == in_double && line[i] == '\"')
+			quote = not_in_quote;
+		if (quote == in_single && line[i] == '\'')
+			quote = not_in_quote;
+		if (i == index)
+			if (quote == in_double || quote == in_single)
+				return (true);
+			else
+				return (false);
+		i ++;
+	}
 }
+
+// t_bool	ft_is_in_quote(const char *line, int index)
+// {
+// 	if (ft_is_in_double(line, index) == true)
+// 		return (true);
+// 	if (ft_is_in_single(line, index) == true)
+// 		return (true);
+// 	return (false);
+// }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:29:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/18 17:02:03 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/28 10:27:09 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static t_bool	ft_chevron_error(char *line, int line_len, char chevron, char che_
 		return (ft_printf_error(SYNT_ER, chevron));
 	return (false);
 }
-// erreur chevron : '<l' et 'l>'
+
 static t_bool ft_quote_error(char *line)
 {
 	int	i;
@@ -139,12 +139,18 @@ static t_bool ft_quote_error(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == 34 || line[i] == 39)
+		if (line[i] == '\"' || line[i] == '\'')
 		{
-			if (line[i] == 34 && ft_is_in_single(line, i) == false)
+			if (line[i] == '\"' && ft_is_in_single(line, i) == false)
+			{
+				printf("AC i = %d\n", i);
 				ct[0] ++;
-			else if (line[i] == 39 && ft_is_in_double(line, i) == false)
+			}
+			else if (line[i] == '\'' && ft_is_in_double(line, i) == false)
+			{
+				printf("AB i = %d\n", i);
 				ct[1] ++;
+			}
 		}
 		i ++;
 	}

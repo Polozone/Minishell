@@ -6,21 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 08:49:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 16:52:18 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/28 10:19:16 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static unsigned int	ft_go_to_chev_end(char *file_name)
-{
-	int	i;
-
-	i = 0;
-	while (file_name[i] == '<' || file_name[i] == '>')
-		i ++;
-	return (i);
-}
 
 static void		ft_find_path(t_prg *prg, t_cmd_lst *cmd_list)
 {
@@ -72,34 +62,6 @@ static void ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split, t_token *
 		}
 	}
 	cmd_lst->cmd_and_dep[j] = 0;
-}
-
-static void	ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token, int len)
-{
-	int	i;
-	int	file_ct;
-	int file_nbr;
-
-	i = 0;
-	file_nbr = ft_count_token(line_token, red, len) + ft_count_token(line_token, rednfile, len);
-	file_ct = 0;
-	cmd_list->file = malloc((file_nbr + 1) * sizeof(char*));
-	while (i < len)
-	{
-		if (line_token[i] == file)
-		{
-			cmd_list->file[file_ct] = ft_strdup(line_split[i]);
-			file_ct ++;
-		}
-		else if (line_token[i] == rednfile)
-		{
-			cmd_list->file[file_ct] = ft_substr(line_split[i],
-			ft_go_to_chev_end(line_split[i]), ft_strlen(line_split[i]));
-			file_ct ++;
-		}
-		i ++;
-	}
-	cmd_list->file[file_ct] = 0;
 }
 
 void	ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg)
