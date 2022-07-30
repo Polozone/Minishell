@@ -6,6 +6,8 @@ void	_set_dup_infile(t_cmd_lst *node)
 	if ((_is_infile(node)))
 	{
 		node->infile = open(node->file[_last_infile(node) - 1], O_RDWR);
+		node->redir_fd[node->index_fd] = node->infile;
+		node->index_fd++;
 		if (dup2(node->infile, 0) == -1)
 		{
 			write(2, "dup2 failed to run\n", 19);
@@ -19,7 +21,12 @@ void	_set_dup_outfile(t_cmd_lst *node, t_prg *data)
 	if (_is_outfile(node))
 	{
 		_open_all_outfile(node);
-		node->outfile = open(node->file[_last_outfile(node)], O_CREAT | O_RDWR, 0644);
+		if (node->redir_type[_last_outfile(node)] == 2)
+			node->outfile = open(node->file[_last_outfile(node)], O_CREAT | O_RDWR | O_APPEND, 0644); // DONT FORGET TO PROTECT THIS OPEN
+		else if (node->redir_type[_last_outfile(node)] == 1)
+			node->outfile = open(node->file[_last_outfile(node)], O_CREAT | O_RDWR, 0644); // DONT FORGET TO PROTECT THIS OPEN
+		node->redir_fd[node->index_fd] = node->outfile;
+		node->index_fd++;
 		if (dup2(node->outfile, 1) == -1)
 		{
 			write(2, "dup2 failed to run\n", 19);
@@ -31,31 +38,16 @@ void	_set_dup_outfile(t_cmd_lst *node, t_prg *data)
 void	_open_all_outfile(t_cmd_lst		*node)
 {
 	int i = 0;
-	while (i < node->redir_nbr)
+	while (i < node->redir_nbr - 1)
 	{
 		if (node->redir_type[i] == 1 || node->redir_type[i] == 2)
 		{
-			open(node->file[i], O_CREAT | O_RDWR, 0644);
-			dprintf(2, "%d\n", node->redir_type[i]);
+			node->redir_fd[node->index_fd] = open(node->file[i], O_CREAT | O_RDWR, 0644);
+			node->index_fd++;
 		}
 		i++;
 	}
 }
-
-// 			L   E
-// i =	0   			cmd1
-// 			0	1	pipe1
-// i = 1	       		cmd2
-// 			2	3	pipe2
-// i = 2	       		cmd3
-// 			4	5	pipe3
-// i = 3	    	   	cmd4
-// 			6	7	pipe4
-// i = 4			   	cmd5
-// 			8	9	pipe5
-// i = 5		 		cmd6
-// 			10	11	pipe6
-// i = 6				cmd7
 
 void	close_pipe(t_prg *data)
 {
@@ -134,11 +126,26 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		_redir_last_cmd(node, data);
 }
 
+void	_close_files(t_prg	*data, t_cmd_lst *node)
+{
+	int		i;
+
+	i = 0;
+	while (i < node->redir_nbr)
+	{
+		close(node->redir_fd[i]);
+		i++;
+	}
+}
+
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	close_pipe(data);
+	_close_files(data, tmp);
+	// if (tmp->is_cmd_builtin)
+	// 	dprintf(2, "ITS A BUILTIN()\n");
 	_ft_execve(data, tmp);
 	return ;
 }

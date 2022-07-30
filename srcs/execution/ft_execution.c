@@ -79,5 +79,6 @@ void _ft_exe(t_prg *data)
 	_set_index_list(data);
 	init_pipe(data);
 	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
+	data->cmd_list->redir_fd = malloc(sizeof(int) * data->cmd_list->redir_nbr);
 	_ft_forks(data);
 }
