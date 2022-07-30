@@ -52,7 +52,7 @@ void	_ft_forks(t_prg *data)
 			exit (0);
 		}
 		if (data->pid[i] == 0)
-			_execute_cmds(data, i, tmp);
+			_set_fd(tmp, data);
 		tmp = tmp->next;
 		i++;
 	}

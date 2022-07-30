@@ -236,6 +236,9 @@ void		_add_node(char *name, char *content, t_prg *prg);
 void		_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
+void		close_pipe(t_prg *data);
+void		_set_fd(t_cmd_lst *tmp, t_prg *data);
+void		_open_all_outfile(t_cmd_lst		*node);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
