@@ -232,6 +232,7 @@ int			_echo_exe(t_prg *data, int i);
 int			_pwd_exe();
 int			_ch_dir(t_prg *data);
 void		_add_node(char *name, char *content, t_prg *prg);
+void		is_builtin(t_prg data, t_cmd_lst	*node);
 
 /***** EXECUTIONS.C *****/
 

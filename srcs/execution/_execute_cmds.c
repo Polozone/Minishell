@@ -76,6 +76,7 @@ void	_init_fd(t_prg *data)
 
 void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
+	dprintf(2, "je suis un jabon");
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 		write(2, "Execve Failed to run\n", 21);
 	exit (0);
@@ -144,8 +145,7 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	_set_pipes(data, tmp);
 	close_pipe(data);
 	_close_files(data, tmp);
-	// if (tmp->is_cmd_builtin)
-	// 	dprintf(2, "ITS A BUILTIN()\n");
+	is_builtin(*data, tmp);
 	_ft_execve(data, tmp);
 	return ;
 }
