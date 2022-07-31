@@ -8,9 +8,7 @@ void	is_builtin(t_prg data, t_cmd_lst	*node)
 		if (node->is_cmd_builtin == echo)
 			_echo_exe(&data, 0);
 		if (node->is_cmd_builtin == cd)
-		{
 			_ch_dir(&data);
-		}
 		if (node->is_cmd_builtin == pwd)
 			_pwd_exe();
 		if (node->is_cmd_builtin == export)
