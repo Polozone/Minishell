@@ -27,21 +27,6 @@ void	_set_dup_outfile(t_cmd_lst *node, t_prg *data)
 	}
 }
 
-// 			L   E
-// i =	0   			cmd1
-// 			0	1	pipe1
-// i = 1	       		cmd2
-// 			2	3	pipe2
-// i = 2	       		cmd3
-// 			4	5	pipe3
-// i = 3	    	   	cmd4
-// 			6	7	pipe4
-// i = 4			   	cmd5
-// 			8	9	pipe5
-// i = 5		 		cmd6
-// 			10	11	pipe6
-// i = 6				cmd7
-
 void	close_pipe(t_prg *data)
 {
 	int		i;
@@ -86,30 +71,12 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		dup2(data->pipe[(node->index - 1) * 2], 0);
 }
 
-// 			L   E
-// i =	0   			cmd1
-// 			0	1	pipe1
-// i = 1	       		cmd2
-// 			2	3	pipe2
-// i = 2	       		cmd3
-// 			4	5	pipe3
-// i = 3	    	   	cmd4
-// 			6	7	pipe4
-// i = 4			   	cmd5
-// 			8	9	pipe5
-// i = 5		 		cmd6
-// 			10	11	pipe6
-// i = 6				cmd7
-
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
-	dprintf(2, "cmd number == %d\n", tmp->index);
 	_init_fd(data);
-	// _setup_dup_pipe(tmp, data);
-	// _set_dup_infile(tmp);
-	// _set_dup_outfile(tmp);
 	_set_pipes(data, tmp);
 	close_pipe(data);
+	is_builtin(*data, tmp);
 	_ft_execve(data, tmp);
 	return ;
 }
