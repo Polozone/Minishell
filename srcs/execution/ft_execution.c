@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-void	is_builtin(t_prg data)
+void	is_builtin(t_prg data, t_cmd_lst *node)
 {
 	if (data.cmd_list->is_cmd_builtin)
 		if (data.cmd_list->is_cmd_builtin == echo)

@@ -240,6 +240,7 @@ void		is_builtin(t_prg data, t_cmd_lst	*node);
 void		_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
+void		_set_fd(t_cmd_lst *tmp, t_prg *data);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
