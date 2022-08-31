@@ -90,6 +90,8 @@ typedef struct l_cmd_list
 	int			infile;
 	int			outfile;
 	int			index;
+	int			*redir_fd;
+	int			index_fd;
 	void		*next;
 }				t_cmd_lst;
 
@@ -231,13 +233,13 @@ int			_echo_exe(t_prg *data, int i);
 int			_pwd_exe();
 int			_ch_dir(t_prg *data);
 void		_add_node(char *name, char *content, t_prg *prg);
+void		is_builtin(t_prg data, t_cmd_lst	*node);
 
 /***** EXECUTIONS.C *****/
 
 void		_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
-void		close_pipe(t_prg *data);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
@@ -245,6 +247,7 @@ int		_last_infile(t_cmd_lst *tmp);
 int		_last_outfile(t_cmd_lst *tmp);
 int		_is_infile(t_cmd_lst *tmp);
 int		_is_outfile(t_cmd_lst *tmp);
+void	_close_files(t_prg	*data, t_cmd_lst *node);
 
 
 /***** FREE_EXECUTIONS.C *****/
