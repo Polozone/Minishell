@@ -118,7 +118,8 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	close_pipe(data);
-	is_builtin(data, tmp);
+	dprintf(2, "%s           %s\n", tmp->cmd_and_dep[0], tmp->cmd_and_dep[1]);
+	//is_builtin(data, tmp);
 	_ft_execve(data, tmp);
 	return ;
 }
