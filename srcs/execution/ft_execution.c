@@ -1,23 +1,23 @@
 
 #include "../../includes/minishell.h"
 
-void	is_builtin(t_prg data, t_cmd_lst *tmp)
+void	is_builtin(t_prg data, t_cmd_lst *node)
 {
-	if (tmp->is_cmd_builtin)
+	if (node->is_cmd_builtin)
 	{
-		if (tmp->is_cmd_builtin == echo)
+		if (node->is_cmd_builtin == echo)
 			_echo_exe(&data, 0);
-		if (tmp->is_cmd_builtin == cd)
+		if (node->is_cmd_builtin == cd)
 			_ch_dir(&data);
-		if (tmp->is_cmd_builtin == pwd)
+		if (node->is_cmd_builtin == pwd)
 			_pwd_exe();
-		if (tmp->is_cmd_builtin == export)
+		if (node->is_cmd_builtin == export)
 			_export_env(&data);
-		if (tmp->is_cmd_builtin == unset)
+		if (node->is_cmd_builtin == unset)
 			_unset_env_parent(&data);
-		if (tmp->is_cmd_builtin == env)
+		if (node->is_cmd_builtin == env)
 			_print_env(data.env_lst);
-		if (tmp->is_cmd_builtin == quit)
+		if (node->is_cmd_builtin == quit)
 			exit(0);
 		exit (0);
 	}
