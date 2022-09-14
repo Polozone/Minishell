@@ -73,6 +73,7 @@ t_cmd_lst	*ft_lstnew_cmd_list(void)
 	cmd->redir_nbr = 0;
 	cmd->is_cmd_builtin = 0;
 	cmd->heredoc_delimiter = 0;
+	cmd->index_fd = 0;
 	cmd->next = NULL;
 	return (cmd);
 }
