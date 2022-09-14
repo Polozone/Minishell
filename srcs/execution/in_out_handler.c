@@ -55,10 +55,9 @@ int		_is_outfile(t_cmd_lst *tmp)
 	return (0);
 }
 
-void	_open_all_outfile(t_cmd_lst		*node)
+void _open_all_outfile(t_cmd_lst *node)
 {
 	int i = 0;
-	while (i < node->redir_nbr)
 	while (i < node->redir_nbr - 1)
 	{
 		if (node->redir_type[i] == 1 || node->redir_type[i] == 2)

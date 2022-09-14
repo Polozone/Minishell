@@ -207,7 +207,6 @@ t_bool		ft_syntax_error(t_prg *prg);
 /***** BUILTIN_CHECK.C *****/
 
 void		ft_is_cmd_builtin(t_prg *prg, t_cmd_lst *cmd_lst);
-void		is_builtin(t_prg data, t_cmd_lst *tmp);
 
 /***** REDIRECTIONS.C *****/
 
@@ -233,7 +232,7 @@ int			_echo_exe(t_prg *data, int i);
 int			_pwd_exe();
 int			_ch_dir(t_prg *data);
 void		_add_node(char *name, char *content, t_prg *prg);
-void		is_builtin(t_prg data, t_cmd_lst	*node);
+void		is_builtin(t_prg *data, t_cmd_lst	*node);
 
 /***** EXECUTIONS.C *****/
 
