@@ -20,43 +20,59 @@ void _print_env(t_env_lst *head)
 	}
 }
 
-void	_unset_env_parent(t_prg *prg)
+void	_unset_env_parent(t_prg *prg, t_cmd_lst *node)
 {
 	size_t	i;
 	size_t	lenght;
 
 	i = 1;
-	lenght = ft_strlen_2d(prg->cmd_list->cmd_and_dep);
+	lenght = ft_strlen_2d(node->cmd_and_dep);
 	while (i < lenght)
 	{
-		_unset_env(prg, i);
+		_unset_env(prg, i, node);
 		i++;
 	}
 }
 
-void	_unset_env(t_prg *prg, size_t i)
+void	_unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
 {
 	t_env_lst *tmp;
 	t_env_lst *before;
 
 	tmp = prg->env_lst;
-	prg->env_lst = tmp;
-	if (!ft_strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
+	before = prg->env_lst;
+	while (tmp)
 	{
-		prg->env_lst = ((t_env_lst*)prg->env_lst->next);
-		return ;
+		if (!ft_strcmp(node->cmd_and_dep[i], tmp->name))
+			before->next = tmp->next;
+		before = tmp;
+		tmp = tmp->next;
 	}
-	while (prg->env_lst != NULL)
-	{
-		if (!ft_strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
-		{
-			before->next = ((t_env_lst*)prg->env_lst->next);
-			break ;
-		}
-		before = prg->env_lst;
-		prg->env_lst = prg->env_lst->next;
-	}
-	prg->env_lst = tmp;
+	// t_env_lst *tmp;
+	// t_env_lst *before;
+
+	// tmp = prg->env_lst;
+	// prg->env_lst = tmp;
+	// if (!ft_strncmp(prg->env_lst->name, ft_strjoin(node->cmd_and_dep[i], "="), ft_strlen(node->cmd_and_dep[i])))
+	// {
+	// 	prg->env_lst = ((t_env_lst*)prg->env_lst->next);
+	// 	return ;
+	// }
+	// while (prg->env_lst != NULL)
+	// {
+	// 	if (!ft_strncmp(prg->env_lst->name, ft_strjoin(node->cmd_and_dep[i], "="), ft_strlen(node->cmd_and_dep[i])))
+	// 	{
+	// 		// dprintf(2, "\n\n\n\n\n\nDOUBLONNNN\n\n\n\n\n\n\n");
+	// 		dprintf(2, "\n\n\n\nbefore name = %s |||| actual name = %s\n\n\n\n", before->name, prg->env_lst->name);
+	// 		before->next = ((t_env_lst*)prg->env_lst->next);
+	// 		// free(before);
+	// 		break ;
+	// 	}
+	// 	before = prg->env_lst;
+	// 	prg->env_lst = prg->env_lst->next;
+	// }
+	// prg->env_lst = tmp;
+	// _print_env(prg->env_lst);
 }
 
 int		_parsing_export(char *cmd)
