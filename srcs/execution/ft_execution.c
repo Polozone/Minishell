@@ -1,25 +1,25 @@
 
 #include "../../includes/minishell.h"
 
-void	is_builtin(t_prg data, t_cmd_lst *tmp)
+void	is_builtin(t_prg *data, t_cmd_lst *node)
 {
-	if (tmp->is_cmd_builtin)
+	if (node->is_cmd_builtin)
 	{
-		if (tmp->is_cmd_builtin == echo)
-			_echo_exe(&data, 0);
-		if (tmp->is_cmd_builtin == cd)
-			_ch_dir(&data);
-		if (tmp->is_cmd_builtin == pwd)
+		if (node->is_cmd_builtin == echo)
+			_echo_exe(data, 0);
+		if (node->is_cmd_builtin == cd)
+			_ch_dir(data);
+		if (node->is_cmd_builtin == pwd)
 			_pwd_exe();
-		if (tmp->is_cmd_builtin == export)
-			_export_env(&data);
-		if (tmp->is_cmd_builtin == unset)
-			_unset_env_parent(&data);
-		if (tmp->is_cmd_builtin == env)
-			_print_env(data.env_lst);
-		if (tmp->is_cmd_builtin == quit)
+		if (node->is_cmd_builtin == export)
+			_export_env(data);
+		if (node->is_cmd_builtin == unset)
+			_unset_env_parent(data);
+		if (node->is_cmd_builtin == env)
+			_print_env(data->env_lst);
+		if (node->is_cmd_builtin == quit)
 			exit(0);
-		exit (0);
+		exit(0);
 	}
 }
 
@@ -55,7 +55,7 @@ void	_ft_forks(t_prg *data)
 			exit (0);
 		}
 		if (data->pid[i] == 0)
-			_execute_cmds(data, i, tmp);
+			_set_fd(tmp, data);
 		tmp = tmp->next;
 		i++;
 	}
@@ -82,5 +82,6 @@ void _ft_exe(t_prg *data)
 	_set_index_list(data);
 	init_pipe(data);
 	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
+	data->cmd_list->redir_fd = malloc(sizeof(int) * data->cmd_list->redir_nbr);
 	_ft_forks(data);
 }
