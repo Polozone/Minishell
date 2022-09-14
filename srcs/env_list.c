@@ -122,7 +122,7 @@ t_env_lst	*ft_create_env_lst(char **envp, t_prg *prg)
 		return (ft_lstnew_env_list(0, 0));
 	}
 	ft_make_elem(envp[0], &prg->env_lst, 0);
-	while(envp[i])
+	while (envp[i])
 	{
 		ft_make_elem(envp[i], &prg->env_lst, i);
 		i ++;
