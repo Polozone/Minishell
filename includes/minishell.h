@@ -248,7 +248,8 @@ int		_last_outfile(t_cmd_lst *tmp);
 int		_is_infile(t_cmd_lst *tmp);
 int		_is_outfile(t_cmd_lst *tmp);
 void	_close_files(t_prg	*data, t_cmd_lst *node);
-void	_open_all_outfile(t_cmd_lst *node);
+void	_open_all_outfile(t_cmd_lst		*node);
+
 
 /***** FREE_EXECUTIONS.C *****/
 
