@@ -114,8 +114,7 @@ int main(int ac, char **av, char **env)
 		ft_parse(&prg);
 		env_to_tab(&prg);
 		_ft_exe(&prg);
-		_ft_free_exe(&prg);
-		close_pipe(&prg);
+		// _ft_free_exe(&prg);
 		_wait_pids(prg);
 		// ft_free_parsing(&prg);
 	}
