@@ -207,6 +207,7 @@ t_bool		ft_syntax_error(t_prg *prg);
 /***** BUILTIN_CHECK.C *****/
 
 void		ft_is_cmd_builtin(t_prg *prg, t_cmd_lst *cmd_lst);
+void		is_builtin(t_prg data, t_cmd_lst *tmp);
 
 /***** REDIRECTIONS.C *****/
 
@@ -239,9 +240,7 @@ void		is_builtin(t_prg data, t_cmd_lst	*node);
 void		_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
-void		close_pipe(t_prg *data);
 void		_set_fd(t_cmd_lst *tmp, t_prg *data);
-void		_open_all_outfile(t_cmd_lst		*node);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
@@ -255,6 +254,5 @@ void	_close_files(t_prg	*data, t_cmd_lst *node);
 /***** FREE_EXECUTIONS.C *****/
 
 void		_ft_free_exe(t_prg *data);
-
 
 #endif

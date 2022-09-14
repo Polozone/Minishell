@@ -35,19 +35,20 @@ void	_set_dup_outfile(t_cmd_lst *node, t_prg *data)
 	}
 }
 
-void	_open_all_outfile(t_cmd_lst		*node)
-{
-	int i = 0;
-	while (i < node->redir_nbr - 1)
-	{
-		if (node->redir_type[i] == 1 || node->redir_type[i] == 2)
-		{
-			node->redir_fd[node->index_fd] = open(node->file[i], O_CREAT | O_RDWR, 0644);
-			node->index_fd++;
-		}
-		i++;
-	}
-}
+// 			L   E
+// i =	0   			cmd1
+// 			0	1	pipe1
+// i = 1	       		cmd2
+// 			2	3	pipe2
+// i = 2	       		cmd3
+// 			4	5	pipe3
+// i = 3	    	   	cmd4
+// 			6	7	pipe4
+// i = 4			   	cmd5
+// 			8	9	pipe5
+// i = 5		 		cmd6
+// 			10	11	pipe6
+// i = 6				cmd7
 
 void	close_pipe(t_prg *data)
 {
@@ -126,25 +127,26 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		_redir_last_cmd(node, data);
 }
 
-void	_close_files(t_prg	*data, t_cmd_lst *node)
-{
-	int		i;
-
-	i = 0;
-	while (i < node->redir_nbr)
-	{
-		close(node->redir_fd[i]);
-		i++;
-	}
-}
+// 			L   E
+// i =	0   			cmd1
+// 			0	1	pipe1
+// i = 1	       		cmd2
+// 			2	3	pipe2
+// i = 2	       		cmd3
+// 			4	5	pipe3
+// i = 3	    	   	cmd4
+// 			6	7	pipe4
+// i = 4			   	cmd5
+// 			8	9	pipe5
+// i = 5		 		cmd6
+// 			10	11	pipe6
+// i = 6				cmd7
 
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	close_pipe(data);
-	_close_files(data, tmp);
-	is_builtin(*data, tmp);
 	_ft_execve(data, tmp);
 	return ;
 }

@@ -73,6 +73,8 @@ void	_wait_pids(t_prg data)
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
+	// free(data.pid);
+	return ;
 }
 
 void	env_to_tab(t_prg *prg)
@@ -112,9 +114,8 @@ int main(int ac, char **av, char **env)
 		ft_parse(&prg);
 		env_to_tab(&prg);
 		_ft_exe(&prg);
-		close_pipe(&prg);
-		_wait_pids(prg);
 		// _ft_free_exe(&prg);
+		_wait_pids(prg);
 		// ft_free_parsing(&prg);
 	}
 }
