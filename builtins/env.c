@@ -20,46 +20,62 @@ void _print_env(t_env_lst *head)
 	}
 }
 
-void	_unset_env_parent(t_prg *prg)
+void _unset_env_parent(t_prg *prg, t_cmd_lst *node)
 {
-	size_t	i;
-	size_t	lenght;
+	size_t i;
+	size_t lenght;
 
 	i = 1;
-	lenght = ft_strlen_2d(prg->cmd_list->cmd_and_dep);
+	lenght = ft_strlen_2d(node->cmd_and_dep);
 	while (i < lenght)
 	{
-		_unset_env(prg, i);
+		_unset_env(prg, i, node);
 		i++;
 	}
 }
 
-void	_unset_env(t_prg *prg, size_t i)
+void _unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
 {
 	t_env_lst *tmp;
 	t_env_lst *before;
 
 	tmp = prg->env_lst;
-	prg->env_lst = tmp;
-	if (!ft_strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
+	before = prg->env_lst;
+	while (tmp)
 	{
-		prg->env_lst = ((t_env_lst*)prg->env_lst->next);
-		return ;
+		if (!ft_strcmp(node->cmd_and_dep[i], tmp->name))
+			before->next = tmp->next;
+		before = tmp;
+		tmp = tmp->next;
 	}
-	while (prg->env_lst != NULL)
-	{
-		if (!ft_strncmp(prg->env_lst->name, ft_strjoin(prg->cmd_list->cmd_and_dep[i], "="), ft_strlen(prg->env_lst->name)))
-		{
-			before->next = ((t_env_lst*)prg->env_lst->next);
-			break ;
-		}
-		before = prg->env_lst;
-		prg->env_lst = prg->env_lst->next;
-	}
-	prg->env_lst = tmp;
+	// t_env_lst *tmp;
+	// t_env_lst *before;
+
+	// tmp = prg->env_lst;
+	// prg->env_lst = tmp;
+	// if (!ft_strncmp(prg->env_lst->name, ft_strjoin(node->cmd_and_dep[i], "="), ft_strlen(node->cmd_and_dep[i])))
+	// {
+	// 	prg->env_lst = ((t_env_lst*)prg->env_lst->next);
+	// 	return ;
+	// }
+	// while (prg->env_lst != NULL)
+	// {
+	// 	if (!ft_strncmp(prg->env_lst->name, ft_strjoin(node->cmd_and_dep[i], "="), ft_strlen(node->cmd_and_dep[i])))
+	// 	{
+	// 		// dprintf(2, "\n\n\n\n\n\nDOUBLONNNN\n\n\n\n\n\n\n");
+	// 		dprintf(2, "\n\n\n\nbefore name = %s |||| actual name = %s\n\n\n\n", before->name, prg->env_lst->name);
+	// 		before->next = ((t_env_lst*)prg->env_lst->next);
+	// 		// free(before);
+	// 		break ;
+	// 	}
+	// 	before = prg->env_lst;
+	// 	prg->env_lst = prg->env_lst->next;
+	// }
+	// prg->env_lst = tmp;
+	// _print_env(prg->env_lst);
 }
 
-int		_parsing_export(char *cmd)
+int _parsing_export(char *cmd)
 {
 	if (cmd[0] == '=')
 	{
@@ -69,9 +85,9 @@ int		_parsing_export(char *cmd)
 	return (0);
 }
 
-void	_add_node(char *name, char *content, t_prg *prg)
+void _add_node(char *name, char *content, t_prg *prg)
 {
-	t_env_lst	*tmp;
+	t_env_lst *tmp;
 
 	tmp = prg->env_lst;
 	while (tmp)
@@ -79,23 +95,23 @@ void	_add_node(char *name, char *content, t_prg *prg)
 		if (!ft_strcmp(tmp->name, name))
 		{
 			tmp->content = content;
-			return ;
+			return;
 		}
 		tmp = tmp->next;
 	}
 	ft_add_back_env_list(&prg->env_lst, ft_lstnew_env_list(name, content));
 }
 
-void	_add_env(t_prg *prg, int i)
+void _add_env(t_prg *prg, int i)
 {
-	char	*name;
-	char	*content;
-	int		sep;
+	char *name;
+	char *content;
+	int sep;
 
 	while (prg->cmd_list->cmd_and_dep[++i])
 	{
 		if (_parsing_export(prg->cmd_list->cmd_and_dep[i]))
-			i++ ;
+			i++;
 		sep = ft_strlen_to_char(prg->cmd_list->cmd_and_dep[i], '=');
 		name = ft_substr(prg->cmd_list->cmd_and_dep[i], 0, sep);
 		content = ft_substr(prg->cmd_list->cmd_and_dep[i], sep + 1, ft_strlen(prg->cmd_list->cmd_and_dep[i]) - sep);
@@ -103,9 +119,9 @@ void	_add_env(t_prg *prg, int i)
 	}
 }
 
-void	_print_env_declare(t_prg *prg)
+void _print_env_declare(t_prg *prg)
 {
-	t_env_lst* tmp;
+	t_env_lst *tmp;
 
 	tmp = prg->env_lst;
 	while (tmp)
@@ -118,7 +134,22 @@ void	_print_env_declare(t_prg *prg)
 	}
 }
 
-int		_export_env(t_prg *prg)
+int _lst_size_env(t_env_lst *head)
+{
+	t_env_lst *tmp;
+	int i;
+
+	tmp = head;
+	i = 0;
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
+int _export_env(t_prg *prg)
 {
 	if (strcmp(prg->cmd_list->cmd_and_dep[0], "export") == 0 && prg->cmd_list->cmd_and_dep[1] == NULL)
 	{

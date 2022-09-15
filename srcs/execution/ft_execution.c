@@ -1,28 +1,30 @@
 
 #include "../../includes/minishell.h"
 
-void	is_builtin(t_prg data)
+void is_builtin(t_prg *data, t_cmd_lst *node)
 {
-	if (data.cmd_list->is_cmd_builtin)
-		if (data.cmd_list->is_cmd_builtin == echo)
-			_echo_exe(&data, 0);
-		if (data.cmd_list->is_cmd_builtin == cd)
-			_ch_dir(&data);
-		if (data.cmd_list->is_cmd_builtin == pwd)
+	if (node->is_cmd_builtin)
+	{
+		if (node->is_cmd_builtin == echo)
+			_echo_exe(data, 0);
+		if (node->is_cmd_builtin == cd)
+			_ch_dir(data);
+		if (node->is_cmd_builtin == pwd)
 			_pwd_exe();
-		if (data.cmd_list->is_cmd_builtin == export)
-			_export_env(&data);
-		if (data.cmd_list->is_cmd_builtin == unset)
-			_unset_env_parent(&data);
-		if (data.cmd_list->is_cmd_builtin == env)
-			_print_env(data.env_lst);
-		if (data.cmd_list->is_cmd_builtin == quit)
+		if (node->is_cmd_builtin == export)
+			_export_env(data);
+		if (node->is_cmd_builtin == unset)
+			_unset_env_parent(data, node);
+		if (node->is_cmd_builtin == env)
+			_print_env(data->env_lst);
+		if (node->is_cmd_builtin == quit)
 			exit(0);
+	}
 }
 
-void	init_pipe(t_prg *data)
+void init_pipe(t_prg *data)
 {
-	int		i;
+	int i;
 
 	i = -1;
 	data->pipe = malloc(sizeof(int) * (data->cmd_nbr - 1) * 2);
@@ -35,41 +37,62 @@ void	init_pipe(t_prg *data)
 		pipe(&data->pipe[i * 2]);
 }
 
-void	_ft_forks(t_prg *data)
+void _ft_forks(t_prg *data)
 {
-	size_t	i;
+	size_t i;
+	t_cmd_lst *tmp;
 
 	i = 0;
+	int j = 0;
+	tmp = data->cmd_list;
 	while (i < data->cmd_nbr)
 	{
-		data->pid[i] = fork();
-		if (data->pid[i] == -1)
+		if (tmp->is_cmd_builtin)
 		{
-			// FREE ALL;
-			exit (0);
+			dprintf(2, "111111111111111(%s)\n", tmp->cmd_and_dep[0]);
+			_set_fd(tmp, data);
 		}
-		if (data->pid[i] == 0)
+		else
 		{
-			_execute_cmds(data, i);
-			exit (0);
+			dprintf(2, "PETIT TESTSSAWDAWDAWD(%s)\n", tmp->cmd_and_dep[0]);
+			data->pid[j] = fork();
+			if (data->pid[j] == -1)
+			{
+				// FREE ALL;
+				exit(0);
+			}
+			if (data->pid[j] == 0)
+			{
+				_set_fd(tmp, data);
+			}
+			j++;
 		}
 		i++;
+		tmp = tmp->next;
+	}
+}
+
+void _set_index_list(t_prg *data)
+{
+	t_cmd_lst *tmp;
+	int i;
+
+	i = 0;
+	tmp = data->cmd_list;
+	while (tmp)
+	{
+		tmp->index = i;
+		i++;
+		tmp = tmp->next;
 	}
 }
 
 void _ft_exe(t_prg *data)
 {
-	// data->cmd_nbr = get_size_lst(data);
-	// data->pipe = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PIPES FOR EACH CMD
-	// init_pipe(data);
-	// //_print_env(data->env_lst);
-	// int i = 0;
-	// int j = 0;
-	// while (i < (data->cmd_nbr - 1) * 2)
-	// {
-	// 	// printf("%d\n", data->pipe[i]);
-	// 	i++;
-	// }
-	// data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
-	// _ft_forks(data);
+	data->cmd_nbr = get_size_lst(data);
+	_set_index_list(data);
+	init_pipe(data);
+	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
+	data->cmd_list->redir_fd = malloc(sizeof(int) * data->cmd_list->redir_nbr);
+	_ft_forks(data);
 }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/14 15:06:45 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/15 10:32:35 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # define ONE_RED 3
 # define TWO_RED 4
 # define SYNT_ER 5
+
+# define STDIN 0
+# define STDOUT 1
 
 typedef enum	s_bool
 {
@@ -77,12 +80,18 @@ typedef enum	s_redir
 
 typedef struct l_cmd_list
 {
-	char		**cmd_and_dep;	// command and his flags ___ exemple => (s1)unset (s2)variable
-	char		*path;			// path to the command (extract of PATH= in env variables)
-	char		**file;			// duble char array of each files -> infile and outfile (write at the last outfile)
-	int			redir_nbr;		// nbr on redirections
-	t_redir		*redir_type;	// enum to know the nature of the redirection
-	t_builtin	is_cmd_builtin; // enum to know if the command is a builtins and the nature of the builtins.
+	char		**cmd_and_dep;		// command and his flags ___ exemple => (s1)unset (s2)variable
+	char		*path;				// path to the command (extract of PATH= in env variables)
+	char		**file;				// duble char array of each files -> infile and outfile (write at the last outfile)
+	int			redir_nbr;			// nbr of redirections
+	t_redir		*redir_type;		// enum to know the nature of the redirection
+	char		*heredoc_delimiter; //the heredoc delimiter
+	t_builtin	is_cmd_builtin; 	// enum to know if the command is a builtins and the nature of the builtins.
+	int			*redir_fd;
+	int			infile;
+	int			outfile;
+	int			index;
+	int			index_fd;
 	void		*next;
 }				t_cmd_lst;
 
@@ -154,6 +163,7 @@ t_env_lst			*ft_lstnew_env_list(char *name, char *content);
 void				ft_make_elem(char *line, t_env_lst **env_lst, int index);
 t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
 t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
+int					_lst_size_env(t_env_lst *head);
 
 /***** dollz_LIST.C *****/
 
@@ -228,8 +238,8 @@ char		*ft_forge_new_line(t_prg *prg, char *line);
 /***** BUILTINS.C *****/
 
 void		_print_env(t_env_lst *head);
-void		_unset_env(t_prg *prg, size_t i);
-void		_unset_env_parent(t_prg *prg);
+void		_unset_env(t_prg *prg, size_t i, t_cmd_lst *node);
+void		_unset_env_parent(t_prg *prg, t_cmd_lst *node);
 int			_export_env(t_prg *prg);
 int			_export_env_parse(t_prg *prg);
 void		_add_env(t_prg *prg, int i);
@@ -239,16 +249,28 @@ int			_echo_exe(t_prg *data, int i);
 int			_pwd_exe();
 int			_ch_dir(t_prg *data);
 void		_add_node(char *name, char *content, t_prg *prg);
+void		is_builtin(t_prg *data, t_cmd_lst	*node);
 
 /***** EXECUTIONS.C *****/
 
 void		_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
-int			_execute_cmds(t_prg *data, size_t i);
+int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
+void		close_pipe(t_prg *data);
+void		_set_fd(t_cmd_lst *tmp, t_prg *data);
+
+/***** EXECUTIONS//IN_OUT_HANDLER.C*****/
+
+int		_last_infile(t_cmd_lst *tmp);
+int		_last_outfile(t_cmd_lst *tmp);
+int		_is_infile(t_cmd_lst *tmp);
+int		_is_outfile(t_cmd_lst *tmp);
+void	_close_files(t_prg	*data, t_cmd_lst *node);
+void	_open_all_outfile(t_cmd_lst		*node);
+
 
 /***** FREE_EXECUTIONS.C *****/
 
 void		_ft_free_exe(t_prg *data);
-
 
 #endif

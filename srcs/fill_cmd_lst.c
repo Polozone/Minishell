@@ -78,6 +78,7 @@ void	ft_fill_cmd_lst(t_prg *prg)
 	while (prg->cells[i])
 	{
 		ft_fill_node(prg->cells[i], buff, prg);
+		// dprintf(2, "nbr (inside) == %d\n\n", prg->cmd_list->redir_nbr);
 		ft_expend_env_variable(prg, buff);
 		i ++;
 		buff = buff->next;

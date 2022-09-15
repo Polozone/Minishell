@@ -23,7 +23,8 @@ SRCS =	srcs/main.c				\
 		builtins/pwd.c			\
 		srcs/execution/ft_free_execution.c			\
 		srcs/execution/ft_execution.c	\
-		srcs/execution/_execute_cmds.c
+		srcs/execution/_execute_cmds.c	\
+		srcs/execution/in_out_handler.c
 
 OBJS = $(SRCS:.c=.o)
 
