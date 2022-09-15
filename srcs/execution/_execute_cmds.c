@@ -62,6 +62,7 @@ void	_init_fd(t_prg *data)
 
 void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
+	// dprintf(2, "OKOKOKOK\n\n");
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 	{
 		dprintf(2, "command failed to run == %s\n\n\n", tmp->cmd_and_dep[0]);

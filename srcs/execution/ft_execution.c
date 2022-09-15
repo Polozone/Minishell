@@ -69,10 +69,9 @@ void _ft_forks(t_prg *data)
 	// 	tmp = tmp->next;
 	// }
 	size_t	i;
-
-	i = 0;
 	t_cmd_lst *tmp;
 
+	i = 0;
 	tmp = data->cmd_list;
 	while (i < data->cmd_nbr)
 	{
@@ -83,7 +82,9 @@ void _ft_forks(t_prg *data)
 			exit (0);
 		}
 		if (data->pid[i] == 0)
+		{
 			_set_fd(tmp, data);
+		}
 		tmp = tmp->next;
 		i++;
 	}

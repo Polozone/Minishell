@@ -91,11 +91,12 @@ void _wait_pids(t_prg data)
 	// dprintf(2, "AWDOAWDIJAWDIJAWDIJADWAIDWJAIWDJAWD");
 	while (i < data.cmd_nbr/* - nbr_builtins*/)
 	{
-		// dprintf(2, "datapid == %d\\\\", data.pid[i]);
+		// dprintf(2, "AWDOAWD-->");
+		dprintf(2, "datapid == %d\n", data.pid[i]);
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
-	// dprintf(2, "AWDOAWDIJAWDIJAWDIJADWAIDWJAIWDJAWD");
+	dprintf(2, "EMMMMD-->");
 	// free(data.pid);
 	return;
 }
