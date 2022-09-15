@@ -119,12 +119,12 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	close_pipe(data);
-	if (tmp->is_cmd_builtin)
-	{
-		is_builtin(data, tmp);
-		return ;
-	}
-	dprintf(2, "TEST1111\n");
+	// if (tmp->is_cmd_builtin)
+	// {
+	// 	is_builtin(data, tmp);
+	// 	return ;
+	// }
+	// dprintf(2, "TEST1111\n");
 	_ft_execve(data, tmp);
 	return ;
 }

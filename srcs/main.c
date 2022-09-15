@@ -86,10 +86,10 @@ void _wait_pids(t_prg data)
 	int		nbr_builtins;
 
 	i = 0;
-	nbr_builtins = count_builtins(data.cmd_list);
+	// nbr_builtins = count_builtins(data.cmd_list);
 	// dprintf(2, "NBR ==== %d||||||||", nbr_builtins);
 	// dprintf(2, "AWDOAWDIJAWDIJAWDIJADWAIDWJAIWDJAWD");
-	while (i < data.cmd_nbr - nbr_builtins)
+	while (i < data.cmd_nbr/* - nbr_builtins*/)
 	{
 		// dprintf(2, "datapid == %d\\\\", data.pid[i]);
 		waitpid(data.pid[i], NULL, 0);

@@ -39,34 +39,53 @@ void init_pipe(t_prg *data)
 
 void _ft_forks(t_prg *data)
 {
-	size_t i;
-	t_cmd_lst *tmp;
+	// size_t i;
+	// t_cmd_lst *tmp;
+
+	// i = 0;
+	// int j = 0;
+	// tmp = data->cmd_list;
+	// while (i < data->cmd_nbr)
+	// {
+	// 	// if (tmp->is_cmd_builtin)
+	// 	// {
+	// 	// 	_set_fd(tmp, data);
+	// 	// }
+	// 	// else
+	// 	// {
+	// 		data->pid[j] = fork();
+	// 		if (data->pid[j] == -1)
+	// 		{
+	// 			// FREE ALL;
+	// 			exit(0);
+	// 		}
+	// 		if (data->pid[j] == 0)
+	// 		{
+	// 			_set_fd(tmp, data);
+	// 		}
+	// 		j++;
+	// 	//}
+	// 	i++;
+	// 	tmp = tmp->next;
+	// }
+	size_t	i;
 
 	i = 0;
-	int j = 0;
+	t_cmd_lst *tmp;
+
 	tmp = data->cmd_list;
 	while (i < data->cmd_nbr)
 	{
-		// if (tmp->is_cmd_builtin)
-		// {
-		// 	_set_fd(tmp, data);
-		// }
-		// else
-		// {
-			data->pid[j] = fork();
-			if (data->pid[j] == -1)
-			{
-				// FREE ALL;
-				exit(0);
-			}
-			if (data->pid[j] == 0)
-			{
-				_set_fd(tmp, data);
-			}
-			j++;
-		//}
-		i++;
+		data->pid[i] = fork();
+		if (data->pid[i] == -1)
+		{
+			// FREE ALL;
+			exit (0);
+		}
+		if (data->pid[i] == 0)
+			_set_fd(tmp, data);
 		tmp = tmp->next;
+		i++;
 	}
 }
 
