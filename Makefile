@@ -45,6 +45,7 @@ NAME = minishell
 
 $(NAME): $(OBJS) $(INCL) Makefile
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
+	make clean
 
 clean:
 	$(RM) $(OBJS)
