@@ -6,25 +6,38 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:13:31 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/22 08:41:46 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/27 12:01:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/minishell.h"
 
-int ft_count_token(t_token *line_token, t_token token_name, int len)
+int ft_count_token(t_token *line_token, t_token token_name, char **line_split, int len)
 {
 	int	i;
+	int j;
 	int ct;
 
-	i = 0;
+	i = -1;
 	ct = 0;
-	while (i < len)
-	{
+	while (++i < len)
+	{	
+		j = 0;
 		if (line_token[i] == token_name)
-			ct ++;
-		i ++;
+		{
+				while (line_split[i][j])
+				{
+					if (line_split[i][j] == '<' || line_split[i][j] == '>')
+					{
+						ct ++;
+						while ((line_split[i][j])
+						&&(line_split[i][j] == '<' || line_split[i][j] == '>'))
+							j ++;
+					}
+					j ++;
+				}
+		}
 	}
 	return (ct);
 }

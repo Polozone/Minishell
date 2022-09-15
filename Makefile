@@ -8,10 +8,12 @@ SRCS =	srcs/main.c				\
 		srcs/builtin_check.c	\
 		srcs/cmd_list.c			\
 		srcs/env_list.c			\
+		srcs/dollz_list.c		\
 		srcs/fill_cmd_lst.c		\
+		srcs/fill_nodes.c		\
+		srcs/fill_files.c		\
 		srcs/redirections.c		\
 		srcs/token.c			\
-		srcs/fill_nodes.c		\
 		srcs/replace_dollz.c	\
 		srcs/parsing.c			\
 		srcs/utilis_shortcut_fts.c	\
@@ -34,7 +36,7 @@ RM = rm -f
 
 #FLAGS = -lreadline -Wall -Werror -Wextra -fsanitize=address -g3
 
-FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra -fsanitize=address
+FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra -fsanitize=address -g3
 
 %.o.c: $(INCL) Makefile
 	$(CC) $(FLAGS) -c $< -o $@

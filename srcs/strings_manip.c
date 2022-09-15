@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 11:26:43 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/14 08:54:46 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/15 10:35:23 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,25 @@ void	ft_free_char_array(char **array)
 	free(array);
 }
 
+
+
+int ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+    size_t  i;
+
+    i = 0;
+	if (!s1 || !s2)
+		return (0);
+    while ((((unsigned char *)s1)[i] || ((unsigned char *)s2)[i]) && i < n)
+    {
+        if (((unsigned char *)s1)[i] == ((unsigned char *)s2)[i])
+            i++;
+        else
+            return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+    }
+    return (0);
+}
+
 /*void	ft_free_array(void **array, int len)
 {
 	int	i;
@@ -245,4 +264,16 @@ int		ft_strlen_to_char(char *str, char c)
 	while (str[i] != c && str[i])
 		i++;
 	return (i);
+}
+
+t_bool	ft_isalnum(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (true);
+	else if (c >= 65 && c <= 90)
+		return (true);
+	else if (c >= 97 && c <= 122)
+		return (true);
+	else
+		return (false);
 }

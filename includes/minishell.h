@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 14:29:15 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/15 10:32:35 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ typedef struct l_cmd_list
 	t_redir		*redir_type;		// enum to know the nature of the redirection
 	char		*heredoc_delimiter; //the heredoc delimiter
 	t_builtin	is_cmd_builtin; 	// enum to know if the command is a builtins and the nature of the builtins.
+	int			*redir_fd;
 	int			infile;
 	int			outfile;
 	int			index;
-	int			*redir_fd;
 	int			index_fd;
 	void		*next;
 }				t_cmd_lst;
@@ -101,6 +101,13 @@ typedef struct	l_env_list
 	char	*content;
 	void	*next;
 }				t_env_lst;
+
+typedef struct	l_dollz_lst
+{
+	char		*word;
+	void		*next;
+}				t_dollz_lst;
+
 
 typedef struct s_prg
 {
@@ -132,11 +139,12 @@ int			ft_strcmp(const char *s1, const char *s2);
 void		ft_free_char_array(char **array);
 int			search_char(char *str, char c);
 int			ft_strlen_to_char(char *str, char c);
+t_bool		ft_isalnum(int c);
 // void		ft_free_array(void array, int len);
 
 /***** UTILS_SHORTCUT_FTS.C *****/
 
-char		*ft_join_shortcut(char *str1, char *str2);
+char		*ft_join_shrtct(char *str1, char *str2);
 
 /***** CMD_LIST.C *****/
 
@@ -157,10 +165,19 @@ t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
 t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 int					_lst_size_env(t_env_lst *head);
 
+/***** dollz_LIST.C *****/
+
+void			ft_add_back_dollz_list(t_dollz_lst **alpha, t_dollz_lst *newb);
+t_dollz_lst		*ft_lstnew_dollz_list(char *word);
+void			ft_lstclear_dollz_list(t_dollz_lst **lst);
 
 /***** FILL_CMD_LST.C *****/
 
 void		ft_fill_cmd_lst(t_prg *prg);
+
+/***** FILL_FILES.C *****/
+
+void				ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token, int len);
 
 /***** FILL_NODES.C *****/
 
@@ -171,7 +188,7 @@ void				ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
 
 t_token				ft_redir_token(char *word);
 t_token				*ft_assign_token(char **line_split, t_token *line_token);
-int					ft_count_token(t_token *line_token, t_token token_name, int len);
+int					ft_count_token(t_token *line_token, t_token token_name, char **line_split, int len);
 
 /***** SPLIT.C *****/
 
@@ -196,9 +213,9 @@ void		ft_parse(t_prg *prg);
 
 /***** QUOTE.C *****/
 
-t_bool		ft_is_in_single(const char *line, int index);
-t_bool		ft_is_in_double(const char *line, int index);
-t_bool		ft_is_in_quote(const char *line, int index);
+// t_bool		ft_is_in_quote(const char *line, int index);
+// t_bool		ft_is_in_quote(const char *line, int index);
+t_bool			ft_is_in_quote(char *line, int index, t_var_quote *quote);
 
 /***** PIPE_ERROR.C *****/
 
@@ -207,7 +224,6 @@ t_bool		ft_syntax_error(t_prg *prg);
 /***** BUILTIN_CHECK.C *****/
 
 void		ft_is_cmd_builtin(t_prg *prg, t_cmd_lst *cmd_lst);
-void		is_builtin(t_prg data, t_cmd_lst *tmp);
 
 /***** REDIRECTIONS.C *****/
 
@@ -222,8 +238,8 @@ char		*ft_forge_new_line(t_prg *prg, char *line);
 /***** BUILTINS.C *****/
 
 void		_print_env(t_env_lst *head);
-void		_unset_env(t_prg *prg, size_t i);
-void		_unset_env_parent(t_prg *prg);
+void		_unset_env(t_prg *prg, size_t i, t_cmd_lst *node);
+void		_unset_env_parent(t_prg *prg, t_cmd_lst *node);
 int			_export_env(t_prg *prg);
 int			_export_env_parse(t_prg *prg);
 void		_add_env(t_prg *prg, int i);
@@ -233,13 +249,14 @@ int			_echo_exe(t_prg *data, int i);
 int			_pwd_exe();
 int			_ch_dir(t_prg *data);
 void		_add_node(char *name, char *content, t_prg *prg);
-void		is_builtin(t_prg data, t_cmd_lst	*node);
+void		is_builtin(t_prg *data, t_cmd_lst	*node);
 
 /***** EXECUTIONS.C *****/
 
 void		_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
+void		close_pipe(t_prg *data);
 void		_set_fd(t_cmd_lst *tmp, t_prg *data);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
@@ -249,6 +266,7 @@ int		_last_outfile(t_cmd_lst *tmp);
 int		_is_infile(t_cmd_lst *tmp);
 int		_is_outfile(t_cmd_lst *tmp);
 void	_close_files(t_prg	*data, t_cmd_lst *node);
+void	_open_all_outfile(t_cmd_lst		*node);
 
 
 /***** FREE_EXECUTIONS.C *****/
