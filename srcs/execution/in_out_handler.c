@@ -54,3 +54,19 @@ int		_is_outfile(t_cmd_lst *tmp)
 	}
 	return (0);
 }
+
+void _open_all_outfile(t_cmd_lst *node)
+{
+int i = 0;
+while (i < node->redir_nbr - 1)
+{
+if (node->redir_type[i] == 1 || node->redir_type[i] == 2)
+{
+open(node->file[i], O_CREAT | O_RDWR, 0644);
+dprintf(2, "%d\n", node->redir_type[i]);
+node->redir_fd[node->index_fd] = open(node->file[i], O_CREAT | O_RDWR, 0644);
+node->index_fd++;
+}
+i++;
+}
+}
