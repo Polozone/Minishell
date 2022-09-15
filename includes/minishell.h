@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/28 18:00:32 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/14 15:06:45 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,13 @@ typedef struct	l_env_list
 	void	*next;
 }				t_env_lst;
 
+typedef struct	l_dollz_lst
+{
+	char		*word;
+	void		*next;
+}				t_dollz_lst;
+
+
 typedef struct s_prg
 {
 	char		**path_list;
@@ -148,6 +155,11 @@ void				ft_make_elem(char *line, t_env_lst **env_lst, int index);
 t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
 t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 
+/***** dollz_LIST.C *****/
+
+void			ft_add_back_dollz_list(t_dollz_lst **alpha, t_dollz_lst *newb);
+t_dollz_lst		*ft_lstnew_dollz_list(char *word);
+void			ft_lstclear_dollz_list(t_dollz_lst **lst);
 
 /***** FILL_CMD_LST.C *****/
 

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 08:49:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/28 11:24:40 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/15 10:25:24 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split, t_token *
 	j = 0;
 	cmd_dep_ct = 0;
 	len = ft_array_len(line_split);
+	printf("len = %d\n", len);
 	while (++i < len)
 		if (line_token[i] == none)
 			cmd_dep_ct ++;
