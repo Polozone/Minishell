@@ -47,14 +47,12 @@ void _ft_forks(t_prg *data)
 	tmp = data->cmd_list;
 	while (i < data->cmd_nbr)
 	{
-		if (tmp->is_cmd_builtin)
-		{
-			dprintf(2, "111111111111111(%s)\n", tmp->cmd_and_dep[0]);
-			_set_fd(tmp, data);
-		}
-		else
-		{
-			dprintf(2, "PETIT TESTSSAWDAWDAWD(%s)\n", tmp->cmd_and_dep[0]);
+		// if (tmp->is_cmd_builtin)
+		// {
+		// 	_set_fd(tmp, data);
+		// }
+		// else
+		// {
 			data->pid[j] = fork();
 			if (data->pid[j] == -1)
 			{
@@ -66,7 +64,7 @@ void _ft_forks(t_prg *data)
 				_set_fd(tmp, data);
 			}
 			j++;
-		}
+		//}
 		i++;
 		tmp = tmp->next;
 	}

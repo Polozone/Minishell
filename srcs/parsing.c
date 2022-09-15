@@ -36,7 +36,6 @@ void	ft_parse(t_prg *prg)
 	if (prg->line == NULL)
 		return;
 	prg->line_len = ft_strlen(prg->line);
-	// printf("line in parse = %s test1\n", prg->line);
 	if (ft_syntax_error(prg) == true)
 	{
 		g_error = 258;

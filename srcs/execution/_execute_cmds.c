@@ -114,7 +114,6 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		_redir_last_cmd(node, data);
 }
 
-
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	_init_fd(data);
@@ -125,7 +124,7 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 		is_builtin(data, tmp);
 		return ;
 	}
-	// dprintf(2, "adwawdawdawdawdawdawdawdaw\n\n\n");
+	dprintf(2, "TEST1111\n");
 	_ft_execve(data, tmp);
 	return ;
 }
