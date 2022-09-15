@@ -144,7 +144,7 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	_set_pipes(data, tmp);
 	close_pipe(data);
 	_close_files(data, tmp);
-	is_builtin(*data, tmp);
+	// is_builtin(*data, tmp);
 	_ft_execve(data, tmp);
 	return ;
 }
