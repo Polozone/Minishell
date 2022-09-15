@@ -68,7 +68,6 @@ char	**ft_fill_env_var_array(t_prg *prg, int *dollz_i_lst, char *line, int dollz
 		while (env_lst_buff != NULL)
 		{
 			word = ft_get_word(&line[dollz_i_lst[i] + 1], '$');
-			printf("word = %s\n", word);
 			if (ft_strcmp(env_lst_buff->name, word) == 61)
 			{
 				free(word);
@@ -77,7 +76,7 @@ char	**ft_fill_env_var_array(t_prg *prg, int *dollz_i_lst, char *line, int dollz
 			free(word);
 			env_lst_buff = env_lst_buff->next;
 		}
-		if (ft_is_in_single(line, dollz_i_lst[i]) == true || env_lst_buff == NULL)
+		if (ft_is_in_quote(line, dollz_i_lst[i]) == true || env_lst_buff == NULL)
 			if (i < dollz_nbr)
 				env_var_array[i] = ft_substr(line, dollz_i_lst[i], dollz_i_lst[i + 1]);
 			else 
