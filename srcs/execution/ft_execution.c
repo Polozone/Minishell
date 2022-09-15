@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-void	is_builtin(t_prg *data, t_cmd_lst *node)
+void is_builtin(t_prg *data, t_cmd_lst *node)
 {
 	if (node->is_cmd_builtin)
 	{
@@ -22,9 +22,9 @@ void	is_builtin(t_prg *data, t_cmd_lst *node)
 	}
 }
 
-void	init_pipe(t_prg *data)
+void init_pipe(t_prg *data)
 {
-	int		i;
+	int i;
 
 	i = -1;
 	data->pipe = malloc(sizeof(int) * (data->cmd_nbr - 1) * 2);
@@ -37,9 +37,9 @@ void	init_pipe(t_prg *data)
 		pipe(&data->pipe[i * 2]);
 }
 
-void	_ft_forks(t_prg *data)
+void _ft_forks(t_prg *data)
 {
-	size_t	i;
+	size_t i;
 	t_cmd_lst *tmp;
 
 	i = 0;
@@ -59,7 +59,7 @@ void	_ft_forks(t_prg *data)
 			if (data->pid[j] == -1)
 			{
 				// FREE ALL;
-				exit (0);
+				exit(0);
 			}
 			if (data->pid[j] == 0)
 			{
@@ -72,10 +72,10 @@ void	_ft_forks(t_prg *data)
 	}
 }
 
-void	_set_index_list(t_prg *data)
+void _set_index_list(t_prg *data)
 {
-	t_cmd_lst	*tmp;
-	int			i;
+	t_cmd_lst *tmp;
+	int i;
 
 	i = 0;
 	tmp = data->cmd_list;

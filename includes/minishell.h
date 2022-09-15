@@ -91,7 +91,6 @@ typedef struct l_cmd_list
 	int			infile;
 	int			outfile;
 	int			index;
-	int			*redir_fd;
 	int			index_fd;
 	void		*next;
 }				t_cmd_lst;
