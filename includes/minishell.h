@@ -87,10 +87,10 @@ typedef struct l_cmd_list
 	t_redir		*redir_type;		// enum to know the nature of the redirection
 	char		*heredoc_delimiter; //the heredoc delimiter
 	t_builtin	is_cmd_builtin; 	// enum to know if the command is a builtins and the nature of the builtins.
+	int			*redir_fd;
 	int			infile;
 	int			outfile;
 	int			index;
-	int			*redir_fd;
 	int			index_fd;
 	void		*next;
 }				t_cmd_lst;
@@ -221,8 +221,8 @@ char		*ft_forge_new_line(t_prg *prg, char *line);
 /***** BUILTINS.C *****/
 
 void		_print_env(t_env_lst *head);
-void		_unset_env(t_prg *prg, size_t i);
-void		_unset_env_parent(t_prg *prg);
+void		_unset_env(t_prg *prg, size_t i, t_cmd_lst *node);
+void		_unset_env_parent(t_prg *prg, t_cmd_lst *node);
 int			_export_env(t_prg *prg);
 int			_export_env_parse(t_prg *prg);
 void		_add_env(t_prg *prg, int i);
@@ -239,6 +239,7 @@ void		is_builtin(t_prg *data, t_cmd_lst	*node);
 void		_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
+void		close_pipe(t_prg *data);
 void		_set_fd(t_cmd_lst *tmp, t_prg *data);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
