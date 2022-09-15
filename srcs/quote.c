@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:34:01 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/22 15:08:59 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/28 13:29:15 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 	return (true);
 }
 
-t_bool	ft_is_in_double(const char *line, int index)
+t_bool	ft_is_in_quote(const char *line, int index)
 {
 	int	q_one;
 	int	q_two;
@@ -82,7 +82,7 @@ t_bool	ft_is_in_double(const char *line, int index)
 }
 
 
-t_bool	ft_is_in_single(const char *line, int index)
+t_bool	ft_is_in_quote(const char *line, int index)
 {
 	int	q_one;
 	int	q_two;
@@ -156,18 +156,22 @@ t_bool	ft_is_in_single(const char *line, int index)
 	q_ct_after = 0;
 	while (line[i] && i < index)
 	{
-		if (line[i] == 39)
+		if (line[i] == '\'')
 			q_ct_before ++;
 		i ++;
 	}
 	while (line[i])
 	{
-		if (line[i] == 39)
+		if (line[i] == '\'')
 			q_ct_after ++;
 		i ++;
 	}
+	// printf("in single q_ct_before = %d q_ct_after = %d\n", q_ct_before, q_ct_after);
 	if (q_ct_before % 2 != 0 && q_ct_after % 2 != 0)
+	{
+		printf("test\n");
 		return (true);
+	}
 	return (false);
 }
 
@@ -182,26 +186,63 @@ t_bool	ft_is_in_double(const char *line, int index)
 	q_ct_after = 0;
 	while (line[i] && i < index)
 	{
-		if (line[i] == 34)
+		if (line[i] == '\"')
 			q_ct_before ++;
 		i ++;
 	}
 	while (line[i])
 	{
-		if (line[i] == 34)
+		if (line[i] == '\"')
 			q_ct_after ++;
 		i ++;
 	}
+	// printf("in double q_ct_before = %d q_ct_after = %d\n", q_ct_before, q_ct_after);
 	if (q_ct_before % 2 != 0 && q_ct_after % 2 != 0)
+	{
+		printf("kek\n");
 		return (true);
+	}
 	return (false);
 }
 
-t_bool	ft_is_in_quote(const char *line, int index)
+t_bool	ft_is_in_quote(char *line, int index, t_var_quote *quote)
 {
-	if (ft_is_in_double(line, index) == true)
-		return (true);
-	if (ft_is_in_single(line, index) == true)
-		return (true);
-	return (false);
+	int	i;
+
+	i = 0;
+	*quote = not_in_quote;
+	if (index == 0 || index == ft_strlen(line) - 1)
+		return (false);
+	while (line[i])
+	{
+		if (line[i] == '\'' && *quote == not_in_quote && i != index)
+			*quote = in_single;
+		else if (line[i] == '\"' && *quote == not_in_quote && i != index)
+			*quote = in_double;
+		else if (*quote == in_single && line[i] == '\'')
+			*quote = not_in_quote;
+		else if (*quote == in_double && line[i] == '\"')
+			*quote = not_in_quote;
+		if (i == index)
+		{
+			if (*quote == not_in_quote)
+				return (false);
+			else
+				return (true);
+		}
+		i ++;
+	}
+	if (*quote == not_in_quote)
+		return (false);
+	else
+		return (true);	
 }
+
+// t_bool	ft_is_in_quote(const char *line, int index)
+// {
+// 	if (ft_is_in_quote(line, index) == true)
+// 		return (true);
+// 	if (ft_is_in_quote(line, index) == true)
+// 		return (true);
+// 	return (false);
+// }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 11:26:43 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 16:05:56 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/14 09:12:13 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,4 +264,16 @@ int		ft_strlen_to_char(char *str, char c)
 	while (str[i] != c && str[i])
 		i++;
 	return (i);
+}
+
+t_bool	ft_isalnum(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (true);
+	else if (c >= 65 && c <= 90)
+		return (true);
+	else if (c >= 97 && c <= 122)
+		return (true);
+	else
+		return (false);
 }

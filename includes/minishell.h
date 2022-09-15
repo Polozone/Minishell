@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/25 14:29:15 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/15 10:32:35 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,13 @@ typedef struct	l_env_list
 	void	*next;
 }				t_env_lst;
 
+typedef struct	l_dollz_lst
+{
+	char		*word;
+	void		*next;
+}				t_dollz_lst;
+
+
 typedef struct s_prg
 {
 	char		**path_list;
@@ -132,11 +139,12 @@ int			ft_strcmp(const char *s1, const char *s2);
 void		ft_free_char_array(char **array);
 int			search_char(char *str, char c);
 int			ft_strlen_to_char(char *str, char c);
+t_bool		ft_isalnum(int c);
 // void		ft_free_array(void array, int len);
 
 /***** UTILS_SHORTCUT_FTS.C *****/
 
-char		*ft_join_shortcut(char *str1, char *str2);
+char		*ft_join_shrtct(char *str1, char *str2);
 
 /***** CMD_LIST.C *****/
 
@@ -157,10 +165,19 @@ t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
 t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 int					_lst_size_env(t_env_lst *head);
 
+/***** dollz_LIST.C *****/
+
+void			ft_add_back_dollz_list(t_dollz_lst **alpha, t_dollz_lst *newb);
+t_dollz_lst		*ft_lstnew_dollz_list(char *word);
+void			ft_lstclear_dollz_list(t_dollz_lst **lst);
 
 /***** FILL_CMD_LST.C *****/
 
 void		ft_fill_cmd_lst(t_prg *prg);
+
+/***** FILL_FILES.C *****/
+
+void				ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token, int len);
 
 /***** FILL_NODES.C *****/
 
@@ -171,7 +188,7 @@ void				ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
 
 t_token				ft_redir_token(char *word);
 t_token				*ft_assign_token(char **line_split, t_token *line_token);
-int					ft_count_token(t_token *line_token, t_token token_name, int len);
+int					ft_count_token(t_token *line_token, t_token token_name, char **line_split, int len);
 
 /***** SPLIT.C *****/
 
@@ -196,9 +213,9 @@ void		ft_parse(t_prg *prg);
 
 /***** QUOTE.C *****/
 
-t_bool		ft_is_in_single(const char *line, int index);
-t_bool		ft_is_in_double(const char *line, int index);
-t_bool		ft_is_in_quote(const char *line, int index);
+// t_bool		ft_is_in_quote(const char *line, int index);
+// t_bool		ft_is_in_quote(const char *line, int index);
+t_bool			ft_is_in_quote(char *line, int index, t_var_quote *quote);
 
 /***** PIPE_ERROR.C *****/
 

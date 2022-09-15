@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:29:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/18 17:02:03 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/07/28 13:30:40 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,9 @@ t_bool ft_discontinuous_chevron(char *line, char chevron, char chev_two)
 
 static t_bool	ft_chevron_error(char *line, int line_len, char chevron, char che_two)
 {
-	int	i;
-	int	chev_ct;
+	int			i;
+	int			chev_ct;
+	t_var_quote	quote;
 
 	i = 0;
 	while (line[i])
@@ -111,7 +112,7 @@ static t_bool	ft_chevron_error(char *line, int line_len, char chevron, char che_
 		&& (line[i] == chevron || line[i] == che_two || line[i] == ' '))
 		{
 			if ((line[i] == chevron || line[i] == che_two) 
-			&& (ft_is_in_quote(line, i) != true))
+			&& (ft_is_in_quote(line, i, &quote) != true))
 				chev_ct ++;
 			i ++;
 			if (i == line_len && line[0] == chevron &&  chev_ct < 3)
@@ -130,20 +131,21 @@ static t_bool	ft_chevron_error(char *line, int line_len, char chevron, char che_
 		return (ft_printf_error(SYNT_ER, chevron));
 	return (false);
 }
-// erreur chevron : '<l' et 'l>'
+
 static t_bool ft_quote_error(char *line)
 {
 	int	i;
 	int	ct[2] = {0};
+	t_var_quote	quote;
 
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == 34 || line[i] == 39)
+		if (line[i] == '\"' || line[i] == '\'')
 		{
-			if (line[i] == 34 && ft_is_in_single(line, i) == false)
+			if (line[i] == '\"' && ft_is_in_quote(line, i, &quote) == false)
 				ct[0] ++;
-			else if (line[i] == 39 && ft_is_in_double(line, i) == false)
+			else if (line[i] == '\'' && ft_is_in_quote(line, i, &quote) == false)
 				ct[1] ++;
 		}
 		i ++;
