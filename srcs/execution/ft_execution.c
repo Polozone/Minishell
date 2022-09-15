@@ -10,15 +10,21 @@ void is_builtin(t_prg *data, t_cmd_lst *node)
 		if (node->is_cmd_builtin == cd)
 			_ch_dir(data);
 		if (node->is_cmd_builtin == pwd)
+		{
 			_pwd_exe();
+		}
 		if (node->is_cmd_builtin == export)
 			_export_env(data);
 		if (node->is_cmd_builtin == unset)
 			_unset_env_parent(data, node);
 		if (node->is_cmd_builtin == env)
+		{
 			_print_env(data->env_lst);
+		}
 		if (node->is_cmd_builtin == quit)
+		{
 			exit(0);
+		}
 	}
 }
 
@@ -45,24 +51,25 @@ void _ft_forks(t_prg *data)
 	i = 0;
 	int j = 0;
 	tmp = data->cmd_list;
-	while (i < data->cmd_nbr)
+	while (tmp)
 	{
-		data->pid[j] = fork();
-		if (tmp->is_cmd_builtin)
+		// dprintf(2, "tmpcmd buil == %u\n", tmp->is_cmd_builtin);
+		if (tmp->is_cmd_builtin != not_built_in)
 		{
-			// dprintf(2, "ISBUILTINS\n");
 			_set_fd(tmp, data);
+			dprintf(2, "awdawdawd");
 		}
 		else
 		{
+			dprintf(2, "BUILTINS\n");
+			data->pid[j] = fork();
 			if (data->pid[j] == -1)
 			{
 				// FREE ALL;
-				exit(0);
+				// exit(0);
 			}
 			if (data->pid[j] == 0)
 			{
-				// dprintf(2, "NOT BUILTINS\n");
 				_set_fd(tmp, data);
 			}
 			j++;
