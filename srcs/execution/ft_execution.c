@@ -39,55 +39,57 @@ void init_pipe(t_prg *data)
 
 void _ft_forks(t_prg *data)
 {
-	// size_t i;
-	// t_cmd_lst *tmp;
-
-	// i = 0;
-	// int j = 0;
-	// tmp = data->cmd_list;
-	// while (i < data->cmd_nbr)
-	// {
-	// 	// if (tmp->is_cmd_builtin)
-	// 	// {
-	// 	// 	_set_fd(tmp, data);
-	// 	// }
-	// 	// else
-	// 	// {
-	// 		data->pid[j] = fork();
-	// 		if (data->pid[j] == -1)
-	// 		{
-	// 			// FREE ALL;
-	// 			exit(0);
-	// 		}
-	// 		if (data->pid[j] == 0)
-	// 		{
-	// 			_set_fd(tmp, data);
-	// 		}
-	// 		j++;
-	// 	//}
-	// 	i++;
-	// 	tmp = tmp->next;
-	// }
-	size_t	i;
+	size_t i;
 	t_cmd_lst *tmp;
 
 	i = 0;
+	int j = 0;
 	tmp = data->cmd_list;
 	while (i < data->cmd_nbr)
 	{
-		data->pid[i] = fork();
-		if (data->pid[i] == -1)
+		data->pid[j] = fork();
+		if (tmp->is_cmd_builtin)
 		{
-			// FREE ALL;
-			exit (0);
-		}
-		if (data->pid[i] == 0)
-		{
+			// dprintf(2, "ISBUILTINS\n");
 			_set_fd(tmp, data);
 		}
-		tmp = tmp->next;
+		else
+		{
+			if (data->pid[j] == -1)
+			{
+				// FREE ALL;
+				exit(0);
+			}
+			if (data->pid[j] == 0)
+			{
+				// dprintf(2, "NOT BUILTINS\n");
+				_set_fd(tmp, data);
+			}
+			j++;
+		}
 		i++;
+		tmp = tmp->next;
 	}
+	// size_t	i;
+	// t_cmd_lst *tmp;
+
+	// i = 0;
+	// tmp = data->cmd_list;
+	// while (i < data->cmd_nbr)
+	// {
+	// 	data->pid[i] = fork();
+	// 	if (data->pid[i] == -1)
+	// 	{
+	// 		// FREE ALL;
+	// 		exit (0);
+	// 	}
+	// 	if (data->pid[i] == 0)
+	// 	{
+	// 		_set_fd(tmp, data);
+	// 	}
+	// 	tmp = tmp->next;
+	// 	i++;
+	// }
 }
 
 void _set_index_list(t_prg *data)
@@ -114,3 +116,42 @@ void _ft_exe(t_prg *data)
 	data->cmd_list->redir_fd = malloc(sizeof(int) * data->cmd_list->redir_nbr);
 	_ft_forks(data);
 }
+
+
+// int main(int argc, char *argv[])
+// {
+//     int pipefd[2];
+//     pid_t cpid;
+//     char buf;
+
+//     assert(argc == 2);
+
+//     if (pipe(pipefd) == -1) {
+//         perror("pipe");
+//         exit(EXIT_FAILURE);
+//     }
+
+//     cpid = fork();
+//     if (cpid == -1) {
+//         perror("fork");
+//         exit(EXIT_FAILURE);
+//     }
+
+//     if (cpid == 0) {    /* Le fils lit dans le tube */
+//         close(pipefd[1]);  /* Ferme l'extrémité d'écriture inutilisée */
+
+//         while (read(pipefd[0], &buf, 1) > 0)
+//             write(STDOUT_FILENO, &buf, 1);
+
+//         write(STDOUT_FILENO, "\n", 1);
+//         close(pipefd[0]);
+//         _exit(EXIT_SUCCESS);
+
+//     } else {                    /* Le père écrit argv[1] dans le tube */
+//         close(pipefd[0]);       /* Ferme l'extrémité de lecture inutilisée */
+//         write(pipefd[1], argv[1], strlen(argv[1]));
+//         close(pipefd[1]);       /* Le lecteur verra EOF */
+//         wait(NULL);             /* Attente du fils */
+//         exit(EXIT_SUCCESS);
+//     }
+// }

@@ -74,7 +74,10 @@ int	count_builtins(t_cmd_lst *list)
 	while (tmp)
 	{
 		if (tmp->is_cmd_builtin)
+		{
+			// dprintf(2, "heureux == %s\n", tmp->is_cmd_builtin);
 			nbr_builtins++;
+		}
 		tmp = tmp->next;
 	}
 	return (nbr_builtins);
@@ -86,17 +89,13 @@ void _wait_pids(t_prg data)
 	int		nbr_builtins;
 
 	i = 0;
-	// nbr_builtins = count_builtins(data.cmd_list);
-	// dprintf(2, "NBR ==== %d||||||||", nbr_builtins);
-	// dprintf(2, "AWDOAWDIJAWDIJAWDIJADWAIDWJAIWDJAWD");
-	while (i < data.cmd_nbr/* - nbr_builtins*/)
+	nbr_builtins = count_builtins(data.cmd_list);
+	// dprintf(2, "nbr builtins == %d\n", nbr_builtins);
+	while (i < data.cmd_nbr - nbr_builtins)
 	{
-		// dprintf(2, "AWDOAWD-->");
-		dprintf(2, "datapid == %d\n", data.pid[i]);
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
-	dprintf(2, "EMMMMD-->");
 	// free(data.pid);
 	return;
 }
@@ -130,7 +129,6 @@ int main(int ac, char **av, char **env)
 	_sig_handler();
 	while (1)
 	{
-		// dprintf(2, "\n\n\n\n\n\nDEBUT\n\n");
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		if (prg.line == NULL)
@@ -140,8 +138,8 @@ int main(int ac, char **av, char **env)
 		ft_parse(&prg);
 		_ft_exe(&prg);
 		// _ft_free_exe(&prg);
+		close_pipe(&prg);
 		_wait_pids(prg);
-		// dprintf(2, "\n\n\n\n\n\nTEST\n\n");
 		// ft_free_parsing(&prg);
 	}
 }
