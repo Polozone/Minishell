@@ -1,6 +1,8 @@
 
 #include "../../includes/minishell.h"
 
+void	check_cmd(t_cmd_lst *tmp);
+
 void	_set_dup_infile(t_cmd_lst *node)
 {
 	if ((_is_infile(node)))
@@ -62,7 +64,6 @@ void	_init_fd(t_prg *data)
 
 void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
-	dprintf(2, "OKOKOKOK\n\n");
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 	{
 		dprintf(2, "command failed to run == %s\n\n\n", tmp->cmd_and_dep[0]);
@@ -120,11 +121,18 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	close_pipe(data);
+	// check_cmd(tmp);
 	if (tmp->is_cmd_builtin)
 	{
 		is_builtin(data, tmp);
-		return ;
+		exit (0);
 	}
 	_ft_execve(data, tmp);
+	return ;
+}
+
+void	check_cmd(t_cmd_lst *tmp)
+{
+	dprintf(2, "\n\ncmd == %s\n\n", tmp->cmd_and_dep[0]);
 	return ;
 }
