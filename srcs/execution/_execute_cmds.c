@@ -125,7 +125,7 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	if (tmp->is_cmd_builtin)
 	{
 		is_builtin(data, tmp);
-		exit (0);
+		exit(0) ;
 	}
 	_ft_execve(data, tmp);
 	return ;
