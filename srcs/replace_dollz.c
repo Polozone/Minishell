@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 14:24:53 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/15 20:13:46 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/18 11:23:19 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char	*ft_forge_new_line(t_prg *prg, char *line)
 
 	i = 0;
 	new_line = ft_strdup("");
+	if (access(line, F_OK) == 0)
+		return (ft_strdup(line));
 	while (line[i])
 	{
 		ft_is_in_quote(line, i, &quote);
