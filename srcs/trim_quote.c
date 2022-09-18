@@ -6,11 +6,26 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 13:17:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/18 14:38:04 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:42:50 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	ft_go_to_end_of_phrase(char *line, int index, t_var_quote quote)
+{
+	while (line[index + 1])
+	{
+		if (quote == in_double && line[index] == '\"')
+			break;
+		else if (quote == in_single && line[index] == '\'')
+			break;
+		else if (quote == not_in_quote && line[index] == ' ')
+			break;
+		index ++;
+	}
+	return (index);
+}
 
 char	*ft_extracted_phrase(char *line, int index, t_var_quote quote)
 {
@@ -41,47 +56,63 @@ char	*ft_extracted_phrase(char *line, int index, t_var_quote quote)
 	return (ft_substr(line, start + 1, end - (start + 1)));
 }
 
-int	ft_go_to_end_of_phrase(char *line, int index, t_var_quote quote)
-{
-	while (line[index + 1])
-	{
-		if (quote == in_double && line[index] == '\"')
-			break;
-		else if (quote == in_single && line[index] == '\'')
-			break;
-		else if (quote == not_in_quote && line[index] == ' ')
-			break;
-		index ++;
-	}
-	return (index);
-}
 
 char	*ft_trim_quote(char *line)
 {
 	int			i;
+	int			last_stop;
 	char		*new_line;
 	t_var_quote	quote;
 
 	i = 0;
 	new_line = ft_strdup("");
-	while (line[i] && ft_is_in_quote(line, i, &quote))
+	while (line[i])
 	{
-		if (quote == in_double)
-		{
-			new_line = ft_join_shrtct(new_line, ft_extracted_phrase(line, i, quote));
-			i = ft_go_to_end_of_phrase(line, i, quote);
-		}
-		if (quote == in_single)
-		{
-			new_line = ft_join_shrtct(new_line, ft_extracted_phrase(line, i, quote));
-			i = ft_go_to_end_of_phrase(line, i, quote);
-		}
-		if (quote == not_in_quote)
-		{
-			new_line = ft_join_shrtct(new_line, ft_extracted_phrase(line, i, quote));
-			i = ft_go_to_end_of_phrase(line, i, quote);
-		}
+		ft_is_in_quote(line, i, &quote);
+		if ((line[i] == '\'' || line[i] == '\"')
+		&& (quote == not_in_quote))
+			;
+		else
+			new_line = ft_strjoin(new_line, ft_substr(line, i, 1));
 		i ++;
 	}
 	return (new_line);
+}
+
+void	ft_quote_trimer(t_prg *prg)
+{
+	int 		i;
+	char		*line_buff;
+	t_cmd_lst	*tmp;
+
+	i = 0;
+	tmp = prg->cmd_list;
+	line_buff = NULL;
+	// while (tmp != NULL)
+	// {
+	// 	printf("BOUYAH tmp->cmd_and_dep[%d] = %s\n", i, tmp->cmd_and_dep[i]);
+	// 	printf("adress next = %p\n", &tmp->next);
+	// 	tmp = tmp->next;
+	// }
+	while (tmp)
+	{
+		i = 0;
+		while (tmp->cmd_and_dep[i])
+		{
+			line_buff = tmp->cmd_and_dep[i];
+			tmp->cmd_and_dep[i] = ft_trim_quote(tmp->cmd_and_dep[i]);
+
+			free(line_buff);
+			i ++;
+		}
+		i = 0;
+		while (tmp->file[i])
+		{
+			line_buff = tmp->file[i];
+			tmp->file[i] = ft_trim_quote(tmp->file[i]);
+			free(line_buff);
+			i ++;
+		}
+		tmp = tmp->next;
+	}
 }
