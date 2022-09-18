@@ -4,6 +4,7 @@ SRCS =	srcs/main.c				\
 		srcs/strings_manip.c	\
 		srcs/printing_ft.c		\
 		srcs/quote.c			\
+		srcs/trim_quote.c		\
 		srcs/syntax_error.c		\
 		srcs/builtin_check.c	\
 		srcs/cmd_list.c			\

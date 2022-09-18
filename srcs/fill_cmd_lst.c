@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/15 13:47:49 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/18 11:48:19 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,15 @@ void	ft_expend_env_variable(t_prg *prg, t_cmd_lst *cmd_lst)
 	char *buff;
 
 	i = 0;
-	if (cmd_lst->cmd_and_dep == 0)
+	if (prg->cells == 0)
 		return;
-	while (cmd_lst->cmd_and_dep[i])
+	while (prg->cells[i])
 	{
-		if (ft_is_there_dollzzz(cmd_lst->cmd_and_dep[i]) == true)
+		if (ft_is_there_dollzzz(prg->cells[i]) == true)
 		{
-			buff = cmd_lst->cmd_and_dep[i];
-			cmd_lst->cmd_and_dep[i] =
-			ft_forge_new_line(prg, cmd_lst->cmd_and_dep[i]);
+			buff = prg->cells[i];
+			prg->cells[i] =
+			ft_forge_new_line(prg, prg->cells[i]);
 			free(buff);
 		}
 		i ++;
@@ -77,9 +77,11 @@ void	ft_fill_cmd_lst(t_prg *prg)
 	ft_create_path_list(prg);
 	while (prg->cells[i])
 	{
+		printf("before cells[%d] = %s\n", i, prg->cells[i]);
+		ft_expend_env_variable(prg, buff);
+		printf("after cells[%d] = %s\n", i, prg->cells[i]);
 		ft_fill_node(prg->cells[i], buff, prg);
 		// dprintf(2, "nbr (inside) == %d\n\n", prg->cmd_list->redir_nbr);
-		ft_expend_env_variable(prg, buff);
 		i ++;
 		buff = buff->next;
 	}

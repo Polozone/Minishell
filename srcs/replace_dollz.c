@@ -6,11 +6,12 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 14:24:53 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/18 11:23:19 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:57:32 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
 static char	*ft_get_var_name(char *line, int index)
 {
 	int	i;
@@ -54,6 +55,20 @@ char	*ft_expend(t_prg *prg, char *line, int index)
 	return (ft_strdup(""));
 }
 
+t_bool	ft_is_phrase_a_file(char *line, int index, t_var_quote quote)
+{
+	char	*phrase;
+
+	phrase = ft_extracted_phrase(line, index, quote);
+	if (access(phrase, F_OK) == 0)
+	{
+		free(phrase);
+		return (true);
+	}
+	free(phrase);
+	return (false); 
+}
+
 char	*ft_forge_new_line(t_prg *prg, char *line)
 {
 	int			i;
@@ -62,12 +77,11 @@ char	*ft_forge_new_line(t_prg *prg, char *line)
 
 	i = 0;
 	new_line = ft_strdup("");
-	if (access(line, F_OK) == 0)
-		return (ft_strdup(line));
 	while (line[i])
 	{
 		ft_is_in_quote(line, i, &quote);
-		if (line[i] != '$' || quote == in_single)
+		if ((line[i] != '$' || quote == in_single)
+		|| (line[i] == '$' && ft_is_phrase_a_file(line, i, quote) == true))
 		{
 			if ((quote == not_in_quote)
 			&& (line[i] == '\'' || line[i] == '\"'))
@@ -79,8 +93,6 @@ char	*ft_forge_new_line(t_prg *prg, char *line)
 			i ++;
 		else if (line[i] == '$')
 		{
-			// if (quote == in_single)
-			// 	new_line = ft_join_shrtct(new_line, ft_substr(line, i, 1));
 			new_line = ft_join_shrtct(new_line, ft_expend(prg, line, i));
 			i ++;
 			while (line[i] && ft_isalnum(line[i]) == true && line[i] != '$')

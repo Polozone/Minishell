@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/15 10:32:35 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:47:05 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,11 @@ void		ft_parse(t_prg *prg);
 // t_bool		ft_is_in_quote(const char *line, int index);
 // t_bool		ft_is_in_quote(const char *line, int index);
 t_bool			ft_is_in_quote(char *line, int index, t_var_quote *quote);
+
+/***** QUOTE.C *****/
+
+char			*ft_trim_quote(char *line);
+char			*ft_extracted_phrase(char *line, int index, t_var_quote quote);
 
 /***** PIPE_ERROR.C *****/
 
