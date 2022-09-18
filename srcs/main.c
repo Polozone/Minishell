@@ -90,8 +90,10 @@ void _wait_pids(t_prg data)
 
 	i = 0;
 	nbr_builtins = count_builtins(data.cmd_list);
-	while (i < data.cmd_nbr - nbr_builtins)
+	// dprintf(2, "result == %d", data.cmd_nbr - nbr_builtins);
+	while (i < data.cmd_nbr/*- nbr_builtins*/)
 	{
+		// dprintf(2, "\n\n\n\nTEST\n\n\n\n");
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
@@ -129,7 +131,7 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		g_error = 0;
-		dprintf(2, "\nTEST\n");
+		// dprintf(2, "\ntest\n");
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		if (prg.line == NULL)
 			exit(0);
