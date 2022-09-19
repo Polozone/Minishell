@@ -20,7 +20,6 @@ static t_cmd_lst	*ft_create_cmd_lst(t_prg *prg)
 
 	prg->cmd_list = ft_lstnew_cmd_list();
 	i = 1;
-
 	while (i < prg->cmd_nbr)
 	{
 		ft_add_back_cmd_list(&prg->cmd_list, ft_lstnew_cmd_list());

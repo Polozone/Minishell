@@ -75,11 +75,11 @@ void	ft_fill_cmd_lst(t_prg *prg)
 	i = 0;
 	buff = prg->cmd_list;
 	ft_create_path_list(prg);
-	while (prg->cells[i])
+	while (buff != NULL && prg->cells[i])
 	{
 		ft_fill_node(prg->cells[i], buff, prg);
 		// dprintf(2, "nbr (inside) == %d\n\n", prg->cmd_list->redir_nbr);
-		ft_expend_env_variable(prg, buff);
+		// ft_expend_env_variable(prg, buff);
 		i ++;
 		buff = buff->next;
 	}

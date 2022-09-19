@@ -42,7 +42,7 @@ void	close_pipe(t_prg *data)
 	int		i;
 
 	i = 0;
-	while (i < (data->cmd_nbr - 1) * 2)
+	while (i < ((data->cmd_nbr - 1)) * 2)
 	{
 		close(data->pipe[i]);
 		i++;
@@ -121,12 +121,8 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	close_pipe(data);
-	// check_cmd(tmp);
-	if (tmp->is_cmd_builtin)
-	{
-		is_builtin(data, tmp);
-		exit(0) ;
-	}
+	if (is_builtin_fork(data, tmp))
+		exit (0) ;
 	_ft_execve(data, tmp);
 	return ;
 }

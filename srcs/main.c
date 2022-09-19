@@ -64,7 +64,7 @@ void _sig_handler()
 	sigaction(SIGINT, &sa, NULL);
 }
 
-int	count_builtins(t_cmd_lst *list)
+int	count_builtins_nofork(t_cmd_lst *list)
 {
 	t_cmd_lst	*tmp;
 	int			nbr_builtins;
@@ -73,9 +73,9 @@ int	count_builtins(t_cmd_lst *list)
 	nbr_builtins = 0;
 	while (tmp)
 	{
-		if (tmp->is_cmd_builtin)
+		if (tmp->is_cmd_builtin == export || tmp->is_cmd_builtin == unset 
+			|| tmp->is_cmd_builtin == cd || tmp->is_cmd_builtin == quit)
 		{
-			// dprintf(2, "heureux == %s\n", tmp->is_cmd_builtin);
 			nbr_builtins++;
 		}
 		tmp = tmp->next;
@@ -89,11 +89,8 @@ void _wait_pids(t_prg data)
 	int		nbr_builtins;
 
 	i = 0;
-	nbr_builtins = count_builtins(data.cmd_list);
-	// dprintf(2, "result == %d", data.cmd_nbr - nbr_builtins);
-	while (i < data.cmd_nbr/*- nbr_builtins*/)
+	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
-		// dprintf(2, "\n\n\n\nTEST\n\n\n\n");
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
@@ -131,10 +128,9 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		g_error = 0;
-		// dprintf(2, "\ntest\n");
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		if (prg.line == NULL)
-			exit(0);
+			exit(0); // ctrl+d
 		add_history(prg.line);
 		env_to_tab(&prg);
 		ft_parse(&prg);
