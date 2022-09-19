@@ -6,10 +6,9 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 12:59:48 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/21 17:42:17 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:58:11 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/minishell.h"
 
@@ -52,7 +51,7 @@ t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 	env = malloc(sizeof(t_env_lst));
 	if (env == NULL)
 		exit (0);
-	env->name = malloc(ft_strlen(name) + 1);       // Auparavant ces contents n etaient pas malloc et ca marchait
+	env->name = malloc(ft_strlen(name) + 1);
 	if (env->name == NULL)
 	{
 		// TOUT FREE

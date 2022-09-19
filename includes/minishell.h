@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/18 17:42:50 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/19 14:57:16 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct l_cmd_list
 	char		**file;				// duble char array of each files -> infile and outfile (write at the last outfile)
 	int			redir_nbr;			// nbr of redirections
 	t_redir		*redir_type;		// enum to know the nature of the redirection
-	char		*heredoc_delimiter; //the heredoc delimiter
+	char		**heredoc_delimiter; //the heredoc delimiter
 	t_builtin	is_cmd_builtin; 	// enum to know if the command is a builtins and the nature of the builtins.
 	int			*redir_fd;
 	int			infile;
@@ -182,6 +182,7 @@ void				ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token
 /***** FILL_NODES.C *****/
 
 void				ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
+void				ft_find_path(t_prg *prg, t_cmd_lst *cmd_list);
 
 /***** TOKEN.C *****/
 
@@ -221,7 +222,7 @@ t_bool			ft_is_in_quote(char *line, int index, t_var_quote *quote);
 
 char			*ft_trim_quote(char *line);
 char			*ft_extracted_phrase(char *line, int index, t_var_quote quote);
-void			ft_quote_trimer(t_prg *prg);
+void			ft_quote_trimer(t_prg *prg, t_cmd_lst *buff);
 
 /***** PIPE_ERROR.C *****/
 

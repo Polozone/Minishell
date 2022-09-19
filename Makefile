@@ -9,7 +9,6 @@ SRCS =	srcs/main.c				\
 		srcs/builtin_check.c	\
 		srcs/cmd_list.c			\
 		srcs/env_list.c			\
-		srcs/dollz_list.c		\
 		srcs/fill_cmd_lst.c		\
 		srcs/fill_nodes.c		\
 		srcs/fill_files.c		\
