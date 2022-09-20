@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 08:49:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/19 16:38:21 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/20 10:23:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,10 @@ void	ft_heredoc_delimiter(t_prg *prg, t_cmd_lst *cmd_lst, char **l_split)
 	i = 0;
 	while (cmd_lst->file[i])
 	{
-		printf("FILE[%d] = %s\n", i, cmd_lst->file[i]);
 		if (cmd_lst->redir_type[i] == heredoc)
 			cmd_lst->heredoc_delimiter[i] = ft_strdup(cmd_lst->file[i]);
 		i ++;
 	}
-	printf("I IN FILLER = %d\n", i);
 	cmd_lst->heredoc_delimiter[i] = 0;
 }
 
@@ -101,8 +99,6 @@ void	ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg)
 	ft_is_cmd_builtin(prg, cmd_lst);
 	ft_redir_assignation(prg, cmd_lst, line_token, line_split);
 	ft_heredoc_delimiter(prg, cmd_lst, line_split);
-	printf("delimiter FILL NODES = %s\n", cmd_lst->heredoc_delimiter[0]);
-	printf("delimiter FILL NODES = %s\n", cmd_lst->heredoc_delimiter[1]);
 	ft_free_char_array(line_split);
 	free(line_token);
 }

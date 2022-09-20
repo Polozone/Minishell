@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 14:03:31 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/19 16:38:23 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/20 09:42:29 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_free_int_array(int *array, int len)
 	free(array);
 }
 
-void	ft_free_parsing(t_prg *prg)
+void	ft_free_cmd_list(t_prg *prg)
 {
 	t_cmd_lst *tmp;
 
@@ -49,7 +49,8 @@ void	ft_free_parsing(t_prg *prg)
 		if (tmp->redir_nbr)
 			ft_free_int_array((int *)tmp->redir_type, tmp->redir_nbr);
 		if (tmp->heredoc_delimiter != NULL)
-			free
+			ft_free_char_array(tmp->heredoc_delimiter)
+		if (tmp->redir)
 		tmp = tmp->next;
 	}
 }

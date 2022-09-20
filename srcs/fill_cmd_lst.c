@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/19 10:58:34 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/20 09:50:29 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	ft_create_path_list(t_prg *prg)
 	}
 	if (prg->is_there_path == true)
 		prg->path_list = ft_split(buff->content, ':');
-	// printf("buff name = %s path_list[0] =\n", buff->name);
 }
 
 t_bool	ft_is_there_dollzzz(char *line)
@@ -83,5 +82,4 @@ void	ft_fill_cmd_lst(t_prg *prg)
 		i ++;
 		buff = buff->next;
 	}
-	// ft_free_array(prg->path_list);
 }
