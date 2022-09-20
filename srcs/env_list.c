@@ -6,10 +6,9 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 12:59:48 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/21 17:42:17 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/20 09:49:56 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/minishell.h"
 
@@ -51,19 +50,13 @@ t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 
 	env = malloc(sizeof(t_env_lst));
 	if (env == NULL)
-		exit (0);
-	env->name = malloc(ft_strlen(name) + 1);       // Auparavant ces contents n etaient pas malloc et ca marchait
+		exit (1);
+	env->name = malloc(ft_strlen(name) + 1);
 	if (env->name == NULL)
-	{
-		// TOUT FREE
-		exit (0);
-	}
-	env->content = malloc(ft_strlen(content) + 1); // on s'est dit qu on les mqlloc ici pr pouvoir tout free a la fin (possible d'enlever ces malloc pr tester)
+		exit (1);
+	env->content = malloc(ft_strlen(content) + 1);
 	if (env->content == NULL)
-	{
-		// TOUT FREE
-		exit (0);
-	}
+		exit (1);
 	env->name = name;
 	env->content = content;
 	env->next = NULL;
@@ -100,13 +93,13 @@ void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
 
 t_env_lst	*ft_search_in_env_lst(t_prg *prg, char *name)
 {
-	t_env_lst *buff;
+	t_env_lst	*buff;
 
 	buff = prg->env_lst;
 	while (buff != NULL)
 	{
 		if (ft_strstr(buff->name, name) != 0)
-			return(buff);
+			return (buff);
 		buff = buff->next;
 	}
 	return (0);
@@ -118,9 +111,7 @@ t_env_lst	*ft_create_env_lst(char **envp, t_prg *prg)
 
 	i = 1;
 	if (envp[0] == NULL)
-	{
 		return (ft_lstnew_env_list(0, 0));
-	}
 	ft_make_elem(envp[0], &prg->env_lst, 0);
 	while (envp[i])
 	{

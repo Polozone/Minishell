@@ -4,11 +4,11 @@ SRCS =	srcs/main.c				\
 		srcs/strings_manip.c	\
 		srcs/printing_ft.c		\
 		srcs/quote.c			\
+		srcs/trim_quote.c		\
 		srcs/syntax_error.c		\
 		srcs/builtin_check.c	\
 		srcs/cmd_list.c			\
 		srcs/env_list.c			\
-		srcs/dollz_list.c		\
 		srcs/fill_cmd_lst.c		\
 		srcs/fill_nodes.c		\
 		srcs/fill_files.c		\
@@ -46,6 +46,7 @@ NAME = minishell
 
 $(NAME): $(OBJS) $(INCL) Makefile
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
+	make clean
 
 clean:
 	$(RM) $(OBJS)

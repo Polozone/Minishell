@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:29:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/28 13:30:40 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:29:38 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,37 +42,26 @@ static t_bool	ft_printf_error(int mode, char chevron)
 	return (false);
 }
 
-static t_bool	ft_pipe_error(char *line, int line_len)
+t_bool ft_empty_pipe(char	*line)
 {
 	int	i;
-	int	pipe_ct;
+	t_bool	empty_pipe;
 
 	i = 0;
+	empty_pipe = true;
 	while (line[i])
 	{
-		pipe_ct = 0;
-		while ((line[i])
-		&& (line[i] == '|' || line[i] == ' '))
-		{
-			if (line[i] == '|')
-				pipe_ct ++;
-			i ++;
-			if ((i == line_len && i < 2)
-			|| (line_len >  1 && line [0] == '|' && line[1] != '|'))
-				return (ft_printf_error(ONE_PIPE, 0));
-			else if ((i == line_len && i >= 2 && line[i - 1] == '|')
-			|| (line_len > 2 && line[0] == '|' && line[1] == '|'))
-				return (ft_printf_error(TWO_PIPE, 0));
-		}
-		if (pipe_ct == 3)
-			return (ft_printf_error(ONE_PIPE, 0));
-		if (pipe_ct > 3)
-			return (ft_printf_error(TWO_PIPE, 0));
-		else if (i == line_len && line[i] == '|')
-			return (ft_printf_error(SYNT_ER, 0));
-			i ++;
+		if (line[i] != ' ' && line[i] != '|' && line[i] != '<' && line[i] != '>')
+			empty_pipe = false;
+		else if (line [i] == '<' || line[i] == '>')
+			empty_pipe = true;
+		else if (line[i] == '|' && empty_pipe == true)
+			return (true);
+		i ++;
 	}
-	return (false);
+	if (line[i - 1] == '|')
+		empty_pipe = true;
+	return (empty_pipe);
 }
 
 t_bool ft_discontinuous_chevron(char *line, char chevron, char chev_two)
@@ -172,8 +161,11 @@ t_bool	ft_syntax_error(t_prg *prg)
 		error = true;
 	else if (ft_chevron_error(prg->line, prg->line_len, '<', '>') == true)
 		error = true;
-	else if (ft_pipe_error(prg->line, prg->line_len) == true)
+	else if (ft_empty_pipe(prg->line) == true)
+	{
+		ft_printf_error(SYNT_ER, 0);
 		error = true;
+	}
 	else if (ft_quote_error(prg->line) == true)
 		error = true;
 	if (error == true)
