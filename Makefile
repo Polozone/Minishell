@@ -24,7 +24,8 @@ SRCS =	srcs/main.c				\
 		srcs/execution/ft_free_execution.c			\
 		srcs/execution/ft_execution.c	\
 		srcs/execution/_execute_cmds.c	\
-		srcs/execution/in_out_handler.c
+		srcs/execution/in_out_handler.c	\
+		srcs/ft_free.c
 
 OBJS = $(SRCS:.c=.o)
 
