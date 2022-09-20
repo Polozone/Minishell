@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/20 10:31:00 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/20 11:41:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,18 @@ void	ft_fill_cmd_lst(t_prg *prg)
 	i = 0;
 	buff = prg->cmd_list;
 	ft_create_path_list(prg);
+	// for (t_env_lst *env_lst; env_lst != NULL; env_lst = env_lst->next)
+	// 	printf("%s%s\n", env_lst->name, env_lst->content);
 	while (buff != NULL && prg->cells[i])
 	{
+		printf("TEST\n");
 		ft_expend_env_variable(prg, buff);
 		ft_fill_node(prg->cells[i], buff, prg);
 		ft_quote_trimer(prg, buff);
 		i ++;
 		buff = buff->next;
 	}
+	if (prg->path_list != NULL)
+		ft_free_char_array(prg->path_list);
+	prg->path_list = NULL;
 }

@@ -37,7 +37,7 @@ RM = rm -f
 
 #FLAGS = -lreadline -Wall -Werror -Wextra -fsanitize=address -g3
 
-FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra
+FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra -fsanitize=address -g3
 
 %.o.c: $(INCL) Makefile
 	$(CC) $(FLAGS) -c $< -o $@
