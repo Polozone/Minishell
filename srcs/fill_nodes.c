@@ -6,13 +6,13 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 08:49:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/15 10:25:24 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/20 10:23:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void		ft_find_path(t_prg *prg, t_cmd_lst *cmd_list)
+void		ft_find_path(t_prg *prg, t_cmd_lst *cmd_list)
 {
 	int		i;
 	char	*path;
@@ -64,6 +64,24 @@ static void ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split, t_token *
 	cmd_lst->cmd_and_dep[j] = 0;
 }
 
+void	ft_heredoc_delimiter(t_prg *prg, t_cmd_lst *cmd_lst, char **l_split)
+{
+	int	i;
+
+	i = 0;
+	while (i < cmd_lst->redir_nbr)
+		i ++;
+	cmd_lst->heredoc_delimiter = malloc((i + 1) * sizeof(char *));
+	i = 0;
+	while (cmd_lst->file[i])
+	{
+		if (cmd_lst->redir_type[i] == heredoc)
+			cmd_lst->heredoc_delimiter[i] = ft_strdup(cmd_lst->file[i]);
+		i ++;
+	}
+	cmd_lst->heredoc_delimiter[i] = 0;
+}
+
 void	ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg)
 {
 	char	**line_split;
@@ -80,6 +98,7 @@ void	ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg)
 	ft_fill_file(cmd_lst, line_split, line_token, split_len);
 	ft_is_cmd_builtin(prg, cmd_lst);
 	ft_redir_assignation(prg, cmd_lst, line_token, line_split);
+	ft_heredoc_delimiter(prg, cmd_lst, line_split);
 	ft_free_char_array(line_split);
 	free(line_token);
 }
