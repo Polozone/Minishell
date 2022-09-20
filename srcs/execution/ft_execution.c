@@ -70,12 +70,11 @@ void init_pipe(t_prg *data)
 
 void _ft_forks(t_prg *data)
 {
-	size_t i;
+	int j;
 	t_cmd_lst *tmp;
 
-	i = 0;
-	int j = 0;
 	tmp = data->cmd_list;
+	j = 0;
 	while (tmp)
 	{
 		if (is_builtin_nofork(data, tmp))
