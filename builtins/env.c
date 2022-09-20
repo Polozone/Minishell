@@ -36,11 +36,16 @@ void _unset_env_parent(t_prg *prg, t_cmd_lst *node)
 
 void _unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
 {
-	t_env_lst *tmp;
-	t_env_lst *before;
+	t_env_lst	*tmp;
+	t_env_lst	*before;
 
 	tmp = prg->env_lst;
 	before = prg->env_lst;
+	if (!ft_strcmp(node->cmd_and_dep[i], tmp->name))
+	{
+		prg->env_lst = ((t_env_lst*)prg->env_lst->next);
+		return ;
+	}
 	while (tmp)
 	{
 		if (!ft_strcmp(node->cmd_and_dep[i], tmp->name))
@@ -48,31 +53,6 @@ void _unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
 		before = tmp;
 		tmp = tmp->next;
 	}
-	// t_env_lst *tmp;
-	// t_env_lst *before;
-
-	// tmp = prg->env_lst;
-	// prg->env_lst = tmp;
-	// if (!ft_strncmp(prg->env_lst->name, ft_strjoin(node->cmd_and_dep[i], "="), ft_strlen(node->cmd_and_dep[i])))
-	// {
-	// 	prg->env_lst = ((t_env_lst*)prg->env_lst->next);
-	// 	return ;
-	// }
-	// while (prg->env_lst != NULL)
-	// {
-	// 	if (!ft_strncmp(prg->env_lst->name, ft_strjoin(node->cmd_and_dep[i], "="), ft_strlen(node->cmd_and_dep[i])))
-	// 	{
-	// 		// dprintf(2, "\n\n\n\n\n\nDOUBLONNNN\n\n\n\n\n\n\n");
-	// 		dprintf(2, "\n\n\n\nbefore name = %s |||| actual name = %s\n\n\n\n", before->name, prg->env_lst->name);
-	// 		before->next = ((t_env_lst*)prg->env_lst->next);
-	// 		// free(before);
-	// 		break ;
-	// 	}
-	// 	before = prg->env_lst;
-	// 	prg->env_lst = prg->env_lst->next;
-	// }
-	// prg->env_lst = tmp;
-	// _print_env(prg->env_lst);
 }
 
 int _parsing_export(char *cmd)
@@ -116,6 +96,8 @@ void _add_env(t_prg *prg, int i)
 		name = ft_substr(prg->cmd_list->cmd_and_dep[i], 0, sep);
 		content = ft_substr(prg->cmd_list->cmd_and_dep[i], sep + 1, ft_strlen(prg->cmd_list->cmd_and_dep[i]) - sep);
 		_add_node(name, content, prg);
+		free(name);
+		free(content);
 	}
 }
 

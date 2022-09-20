@@ -75,33 +75,33 @@ void	ft_fill_cmd_lst(t_prg *prg)
 	i = 0;
 	buff = prg->cmd_list;
 	ft_create_path_list(prg);
-	while (prg->cells[i])
+	while (buff != NULL && prg->cells[i])
 	{
 		ft_fill_node(prg->cells[i], buff, prg);
 		// dprintf(2, "nbr (inside) == %d\n\n", prg->cmd_list->redir_nbr);
-		ft_expend_env_variable(prg, buff);
+		// ft_expend_env_variable(prg, buff);
 		i ++;
 		buff = buff->next;
 	}
 	t_cmd_lst *buff2 = prg->cmd_list;
 	
-	while (buff2)
-	{
-		if (buff2->cmd_and_dep != 0)
-			for (int i = 0; buff2->cmd_and_dep[i]; i ++)
-				printf("cmd_n_dep[%d] = %s\n", i, buff2->cmd_and_dep[i]);
-		printf("path= %s\n", buff2->path);
-		if (buff2->file != 0)
-			for (int i = 0; buff2->file[i]; i ++)
-				printf("file[%d] = %s\n", i, buff2->file[i]);
-		if (buff2->redir_nbr != 0)			
-			printf("redir_nbr = %d\n", buff2->redir_nbr);
-		if (buff2->redir_type != 0)
-			for (int i = 0; i < buff2->redir_nbr; i ++)
-				printf("redir_type[%d] = %u\n", i, buff2->redir_type[i]);
-		if (buff2->is_cmd_builtin != 0)
-			printf("is_cmd_builtin = %d\n", buff2->is_cmd_builtin);
-		buff2 = buff2->next;
-	}
+	// while (buff2)
+	// {
+	// 	if (buff2->cmd_and_dep != 0)
+	// 		for (int i = 0; buff2->cmd_and_dep[i]; i ++)
+	// 			printf("cmd_n_dep[%d] = %s\n", i, buff2->cmd_and_dep[i]);
+	// 	printf("path= %s\n", buff2->path);
+	// 	if (buff2->file != 0)
+	// 		for (int i = 0; buff2->file[i]; i ++)
+	// 			printf("file[%d] = %s\n", i, buff2->file[i]);
+	// 	if (buff2->redir_nbr != 0)			
+	// 		printf("redir_nbr = %d\n", buff2->redir_nbr);
+	// 	if (buff2->redir_type != 0)
+	// 		for (int i = 0; i < buff2->redir_nbr; i ++)
+	// 			printf("redir_type[%d] = %u\n", i, buff2->redir_type[i]);
+	// 	if (buff2->is_cmd_builtin != 0)
+	// 		printf("is_cmd_builtin = %d\n", buff2->is_cmd_builtin);
+	// 	buff2 = buff2->next;
+	// }
 	// ft_free_array(prg->path_list);
 }

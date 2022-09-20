@@ -1,6 +1,8 @@
 
 #include "../../includes/minishell.h"
 
+void	check_cmd(t_cmd_lst *tmp);
+
 void	_set_dup_infile(t_cmd_lst *node)
 {
 	if ((_is_infile(node)))
@@ -40,7 +42,7 @@ void	close_pipe(t_prg *data)
 	int		i;
 
 	i = 0;
-	while (i < (data->cmd_nbr - 1) * 2)
+	while (i < ((data->cmd_nbr - 1)) * 2)
 	{
 		close(data->pipe[i]);
 		i++;
@@ -114,18 +116,19 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		_redir_last_cmd(node, data);
 }
 
-
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	close_pipe(data);
-	if (tmp->is_cmd_builtin)
-	{
-		is_builtin(data, tmp);
-		return ;
-	}
-	// dprintf(2, "adwawdawdawdawdawdawdawdaw\n\n\n");
+	if (is_builtin_fork(data, tmp))
+		exit (0) ;
 	_ft_execve(data, tmp);
+	return ;
+}
+
+void	check_cmd(t_cmd_lst *tmp)
+{
+	dprintf(2, "\n\ncmd == %s\n\n", tmp->cmd_and_dep[0]);
 	return ;
 }
