@@ -143,17 +143,9 @@ int main(int ac, char **av, char **env)
 		if (g_error != 258)
 		{
 			_ft_exe(&prg);
-			_ft_free_exe(&prg);
 			close_pipe(&prg);
 			_wait_pids(prg);
+			_ft_free_exe(&prg);
 		}
-		// while (prg.env_lst)
-		// {
-		// 	dprintf(2, "%s\n", prg.env_lst->content);
-		// 	prg.env_lst = prg.env_lst->next;
-		// }
-		// exit (0);
-		// _ft_free_exe(&prg);
-		// ft_free_parsing(&prg);
 	}
 }

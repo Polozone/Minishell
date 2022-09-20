@@ -25,7 +25,9 @@ SRCS =	srcs/main.c				\
 		srcs/execution/ft_execution.c	\
 		srcs/execution/_execute_cmds.c	\
 		srcs/execution/in_out_handler.c	\
-		srcs/ft_free.c
+		srcs/ft_free.c					\
+		srcs/execution/get_next_line/get_next_line.c	\
+		srcs/execution/get_next_line/get_next_line_utils.c	\
 
 OBJS = $(SRCS:.c=.o)
 
@@ -37,7 +39,7 @@ RM = rm -f
 
 #FLAGS = -lreadline -Wall -Werror -Wextra -fsanitize=address -g3
 
-FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra
+FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra -fsanitize=address -g3
 
 %.o.c: $(INCL) Makefile
 	$(CC) $(FLAGS) -c $< -o $@
@@ -46,7 +48,6 @@ NAME = minishell
 
 $(NAME): $(OBJS) $(INCL) Makefile
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
-	make clean
 
 clean:
 	$(RM) $(OBJS)

@@ -70,13 +70,9 @@ int _init_pipe(t_prg *data)
 	return (0);
 }
 
-void _ft_forks(t_prg *data)
+void _ft_forks(t_prg *data, int j, t_cmd_lst *tmp)
 {
-	int j;
-	t_cmd_lst *tmp;
-
 	tmp = data->cmd_list;
-	j = 0;
 	while (tmp)
 	{
 		if (is_builtin_nofork(data, tmp))
@@ -87,7 +83,7 @@ void _ft_forks(t_prg *data)
 				// FREE ALL;
 				// exit(0);
 			}
-			if (data->pid[j] == 0)
+			else if (data->pid[j] == 0)
 				_set_fd(tmp, data);
 			j++;
 		}
@@ -130,10 +126,11 @@ int	_alloc_exe_var(t_prg *data)
 
 int	_ft_exe(t_prg *data)
 {
+	data->cmd_list->redir_fd = NULL;
 	data->nbr_builtins = count_builtins_nofork(data->cmd_list);
 	data->cmd_nbr = get_size_lst(data);
 	_set_index_list(data);
 	if (_init_pipe(data) || _alloc_exe_var(data))
 		return (-1);
-	_ft_forks(data);
+	_ft_forks(data, 0, NULL);
 }
