@@ -253,10 +253,11 @@ void		_add_node(char *name, char *content, t_prg *prg);
 int			is_builtin_nofork(t_prg *data, t_cmd_lst *node);
 int			is_builtin_fork(t_prg *data, t_cmd_lst *node);
 int			count_builtins_nofork(t_cmd_lst *list);
+void		env_to_tab(t_prg *prg, int i);
 
 /***** EXECUTIONS.C *****/
 
-void		_ft_exe(t_prg *data);
+int			_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void		close_pipe(t_prg *data);

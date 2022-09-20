@@ -98,16 +98,14 @@ void _wait_pids(t_prg data)
 	return;
 }
 
-void env_to_tab(t_prg *prg)
+void env_to_tab(t_prg *prg, int i)
 {
-	t_env_lst *tmp;
-	int size_lst;
-	int i;
+	t_env_lst	*tmp;
+	int			size_lst;
 
 	size_lst = _lst_size_env(prg->env_lst);
 	prg->envp = malloc((sizeof(char *)) * size_lst + 1);
 	tmp = prg->env_lst;
-	i = 0;
 	while (tmp)
 	{
 		prg->envp[i] = ft_strjoin(ft_strjoin(tmp->name, "="), tmp->content);
@@ -117,6 +115,13 @@ void env_to_tab(t_prg *prg)
 	prg->envp[i] = 0;
 }
 
+void	_init_exe_var(t_prg *data)
+{
+	data->pid = NULL;
+	// data->cmd_list->redir_fd = NULL;
+	data->pipe = NULL;
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
@@ -124,6 +129,7 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
+	_init_exe_var(&prg);
 	_sig_handler();
 	while (1)
 	{
@@ -132,10 +138,10 @@ int main(int ac, char **av, char **env)
 		if (prg.line == NULL)
 			exit(0); // ctrl+d
 		add_history(prg.line);
-		env_to_tab(&prg);
+		env_to_tab(&prg, 0);
 		ft_parse(&prg);
 		_ft_exe(&prg);
-		// _ft_free_exe(&prg);
+		_ft_free_exe(&prg);
 		close_pipe(&prg);
 		_wait_pids(prg);
 		// ft_free_parsing(&prg);

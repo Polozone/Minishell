@@ -53,7 +53,7 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 	return (0);
 }
 
-void init_pipe(t_prg *data)
+int _init_pipe(t_prg *data)
 {
 	int i;
 
@@ -63,9 +63,11 @@ void init_pipe(t_prg *data)
 	{
 		// FREE ALL AND EXIT
 		// free_data();
+		return (-1);
 	}
 	while (++i < data->cmd_nbr - 1)
 		pipe(&data->pipe[i * 2]);
+	return (0);
 }
 
 void _ft_forks(t_prg *data)
@@ -108,13 +110,30 @@ void _set_index_list(t_prg *data)
 	}
 }
 
-void _ft_exe(t_prg *data)
+int	_alloc_exe_var(t_prg *data)
+{
+	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
+	if (data->pid == NULL)
+	{
+		// free and return;
+		return (-1);
+	}
+	data->cmd_list->redir_fd = malloc(sizeof(int) * data->cmd_list->redir_nbr);
+	if (data->cmd_list->redir_fd == NULL)
+	{
+		// free and return ;
+		return (-1);
+	}
+	return (0);
+}
+
+
+int	_ft_exe(t_prg *data)
 {
 	data->nbr_builtins = count_builtins_nofork(data->cmd_list);
 	data->cmd_nbr = get_size_lst(data);
 	_set_index_list(data);
-	init_pipe(data);
-	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
-	data->cmd_list->redir_fd = malloc(sizeof(int) * data->cmd_list->redir_nbr);
+	if (_init_pipe(data) || _alloc_exe_var(data))
+		return (-1);
 	_ft_forks(data);
 }
