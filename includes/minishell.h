@@ -55,9 +55,9 @@ typedef enum	s_builtin
 	echo,
 	cd,
 	pwd,
-	export,
-	unset,
-	env,
+	export,				// fork
+	unset,				// fork
+	env,				// fork
 	quit
 }				t_builtin;
 
@@ -119,6 +119,7 @@ typedef struct s_prg
 	int			*pid;
 	int			line_len;
 	int			cmd_nbr;
+	int			nbr_builtins;
 	t_cmd_lst	*cmd_list;
 	t_env_lst	*env_lst;
 	t_bool		is_there_path;
@@ -256,11 +257,14 @@ int			_echo_exe(t_prg *data, int i);
 int			_pwd_exe();
 int			_ch_dir(t_prg *data);
 void		_add_node(char *name, char *content, t_prg *prg);
-void		is_builtin(t_prg *data, t_cmd_lst	*node);
+int			is_builtin_nofork(t_prg *data, t_cmd_lst *node);
+int			is_builtin_fork(t_prg *data, t_cmd_lst *node);
+int			count_builtins_nofork(t_cmd_lst *list);
+void		env_to_tab(t_prg *prg, int i);
 
 /***** EXECUTIONS.C *****/
 
-void		_ft_exe(t_prg *data);
+int			_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void		close_pipe(t_prg *data);

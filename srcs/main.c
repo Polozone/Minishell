@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/19 16:12:50 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/20 10:32:21 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,32 @@ void _sig_handler()
 	sigaction(SIGINT, &sa, NULL);
 }
 
+int	count_builtins_nofork(t_cmd_lst *list)
+{
+	t_cmd_lst	*tmp;
+	int			nbr_builtins;
+
+	tmp = list;
+	nbr_builtins = 0;
+	while (tmp)
+	{
+		if (tmp->is_cmd_builtin == export || tmp->is_cmd_builtin == unset 
+			|| tmp->is_cmd_builtin == cd || tmp->is_cmd_builtin == quit)
+		{
+			nbr_builtins++;
+		}
+		tmp = tmp->next;
+	}
+	return (nbr_builtins);
+}
+
 void _wait_pids(t_prg data)
 {
-	size_t i;
+	size_t	i;
+	int		nbr_builtins;
 
 	i = 0;
-	while (i < data.cmd_nbr)
+	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
 		waitpid(data.pid[i], NULL, 0);
 		i++;
@@ -78,16 +98,14 @@ void _wait_pids(t_prg data)
 	return;
 }
 
-void env_to_tab(t_prg *prg)
+void env_to_tab(t_prg *prg, int i)
 {
-	t_env_lst *tmp;
-	int size_lst;
-	int i;
+	t_env_lst	*tmp;
+	int			size_lst;
 
 	size_lst = _lst_size_env(prg->env_lst);
 	prg->envp = malloc((sizeof(char *)) * size_lst + 1);
 	tmp = prg->env_lst;
-	i = 0;
 	while (tmp)
 	{
 		prg->envp[i] = ft_strjoin(ft_strjoin(tmp->name, "="), tmp->content);
@@ -97,6 +115,13 @@ void env_to_tab(t_prg *prg)
 	prg->envp[i] = 0;
 }
 
+void	_init_exe_var(t_prg *data)
+{
+	data->pid = NULL;
+	// data->cmd_list->redir_fd = NULL;
+	data->pipe = NULL;
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
@@ -104,19 +129,22 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
+	_init_exe_var(&prg);
 	_sig_handler();
 	while (1)
 	{
 		g_error = 0;
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		if (prg.line == NULL)
-			exit(0);
+			exit(0); // ctrl+d
 		add_history(prg.line);
-		env_to_tab(&prg);
+		env_to_tab(&prg, 0);
 		ft_parse(&prg);
 		if (g_error != 258)
 		{
 			_ft_exe(&prg);
+			_ft_free_exe(&prg);
+			close_pipe(&prg);
 			_wait_pids(prg);
 		}
 		// while (prg.env_lst)

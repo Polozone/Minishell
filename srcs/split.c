@@ -98,7 +98,7 @@ char	**ft_split(char *str, char sep)
 	if (!str)
 		return (0);
 	count = ft_sep_count(str, sep);
-	banana = malloc((count + 1) * sizeof(char **));
+	banana = malloc((count + 1) * sizeof(char *));
 	if (!banana)
 		exit (0);
 	return (ft_actual_split(banana, str, sep, count));

@@ -20,7 +20,6 @@ static t_cmd_lst	*ft_create_cmd_lst(t_prg *prg)
 
 	prg->cmd_list = ft_lstnew_cmd_list();
 	i = 1;
-
 	while (i < prg->cmd_nbr)
 	{
 		ft_add_back_cmd_list(&prg->cmd_list, ft_lstnew_cmd_list());
@@ -36,7 +35,6 @@ void	ft_parse(t_prg *prg)
 	if (prg->line == NULL)
 		return;
 	prg->line_len = ft_strlen(prg->line);
-	// printf("line in parse = %s test1\n", prg->line);
 	if (ft_syntax_error(prg) == true)
 	{
 		g_error = 258;
