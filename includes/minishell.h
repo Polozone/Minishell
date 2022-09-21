@@ -87,11 +87,11 @@ typedef struct l_cmd_list
 	t_redir		*redir_type;		// enum to know the nature of the redirection
 	char		**heredoc_delimiter; //the heredoc delimiter
 	t_builtin	is_cmd_builtin; 	// enum to know if the command is a builtins and the nature of the builtins.
-	int			*redir_fd;
 	int			infile;
 	int			outfile;
 	int			index;
 	int			index_fd;
+	int			*redir_fd;
 	void		*next;
 }				t_cmd_lst;
 
@@ -121,7 +121,6 @@ typedef struct s_prg
 	int			line_len;
 	int			cmd_nbr;
 	int			nbr_builtins;
-	int			hd_nbr;
 	t_cmd_lst	*cmd_list;
 	t_env_lst	*env_lst;
 	t_bool		is_there_path;
