@@ -120,6 +120,7 @@ typedef struct s_prg
 	int			line_len;
 	int			cmd_nbr;
 	int			nbr_builtins;
+	int			hd_nbr;
 	t_cmd_lst	*cmd_list;
 	t_env_lst	*env_lst;
 	t_bool		is_there_path;

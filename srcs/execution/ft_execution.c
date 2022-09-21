@@ -58,7 +58,9 @@ int _init_pipe(t_prg *data)
 	int i;
 
 	i = -1;
-	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr - 1) * 2));
+	int	nbr_heredoc = ft_array_len(data->cmd_list->heredoc_delimiter);
+	dprintf(2, "nbr hd == %d", nbr_heredoc);
+	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1 ) * 2));
 	if (data->pipe == NULL)
 	{
 		// FREE ALL AND EXIT
