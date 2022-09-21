@@ -19,7 +19,6 @@ SRCS =	srcs/main.c				\
 		srcs/parsing/utilis_shortcut_fts.c	\
 		srcs/parsing/error_print.c		\
 		srcs/parsing/ft_free.c			\
-		srcs/parsing/ft_free.c					\
 		srcs/builtins/env.c			\
 		srcs/builtins/echo.c			\
 		srcs/builtins/cd.c			\

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 11:57:04 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:58:31 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	count_builtins_nofork(t_cmd_lst *list)
 
 void _wait_pids(t_prg data)
 {
-	size_t	i;
+	int	i;
 	int		nbr_builtins;
 
 	i = 0;
@@ -139,13 +139,14 @@ int main(int ac, char **av, char **env)
 			add_history(prg.line);
 			env_to_tab(&prg, 0);
 			ft_parse(&prg);
-			if (g_error != 258)
-			{
-				_ft_exe(&prg);
-				_ft_free_exe(&prg);
-				close_pipe(&prg);
-				_wait_pids(prg);
-			}
+			printf("HEREDOC COUNT = %d\n", prg.heredoc_nbr);
+			// if (g_error != 258)
+			// {
+			// 	_ft_exe(&prg);
+			// 	close_pipe(&prg);
+			// 	_wait_pids(prg);
+			// 	_ft_free_exe(&prg);
+			// }
 		}
 		// _ft_free_exe(&prg);
 		// ft_free_parsing(&prg);
