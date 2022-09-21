@@ -91,6 +91,7 @@ void _wait_pids(t_prg data)
 	i = 0;
 	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
+		// dprintf(2, "Waiting...\n");
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
@@ -143,17 +144,9 @@ int main(int ac, char **av, char **env)
 		if (g_error != 258)
 		{
 			_ft_exe(&prg);
-			_ft_free_exe(&prg);
 			close_pipe(&prg);
 			_wait_pids(prg);
+			_ft_free_exe(&prg);
 		}
-		// while (prg.env_lst)
-		// {
-		// 	dprintf(2, "%s\n", prg.env_lst->content);
-		// 	prg.env_lst = prg.env_lst->next;
-		// }
-		// exit (0);
-		// _ft_free_exe(&prg);
-		// ft_free_parsing(&prg);
 	}
 }
