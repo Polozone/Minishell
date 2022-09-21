@@ -58,8 +58,7 @@ int _init_pipe(t_prg *data)
 	int i;
 
 	i = -1;
-	int	nbr_heredoc = ft_array_len(data->cmd_list->heredoc_delimiter);
-	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1 ) * 2));
+	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1) * 2));
 	if (data->pipe == NULL)
 	{
 		// FREE ALL AND EXIT
@@ -124,7 +123,6 @@ int	_alloc_exe_var(t_prg *data)
 	return (0);
 }
 
-
 int	_ft_exe(t_prg *data)
 {
 	data->cmd_list->redir_fd = NULL;
@@ -135,4 +133,5 @@ int	_ft_exe(t_prg *data)
 	if (_init_pipe(data) || _alloc_exe_var(data))
 		return (-1);
 	_ft_forks(data, 0, NULL);
+	return (0);
 }
