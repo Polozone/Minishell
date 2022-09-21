@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_reproduction.c                              :+:      :+:    :+:   */
+/*   strings_reproduction.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 17:33:22 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 17:42:56 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:57:34 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strdup(char *str)
 	char	*dub;
 
 	if (!str)
-		return(NULL);
+		return (NULL);
 	i = 0;
 	size = ft_strlen(str);
 	dub = malloc((size + 1) * sizeof(char));
@@ -28,7 +28,7 @@ char	*ft_strdup(char *str)
 	while (str[i])
 	{
 		dub[i] = str[i];
-		i ++;
+		i++;
 	}
 	dub[i] = '\0';
 	return (dub);
@@ -65,16 +65,16 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char		*str;
-	size_t		i;
-	size_t		j;
+	char	*str;
+	size_t	i;
+	size_t	j;
 
 	j = 0;
 	i = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	str = malloc((ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1)
-			* sizeof(char));
+	str = malloc((ft_strlen((char *)s1)
+				+ ft_strlen((char *)s2) + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	while (i < ft_strlen((char *)s1))
@@ -92,36 +92,37 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char    *ft_strjoin_backslash(char const *s1, char const *s2)
+char	*ft_strjoin_backslash(char const *s1, char const *s2)
 {
-    char        *str;
-    size_t      i;
-    size_t      j;
+	char	*str;
+	size_t	i;
+	size_t	j;
 
-    j = -1;
-    i = -1;
-    if (!s1 || !s2)
-        return (NULL);
-    str = malloc((ft_strlen((char *)s1) + ft_strlen((char *)s2) + 2)
-            * sizeof(char));
-    if (str == NULL)
-        return (NULL);
-    while (++i < ft_strlen((char *)s1))
-        str[i] = s1[i];
+	j = -1;
+	i = -1;
+	if (!s1 || !s2)
+		return (NULL);
+	str = malloc((ft_strlen((char *)s1)
+				+ ft_strlen((char *)s2) + 2) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	while (++i < ft_strlen((char *)s1))
+		str[i] = s1[i];
 	str[i] = '/';
-	i ++;
-    while (++j < ft_strlen((char *)s2))
-    {
-        str[i] = s2[j];
-        i++;
-    }
-    str[i] = '\0';
-    return (str);
+	i++;
+	while (++j < ft_strlen((char *)s2))
+	{
+		str[i] = s2[j];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
 
 char	*ft_join_shrtct(char *str1, char *str2)
 {
 	char	*new_line;
+
 	new_line = ft_strjoin(str1, str2);
 	free(str1);
 	free(str2);
