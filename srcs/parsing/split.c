@@ -6,11 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 09:25:00 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/28 13:25:39 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:10 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static char	**ft_free_split(char **banana, int i)
 {

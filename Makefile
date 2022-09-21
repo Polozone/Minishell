@@ -1,31 +1,33 @@
 SRCS =	srcs/main.c				\
-		srcs/split.c			\
-		srcs/split_charset.c	\
-		srcs/strings_manip.c	\
-		srcs/printing_ft.c		\
-		srcs/quote.c			\
-		srcs/trim_quote.c		\
-		srcs/syntax_error.c		\
-		srcs/builtin_check.c	\
-		srcs/cmd_list.c			\
-		srcs/env_list.c			\
-		srcs/fill_cmd_lst.c		\
-		srcs/fill_nodes.c		\
-		srcs/fill_files.c		\
-		srcs/redirections.c		\
-		srcs/token.c			\
-		srcs/replace_dollz.c	\
-		srcs/parsing.c			\
-		srcs/utilis_shortcut_fts.c	\
-		builtins/env.c			\
-		builtins/echo.c			\
-		builtins/cd.c			\
-		builtins/pwd.c			\
+		srcs/parsing/split.c			\
+		srcs/parsing/split_charset.c	\
+		srcs/parsing/strings_manip.c	\
+		srcs/parsing/printing_ft.c		\
+		srcs/parsing/quote.c			\
+		srcs/parsing/trim_quote.c		\
+		srcs/parsing/syntax_error.c		\
+		srcs/parsing/builtin_check.c	\
+		srcs/parsing/cmd_list.c			\
+		srcs/parsing/env_list.c			\
+		srcs/parsing/fill_cmd_lst.c		\
+		srcs/parsing/fill_nodes.c		\
+		srcs/parsing/fill_files.c		\
+		srcs/parsing/redirections.c		\
+		srcs/parsing/token.c			\
+		srcs/parsing/replace_dollz.c	\
+		srcs/parsing/parsing.c			\
+		srcs/parsing/utilis_shortcut_fts.c	\
+		srcs/parsing/error_print.c		\
+		srcs/parsing/ft_free.c			\
+		srcs/parsing/ft_free.c					\
+		srcs/builtins/env.c			\
+		srcs/builtins/echo.c			\
+		srcs/builtins/cd.c			\
+		srcs/builtins/pwd.c			\
 		srcs/execution/ft_free_execution.c			\
 		srcs/execution/ft_execution.c	\
 		srcs/execution/_execute_cmds.c	\
 		srcs/execution/in_out_handler.c	\
-		srcs/ft_free.c					\
 		srcs/execution/get_next_line/get_next_line.c	\
 		srcs/execution/get_next_line/get_next_line_utils.c	\
 

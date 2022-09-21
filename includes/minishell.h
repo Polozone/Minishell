@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/19 14:57:16 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:41:18 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ typedef struct s_prg
 	char		*line;
 	int			*pipe;
 	int			*pid;
+	int			heredoc_nbr;
 	int			line_len;
 	int			cmd_nbr;
 	int			nbr_builtins;
@@ -280,6 +281,9 @@ int		_is_outfile(t_cmd_lst *tmp);
 void	_close_files(t_prg	*data, t_cmd_lst *node);
 void	_open_all_outfile(t_cmd_lst		*node);
 
+/***** FREE_EXECUTIONS.C *****/
+
+void		ft_error_print(t_cmd_lst *node, int error_code, char *error_source);
 
 /***** FREE_EXECUTIONS.C *****/
 

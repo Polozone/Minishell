@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int		_is_old_pwd(t_prg *data, int mode, char* old_pwd)
 {

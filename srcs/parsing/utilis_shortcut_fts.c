@@ -6,11 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 11:02:20 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/14 17:09:49 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:11 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*ft_join_shrtct(char *str1, char *str2)
 {

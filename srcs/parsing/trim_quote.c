@@ -6,11 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 13:17:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/19 11:01:23 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:11 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static int	ft_go_to_end_of_phrase(char *line, int index, t_var_quote quote)
 {
@@ -101,5 +101,4 @@ void	ft_quote_trimer(t_prg *prg, t_cmd_lst *buff)
 		tmp->file[i] = ft_trim_quote(tmp->file[i]);
 		free(line_buff);
 	}
-	ft_find_path(prg, buff);
 }

@@ -6,11 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:29:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/19 15:29:38 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:37:22 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static t_bool	ft_printf_error(int mode, char chevron)
 {
@@ -44,23 +44,33 @@ static t_bool	ft_printf_error(int mode, char chevron)
 
 t_bool ft_empty_pipe(char	*line)
 {
-	int	i;
+	int		i;
+	int		pipe_ct;
 	t_bool	empty_pipe;
 
 	i = 0;
+	pipe_ct = 0;
 	empty_pipe = true;
 	while (line[i])
 	{
+		if (line[i] == '|')
+			pipe_ct ++;
 		if (line[i] != ' ' && line[i] != '|' && line[i] != '<' && line[i] != '>')
 			empty_pipe = false;
 		else if (line [i] == '<' || line[i] == '>')
 			empty_pipe = true;
 		else if (line[i] == '|' && empty_pipe == true)
+		{
+			printf("test 1\n");
 			return (true);
+		}
 		i ++;
 	}
+	if (pipe_ct == 0)
+		return (false);
 	if (line[i - 1] == '|')
 		empty_pipe = true;
+	printf("test 2 \n");
 	return (empty_pipe);
 }
 

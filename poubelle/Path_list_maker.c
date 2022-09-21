@@ -6,11 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 10:17:55 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/13 16:26:09 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:05 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	ft_array_len(char **envp)
 {
