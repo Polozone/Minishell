@@ -96,8 +96,6 @@ void _add_env(t_prg *prg, int i)
 		name = ft_substr(prg->cmd_list->cmd_and_dep[i], 0, sep);
 		content = ft_substr(prg->cmd_list->cmd_and_dep[i], sep + 1, ft_strlen(prg->cmd_list->cmd_and_dep[i]) - sep);
 		_add_node(name, content, prg);
-		free(name);
-		free(content);
 	}
 }
 

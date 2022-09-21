@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 08:49:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 10:23:16 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:47:02 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,23 @@ void	ft_find_path(t_prg *prg, t_cmd_lst *cmd_list)
 	int		i;
 	char	*path;
 
-	if (access(cmd_list->cmd_and_dep[0], F_OK) == 0)
+	if ((access(cmd_list->cmd_and_dep[0], F_OK) == 0)
+		|| (cmd_list->cmd_and_dep[0] && cmd_list->cmd_and_dep[0][0] == '\0'))
 	{
 		cmd_list->path = ft_strdup(cmd_list->cmd_and_dep[0]);
 		return ;
 	}
-	if (prg->path_list != NULL)
+	i = -1;
+	while (prg->path_list[++i])
 	{
-		i = -1;
-		while (prg->path_list[++i])
+		path = ft_strjoin_backslash(prg->path_list[i],
+				cmd_list->cmd_and_dep[0]);
+		if (access(path, F_OK) == 0)
 		{
-			path = ft_strjoin_backslash(prg->path_list[i],
-					cmd_list->cmd_and_dep[0]);
-			if (access(path, F_OK) == 0)
-			{
-				cmd_list->path = path;
-				return ;
-			}
-			free(path);
+			cmd_list->path = path;
+			return ;
 		}
+		free(path);
 	}
 	ft_error_print(cmd_list, 127, cmd_list->cmd_and_dep[0]);
 	cmd_list->path = ft_strdup(cmd_list->cmd_and_dep[0]);
@@ -65,11 +63,6 @@ static void	ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split,
 			cmd_lst->cmd_and_dep[j] = ft_strdup(line_split[i]);
 			j ++;
 		}
-	}
-	if (j == 0)
-	{
-		cmd_lst->cmd_and_dep[j] = ft_strdup(""); 
-		j ++;
 	}
 	cmd_lst->cmd_and_dep[j] = 0;
 }

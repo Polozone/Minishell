@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:42:34 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 11:55:03 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:04:26 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static t_cmd_lst	*ft_create_cmd_lst(t_prg *prg)
 
 static void	ft_heredoc_counter(t_prg *prg)
 {
-	int	heredoc_ct;
 	t_cmd_lst *cmd_lst;
 
 	cmd_lst = prg->cmd_list;
+	prg->heredoc_nbr = 0;
 	while (cmd_lst)
 	{
-		prg->heredoc_nbr += (ft_array_len(cmd_lst->heredoc_delimiter) - 1);
+		prg->heredoc_nbr += (ft_array_len(cmd_lst->heredoc_delimiter));
 		cmd_lst = cmd_lst->next;
 	}
 }
@@ -61,6 +61,7 @@ void	ft_parse(t_prg *prg)
 	ft_fill_cmd_lst(prg);
 	ft_heredoc_counter(prg);
 	t_cmd_lst *buff2 = prg->cmd_list;
+}
 	// while (buff2)
 	// {
 	// 	printf ("IN PARSE\n");
@@ -86,4 +87,3 @@ void	ft_parse(t_prg *prg)
 	// 		printf("is_cmd_builtin = %d\n", buff2->is_cmd_builtin);
 	// 	buff2 = buff2->next;
 	// }
-}

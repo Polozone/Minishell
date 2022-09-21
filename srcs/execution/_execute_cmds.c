@@ -44,6 +44,7 @@ void	close_pipe(t_prg *data)
 	i = 0;
 	while (i < ((data->cmd_nbr - 1)) * 2)
 	{
+		printf("TEST\n");
 		close(data->pipe[i]);
 		i++;
 	}

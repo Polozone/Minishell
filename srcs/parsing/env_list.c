@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 12:59:48 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 09:46:07 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:38:10 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,6 @@ t_env_lst	*ft_lstnew_env_list(char *name, char *content)
 
 	env = malloc(sizeof(t_env_lst));
 	if (env == NULL)
-		exit (1);
-	env->name = malloc(ft_strlen(name) + 1);
-	if (env->name == NULL)
-		exit (1);
-	env->content = malloc(ft_strlen(content) + 1);
-	if (env->content == NULL)
 		exit (1);
 	env->name = name;
 	env->content = content;
