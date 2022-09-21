@@ -53,13 +53,14 @@ int	count_builtins_nofork(t_cmd_lst *list)
 	nbr_builtins = 0;
 	while (tmp)
 	{
-		if (tmp->is_cmd_builtin == export || tmp->is_cmd_builtin == unset 
-			|| tmp->is_cmd_builtin == cd || tmp->is_cmd_builtin == quit)
+		if (tmp->is_cmd_builtin == export || tmp->is_cmd_builtin == unset || tmp->is_cmd_builtin == cd || tmp->is_cmd_builtin == quit)
 		{
+			//dprintf(2, "cmd = %s cmd flag == (%d)\n", tmp->cmd_and_dep[0], tmp->is_cmd_builtin);
 			nbr_builtins++;
 		}
 		tmp = tmp->next;
 	}
+	// dprintf(2, "nbr buil == %d\n\n", nbr_builtins);
 	return (nbr_builtins);
 }
 
@@ -71,7 +72,6 @@ void _wait_pids(t_prg data)
 	i = 0;
 	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
-		// dprintf(2, "Waiting...\n");
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
@@ -148,7 +148,5 @@ int main(int ac, char **av, char **env)
 				_ft_free_exe(&prg);
 			}
 		}
-		// _ft_free_exe(&prg);
-		// ft_free_parsing(&prg);
 	}
 }
