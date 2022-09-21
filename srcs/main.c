@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 11:21:12 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:57:04 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void _wait_pids(t_prg data)
 	i = 0;
 	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
+		// dprintf(2, "Waiting...\n");
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}

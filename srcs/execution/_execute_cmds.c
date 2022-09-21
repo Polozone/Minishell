@@ -65,10 +65,9 @@ void	_init_fd(t_prg *data)
 void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
-	{
-		dprintf(2, "command failed to run == %s\n\n\n", tmp->cmd_and_dep[0]);
-		write(2, "Execve Failed to run\n", 21);
-	}
+		perror("");
+	// free ALL
+	exit (0);
 }
 
 void	_redir_first_cmd(t_cmd_lst	*node, t_prg *data)
@@ -116,10 +115,52 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		_redir_last_cmd(node, data);
 }
 
+void	_heredoc(t_prg *data, t_cmd_lst *tmp, int STDIN_TMP, int STDOUT_TMP)
+{
+	char	*line;
+	char	*buf;
+
+	line = NULL;
+	int longest;
+	while (1)
+	{
+		longest = ft_strlen(tmp->heredoc_delimiter[0]);
+		write(STDOUT_TMP, ">", 1);
+		buf = get_next_line(STDIN_TMP);
+		if (ft_strlen(buf) > longest)
+			longest = ft_strlen(buf) - 1;
+		if (ft_strncmp(buf, tmp->heredoc_delimiter[0], longest) == 0)
+		{
+			free(buf);
+			break ;
+		}
+		line = ft_strjoin_gnl(line, buf, -1, 0);
+		free(buf);
+	}
+	if (tmp->cmd_and_dep[0] && data->cmd_nbr > 1)
+	{
+		write(data->pipe[(tmp->index * 2) + 1], line, ft_strlen(line));
+	}
+	if (tmp->cmd_and_dep[0] && data->cmd_nbr == 1)
+	{
+		dprintf(2, "\n\n\n\n\nTESSSSST\n\n\n\n");
+		write(1, line, ft_strlen(line));
+	}
+}
+
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
+	int		STDIN_TMP = dup(STDIN_FILENO);
+	int		STDOUT_TMP = dup(STDOUT_FILENO);
+
 	_init_fd(data);
 	_set_pipes(data, tmp);
+	if (tmp->heredoc_delimiter[0])
+	{
+		_heredoc(data, tmp, STDIN_TMP, STDOUT_TMP);
+		// close_pipe(data);
+		// exit (0);
+	}
 	close_pipe(data);
 	if (is_builtin_fork(data, tmp))
 		exit (0) ;

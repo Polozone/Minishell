@@ -19,6 +19,7 @@ SRCS =	srcs/main.c				\
 		srcs/parsing/utilis_shortcut_fts.c	\
 		srcs/parsing/error_print.c		\
 		srcs/parsing/ft_free.c			\
+		srcs/parsing/ft_free.c					\
 		srcs/builtins/env.c			\
 		srcs/builtins/echo.c			\
 		srcs/builtins/cd.c			\
@@ -27,6 +28,8 @@ SRCS =	srcs/main.c				\
 		srcs/execution/ft_execution.c	\
 		srcs/execution/_execute_cmds.c	\
 		srcs/execution/in_out_handler.c	\
+		srcs/execution/get_next_line/get_next_line.c	\
+		srcs/execution/get_next_line/get_next_line_utils.c	\
 
 OBJS = $(SRCS:.c=.o)
 
@@ -47,7 +50,6 @@ NAME = minishell
 
 $(NAME): $(OBJS) $(INCL) Makefile
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
-	make clean
 
 clean:
 	$(RM) $(OBJS)

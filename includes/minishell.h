@@ -121,6 +121,7 @@ typedef struct s_prg
 	int			line_len;
 	int			cmd_nbr;
 	int			nbr_builtins;
+	int			hd_nbr;
 	t_cmd_lst	*cmd_list;
 	t_env_lst	*env_lst;
 	t_bool		is_there_path;
@@ -287,5 +288,13 @@ void		ft_error_print(t_cmd_lst *node, int error_code, char *error_source);
 /***** FREE_EXECUTIONS.C *****/
 
 void		_ft_free_exe(t_prg *data);
+void		ft_free_1d(void	**to_free);
+void		ft_free_2d(void	***to_free);
+
+/***** GET_NEXT_LINE.C *****/
+
+char	*ft_strjoin_gnl(char *s1, char *s2, int i, int j);
+char	*get_next_line(int fd);
+
 
 #endif
