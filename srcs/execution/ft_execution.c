@@ -58,7 +58,6 @@ int _init_pipe(t_prg *data)
 	int i;
 
 	i = -1;
-	data->heredoc_nbr = 1;
 	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1) * 2));
 	if (data->pipe == NULL)
 	{
@@ -128,6 +127,7 @@ int	_ft_exe(t_prg *data)
 {
 	data->cmd_list->redir_fd = NULL;
 	data->nbr_builtins = count_builtins_nofork(data->cmd_list);
+	printf("nbr builtins = %d\n", data->nbr_builtins);
 	data->cmd_nbr = get_size_lst(data);
 	_set_index_list(data);
 	if (_init_pipe(data) || _alloc_exe_var(data))

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:29:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 11:37:22 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:55:56 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ t_bool ft_empty_pipe(char	*line)
 		else if (line [i] == '<' || line[i] == '>')
 			empty_pipe = true;
 		else if (line[i] == '|' && empty_pipe == true)
-		{
-			printf("test 1\n");
 			return (true);
-		}
 		i ++;
 	}
 	if (pipe_ct == 0)
@@ -72,6 +69,43 @@ t_bool ft_empty_pipe(char	*line)
 		empty_pipe = true;
 	return (empty_pipe);
 }
+
+// t_bool ft_is_there_chev_error(char *line, char c)
+// {
+// 	int	i;
+// 	int char_ct;
+
+// 	i = 0;
+// 	char_ct = 0;
+// 	while (line[i] && line[i] != '|')
+// 	{
+// 		if (line[i] == c)
+// 			char_ct ++;
+// 		if (line[i] != c && line[i] != ' ' && char_ct <= 2)
+// 			char_ct = 0;
+// 		if (char_ct > 2)
+// 			return (true);
+// 		i ++;
+// 	}
+// 	return (false);
+// }
+
+// t_bool	ft_chevron_error(char *line)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (line[i])
+// 	{
+// 		if (line[i] == '<' && ft_is_there_chev_error(line, '<') =)
+// 		{
+
+// 		}
+// 		else if (line[i] == '>')
+
+// 		i ++;
+// 	}
+// }
 
 t_bool ft_discontinuous_chevron(char *line, char chevron, char chev_two)
 {
@@ -96,6 +130,20 @@ t_bool ft_discontinuous_chevron(char *line, char chevron, char chev_two)
 	return (false);
 }
 
+t_bool ft_scotch_chevron(char *line, char chevron)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != chevron)
+			return (false);
+		i ++;
+	}
+	return(ft_printf_error(SYNT_ER, chevron));
+}
+
 static t_bool	ft_chevron_error(char *line, int line_len, char chevron, char che_two)
 {
 	int			i;
@@ -114,7 +162,7 @@ static t_bool	ft_chevron_error(char *line, int line_len, char chevron, char che_
 				chev_ct ++;
 			i ++;
 			if (i == line_len && line[0] == chevron &&  chev_ct < 3)
-				return (ft_printf_error(SYNT_ER, chevron));
+				return (ft_scotch_chevron(line, chevron));
 		}
 		if (chev_ct == 3)
 			return (ft_printf_error(ONE_RED, chevron));
