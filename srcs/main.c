@@ -6,45 +6,24 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/20 11:51:42 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:48:36 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int g_error;
+int	g_error;
 
-void ft_free_parsing(t_prg *prg)
+void	setup_term(void)
 {
-	/*int	i;
-	int	j;
-
-	i = 0;
-	free(prg->line);
-	ft_free_char_array(prg->cells);
-	while (prg->cmd_list[i])
-	{
-		j = 0;
-		while (prg->cmd_list[i][j])
-		{
-			free(prg->cmd_list[i][j]);
-			j ++;
-		}
-		free(prg->cmd_list[i]);
-		i ++;
-	}
-	free(prg->cmd_list);*/
-}
-
-void setup_term(void)
-{
-	struct termios t;
+	struct termios	t;
+	
 	tcgetattr(0, &t);
 	t.c_lflag &= ~ECHOCTL;
 	tcsetattr(0, TCSANOW, &t);
 }
 
-void handle_sigstp(int sig)
+void	handle_sigstp(int sig)
 {
 	if (sig == 2)
 	{
@@ -55,10 +34,11 @@ void handle_sigstp(int sig)
 	}
 }
 
-void _sig_handler()
+void	_sig_handler(void)
 {
-	setup_term();
 	struct sigaction sa;
+	
+	setup_term();
 	sa.sa_handler = &handle_sigstp;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
@@ -140,20 +120,20 @@ int main(int ac, char **av, char **env)
 		add_history(prg.line);
 		env_to_tab(&prg, 0);
 		ft_parse(&prg);
-		// if (g_error != 258)
-		// {
-		// 	_ft_exe(&prg);
-		// 	_ft_free_exe(&prg);
-		// 	close_pipe(&prg);
-		// 	_wait_pids(prg);
-		// }
-		// while (prg.env_lst)
-		// {
-		// 	dprintf(2, "%s\n", prg.env_lst->content);
-		// 	prg.env_lst = prg.env_lst->next;
-		// }
-		// exit (0);
-		// _ft_free_exe(&prg);
-		// ft_free_parsing(&prg);
+		if (g_error != 258)
+		{
+			_ft_exe(&prg);
+			_ft_free_exe(&prg);
+			close_pipe(&prg);
+			_wait_pids(prg);
+		}
+		while (prg.env_lst)
+		{
+			dprintf(2, "%s\n", prg.env_lst->content);
+			prg.env_lst = prg.env_lst->next;
+		}
+		exit (0);
+		_ft_free_exe(&prg);
+		ft_free_parsing(&prg);
 	}
 }

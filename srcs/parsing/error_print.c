@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printing_ft.c                                      :+:      :+:    :+:   */
+/*   error_print.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/14 12:08:26 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/05/04 11:14:18 by mgolinva         ###   ########.fr       */
+/*   Created: 2022/09/21 09:28:29 by mgolinva          #+#    #+#             */
+/*   Updated: 2022/09/21 09:46:07 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	ft_putchar_fd(char c, int fd)
+extern int	g_error;
+
+void	ft_error_print(int error_code, char *error_source)
 {
-	write(fd, &c, 1);
-}
-
-void	ft_putstr_fd(char *str, int fd)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return ;
-	while (str[i])
+	if (error_code == 127)
 	{
-		ft_putchar_fd(str[i], fd);
-		i ++;
+		printf("Minichell: %s: command not found\n", error_source);
+		g_error = 127;
 	}
 }

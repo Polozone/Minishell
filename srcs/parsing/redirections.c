@@ -6,11 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 11:00:01 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/27 13:46:06 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:09 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static int ft_count_redir(t_token *line_token, int split_len)
 {

@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void _print_env(t_env_lst *head)
 {

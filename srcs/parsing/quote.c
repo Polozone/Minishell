@@ -6,11 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:34:01 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/28 13:29:15 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:09 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /*static t_bool	ft_are_opening_and_closing(const char *line, int q_one, int q_two)
 {

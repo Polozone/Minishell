@@ -6,11 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:42:34 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/20 11:09:30 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:09 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 extern int g_error;
 

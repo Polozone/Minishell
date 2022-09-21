@@ -6,15 +6,15 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/20 11:41:47 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:07 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	ft_create_path_list(t_prg *prg)
 {
-	t_env_lst *buff;
+	t_env_lst	*buff;
 
 	buff = prg->env_lst;
 	while (buff != 0)
@@ -22,7 +22,7 @@ void	ft_create_path_list(t_prg *prg)
 		if (ft_strncmp(buff->name, "PATH", 5) == 0)
 		{
 			prg->is_there_path = true;
-			break;
+			break ;
 		}
 		buff = buff->next;
 		prg->is_there_path = false;
@@ -47,19 +47,18 @@ t_bool	ft_is_there_dollzzz(char *line)
 
 void	ft_expend_env_variable(t_prg *prg, t_cmd_lst *cmd_lst)
 {
-	int	i;
-	char *buff;
+	int		i;
+	char	*buff;
 
 	i = 0;
 	if (prg->cells == 0)
-		return;
+		return ;
 	while (prg->cells[i])
 	{
 		if (ft_is_there_dollzzz(prg->cells[i]) == true)
 		{
 			buff = prg->cells[i];
-			prg->cells[i] =
-			ft_forge_new_line(prg, prg->cells[i]);
+			prg->cells[i] = ft_forge_new_line(prg, prg->cells[i]);
 			free(buff);
 		}
 		i ++;
@@ -68,20 +67,18 @@ void	ft_expend_env_variable(t_prg *prg, t_cmd_lst *cmd_lst)
 
 void	ft_fill_cmd_lst(t_prg *prg)
 {
-	int	i;
-	t_cmd_lst *buff;
+	int			i;
+	t_cmd_lst	*buff;
 
 	i = 0;
 	buff = prg->cmd_list;
 	ft_create_path_list(prg);
-	// for (t_env_lst *env_lst; env_lst != NULL; env_lst = env_lst->next)
-	// 	printf("%s%s\n", env_lst->name, env_lst->content);
 	while (buff != NULL && prg->cells[i])
 	{
-		printf("TEST\n");
 		ft_expend_env_variable(prg, buff);
 		ft_fill_node(prg->cells[i], buff, prg);
 		ft_quote_trimer(prg, buff);
+		ft_find_path(prg, buff);
 		i ++;
 		buff = buff->next;
 	}

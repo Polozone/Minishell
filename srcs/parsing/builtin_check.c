@@ -6,16 +6,16 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 11:06:40 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/19 10:33:28 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:55:14 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static char	*ft_mega_if(char *cmd, int i, int j)
 {
 	if ((i + j < ft_strlen(cmd))
-		&& (cmd[i + j + 1] == 32 || cmd[i + j + 1] == '|' || cmd[i
+		&& (cmd[i + j + 1] == ' ' || cmd[i + j + 1] == '|' || cmd[i
 				+ j + 1] == 0 || cmd[i + j + 1] == 34 || cmd[i + j + 1] == 39))
 	{
 		if ((i > 0)

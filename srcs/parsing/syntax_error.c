@@ -6,11 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:29:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/19 15:29:38 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:10 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static t_bool	ft_printf_error(int mode, char chevron)
 {

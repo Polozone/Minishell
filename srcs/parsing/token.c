@@ -6,12 +6,12 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:13:31 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/27 12:01:47 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:11 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int ft_count_token(t_token *line_token, t_token token_name, char **line_split, int len)
 {
