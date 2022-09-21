@@ -1,5 +1,5 @@
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	ft_free_1d(void	**to_free)
 {

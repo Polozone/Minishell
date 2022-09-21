@@ -6,13 +6,13 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:42:34 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/20 10:24:02 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:55:03 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-extern int g_error;
+extern int	g_error;
 
 static t_cmd_lst	*ft_create_cmd_lst(t_prg *prg)
 {
@@ -28,24 +28,39 @@ static t_cmd_lst	*ft_create_cmd_lst(t_prg *prg)
 	return (prg->cmd_list);
 }
 
+static void	ft_heredoc_counter(t_prg *prg)
+{
+	int	heredoc_ct;
+	t_cmd_lst *cmd_lst;
+
+	cmd_lst = prg->cmd_list;
+	while (cmd_lst)
+	{
+		prg->heredoc_nbr += (ft_array_len(cmd_lst->heredoc_delimiter) - 1);
+		cmd_lst = cmd_lst->next;
+	}
+}
+
 void	ft_parse(t_prg *prg)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	prg->cells = 0;
 	if (prg->line == NULL)
-		return;
+		return ;
 	prg->line_len = ft_strlen(prg->line);
 	if (ft_syntax_error(prg) == true)
 	{
 		g_error = 258;
-		return;		
+		return ;
 	}
 	prg->cells = ft_split(prg->line, '|');
 	prg->cmd_nbr = ft_array_len(prg->cells);
 	prg->cmd_list = ft_create_cmd_lst(prg);
 	ft_fill_cmd_lst(prg);
+	ft_heredoc_counter(prg);
 	t_cmd_lst *buff2 = prg->cmd_list;
-	
 	// while (buff2)
 	// {
 	// 	printf ("IN PARSE\n");
@@ -71,5 +86,4 @@ void	ft_parse(t_prg *prg)
 	// 		printf("is_cmd_builtin = %d\n", buff2->is_cmd_builtin);
 	// 	buff2 = buff2->next;
 	// }
-	// ft_builtin_args(prg);
 }

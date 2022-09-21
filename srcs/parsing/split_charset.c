@@ -6,11 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 11:27:48 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/07/21 15:36:52 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:46:10 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static int	ft_is_charset(char str, char *charset)
 {
