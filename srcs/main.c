@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 09:48:36 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:21:12 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,22 @@ void	_init_exe_var(t_prg *data)
 	data->pipe = NULL;
 }
 
+static t_bool	ft_line_is_blank_space(char *line)
+{
+	int	i;
+
+	i = 0;
+	if (line[i] == 0)
+		return (true);
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '	')
+			return (false);
+		i ++;
+	}
+	return (true);
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_prg prg;
@@ -117,23 +133,20 @@ int main(int ac, char **av, char **env)
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		if (prg.line == NULL)
 			exit(0); // ctrl+d
-		add_history(prg.line);
-		env_to_tab(&prg, 0);
-		ft_parse(&prg);
-		if (g_error != 258)
+		else if (ft_line_is_blank_space(prg.line) == false)
 		{
-			_ft_exe(&prg);
-			_ft_free_exe(&prg);
-			close_pipe(&prg);
-			_wait_pids(prg);
+			add_history(prg.line);
+			env_to_tab(&prg, 0);
+			ft_parse(&prg);
+			if (g_error != 258)
+			{
+				_ft_exe(&prg);
+				_ft_free_exe(&prg);
+				close_pipe(&prg);
+				_wait_pids(prg);
+			}
 		}
-		while (prg.env_lst)
-		{
-			dprintf(2, "%s\n", prg.env_lst->content);
-			prg.env_lst = prg.env_lst->next;
-		}
-		exit (0);
-		_ft_free_exe(&prg);
-		ft_free_parsing(&prg);
+		// _ft_free_exe(&prg);
+		// ft_free_parsing(&prg);
 	}
 }
