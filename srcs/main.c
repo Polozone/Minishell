@@ -70,8 +70,10 @@ void _wait_pids(t_prg data)
 	int		nbr_builtins;
 
 	i = 0;
+	dprintf(2, "data.nbr_builtins = %d\n", data.nbr_builtins);
 	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
+		dprintf(2, "\n\nTEST\n\n");
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
@@ -139,7 +141,6 @@ int main(int ac, char **av, char **env)
 			add_history(prg.line);
 			env_to_tab(&prg, 0);
 			ft_parse(&prg);
-			printf("HEREDOC COUNT = %d\n", prg.heredoc_nbr);
 			if (g_error != 258)
 			{
 				_ft_exe(&prg);

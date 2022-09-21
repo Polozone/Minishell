@@ -45,7 +45,6 @@ void	close_pipe(t_prg *data)
 	// dprintf(2, "nbr == %d\n\n", data->cmd_nbr);
 	while (i < ((data->cmd_nbr - 1)) * 2)
 	{
-		printf("TEST\n");
 		close(data->pipe[i]);
 		i++;
 	}
@@ -66,9 +65,11 @@ void	_init_fd(t_prg *data)
 
 void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
+	// dprintf(2, "\n\nTEST (%s)\n\n", tmp->cmd_and_dep[0]);
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 		perror("execve: ");
 	// free ALL
+	// dprintf(2, "\n\nTEST\n\n");
 	exit (0);
 }
 
