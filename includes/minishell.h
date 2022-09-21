@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 12:11:54 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:44:18 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,27 +127,28 @@ typedef struct s_prg
 	t_bool		is_there_path;
 }			t_prg;
 
-/***** STRING_MANIP.C *****/
+/***** STRING_SIZE.C *****/
 
 int			ft_strlen(char *str);
-char		*ft_strstr(char *str, char *to_find);
-char		*ft_substr(char *s, unsigned int start, size_t len);
 int			ft_array_len(char **envp);
+int			ft_strlen_2d(char **str);
+int			ft_strlen_to_char(char *str, char c);
+
+/***** STRING_REPRODUCTION.C *****/
+
 char		*ft_strdup(char *str);
+char		*ft_substr(char *s, unsigned int start, size_t len);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strjoin_backslash(char const *s1, char const *s2);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-int			ft_strlen_2d(char **str);
-int			ft_strcmp(const char *s1, const char *s2);
-void		ft_free_char_array(char **array);
-int			search_char(char *str, char c);
-int			ft_strlen_to_char(char *str, char c);
-t_bool		ft_isalnum(int c);
-// void		ft_free_array(void array, int len);
-
-/***** UTILS_SHORTCUT_FTS.C *****/
-
 char		*ft_join_shrtct(char *str1, char *str2);
+
+/***** STRING_SEARCH.C *****/
+
+char		*ft_strstr(char *str, char *to_find);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strcmp(const char *s1, const char *s2);
+int			search_char(char *str, char c);
+t_bool		ft_isalnum(int c);
 
 /***** CMD_LIST.C *****/
 
@@ -177,6 +178,7 @@ void			ft_lstclear_dollz_list(t_dollz_lst **lst);
 /***** FILL_CMD_LST.C *****/
 
 void		ft_fill_cmd_lst(t_prg *prg);
+void		ft_find_path(t_prg *prg, t_cmd_lst *cmd_list);
 
 /***** FILL_FILES.C *****/
 
@@ -185,7 +187,6 @@ void				ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token
 /***** FILL_NODES.C *****/
 
 void				ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
-void				ft_find_path(t_prg *prg, t_cmd_lst *cmd_list);
 
 /***** TOKEN.C *****/
 
@@ -197,10 +198,6 @@ int					ft_count_token(t_token *line_token, t_token token_name, char **line_spli
 /***** SPLIT.C *****/
 
 char				**ft_split(char *str, char sep);
-
-/***** SPLIT.C *****/
-
-char				**ft_split_charset(char *str, char *charset);
 
 /***** SPLIT_NO_QUOTES.C *****/
 
@@ -241,8 +238,14 @@ void		ft_redir_assignation(t_prg *prg, t_cmd_lst *cmd_lst, t_token *line_token, 
 
 /***** REPLACE_DOLLZ.C *****/
 
+char			*ft_get_var_name(char *line, int index);
+char			*ft_expend(t_prg *prg, char *line, int index);
+t_bool			ft_is_phrase_a_file(char *line, int index, t_var_quote quote);
+int				ft_char_is_dollz(t_prg *prg, char *line, char **new_line, int i);
+void			ft_add_c_to_nl(t_var_quote quote, char **new_line, char *line, int i);
 
-// char		*ft_replace_dollz(t_prg *prg, char *line);
+/***** REPLACE_DOLLZ.C *****/
+
 char		*ft_forge_new_line(t_prg *prg, char *line);
 
 /***** BUILTINS.C *****/
@@ -290,6 +293,7 @@ void		ft_error_print(t_cmd_lst *node, int error_code, char *error_source);
 void		_ft_free_exe(t_prg *data);
 void		ft_free_1d(void	**to_free);
 void		ft_free_2d(void	***to_free);
+void		ft_free_char_array(char **array);
 
 /***** GET_NEXT_LINE.C *****/
 

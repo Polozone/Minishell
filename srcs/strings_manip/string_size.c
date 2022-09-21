@@ -1,22 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utilis_shortcut_fts.c                              :+:      :+:    :+:   */
+/*   string_size.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/25 11:02:20 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 09:46:11 by mgolinva         ###   ########.fr       */
+/*   Created: 2022/09/21 17:28:51 by mgolinva          #+#    #+#             */
+/*   Updated: 2022/09/21 17:33:29 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_join_shrtct(char *str1, char *str2)
+int	ft_array_len(char **envp)
 {
-	char	*new_line;
-	new_line = ft_strjoin(str1, str2);
-	free(str1);
-	free(str2);
-	return (new_line);
+	int	i;
+
+	i = 0;
+	while (envp[i])
+		i ++;
+	return (i);
+}
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str == NULL)
+		return (0);
+	while (str[i])
+		i ++;
+	return (i);
+}
+
+int ft_strlen_2d(char **str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+		i++;
+	return (i);
+}
+
+int		ft_strlen_to_char(char *str, char c)
+{
+	int i	= 0;
+
+	while (str[i] != c && str[i])
+		i++;
+	return (i);
 }

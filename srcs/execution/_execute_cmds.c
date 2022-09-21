@@ -66,7 +66,12 @@ void	_init_fd(t_prg *data)
 void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
-		perror("");
+	{
+		if (access(tmp->path, F_OK) != 0)
+			ft_error_print(tmp, 127, tmp->cmd_and_dep[0]);
+		else if (access(tmp->path, X_OK) != 0)
+			ft_error_print(tmp, 126, tmp->cmd_and_dep[0]);
+	}
 	// free ALL
 	exit (0);
 }

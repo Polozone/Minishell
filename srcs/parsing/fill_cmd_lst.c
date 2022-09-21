@@ -6,11 +6,37 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 11:50:22 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:46:25 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	ft_find_path(t_prg *prg, t_cmd_lst *cmd_list)
+{
+	int		i;
+	char	*path;
+
+	if ((access(cmd_list->cmd_and_dep[0], F_OK) == 0)
+		|| (cmd_list->cmd_and_dep[0] && cmd_list->cmd_and_dep[0][0] == '\0'))
+	{
+		cmd_list->path = ft_strdup(cmd_list->cmd_and_dep[0]);
+		return ;
+	}
+	i = -1;
+	while (prg->path_list[++i])
+	{
+		path = ft_strjoin_backslash(prg->path_list[i],
+				cmd_list->cmd_and_dep[0]);
+		if (access(path, F_OK) == 0)
+		{
+			cmd_list->path = path;
+			return ;
+		}
+		free(path);
+	}
+	cmd_list->path = ft_strdup(cmd_list->cmd_and_dep[0]);
+}
 
 void	ft_create_path_list(t_prg *prg)
 {
