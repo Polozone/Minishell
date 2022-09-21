@@ -18,7 +18,7 @@ void	ft_error_print(t_cmd_lst *node, int error_code, char *error_source)
 {
 	if (error_code == 127 && node->heredoc_delimiter[0] == NULL && node->cmd_and_dep[0] != NULL)
 	{
-		printf("Minichell: %s: command not found\n", error_source);
+		dprintf(2, "Minichell: %s: command not found\n", error_source);
 		g_error = 127;
 	}
 }

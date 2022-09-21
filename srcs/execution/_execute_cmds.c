@@ -42,6 +42,7 @@ void	close_pipe(t_prg *data)
 	int		i;
 
 	i = 0;
+	// dprintf(2, "nbr == %d\n\n", data->cmd_nbr);
 	while (i < ((data->cmd_nbr - 1)) * 2)
 	{
 		close(data->pipe[i]);
@@ -65,7 +66,7 @@ void	_init_fd(t_prg *data)
 void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
-		perror("");
+		perror("execve: ");
 	// free ALL
 	exit (0);
 }
@@ -137,15 +138,15 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int STDIN_TMP, int STDOUT_TMP)
 		line = ft_strjoin_gnl(line, buf, -1, 0);
 		free(buf);
 	}
-	if (tmp->cmd_and_dep[0] && data->cmd_nbr > 1)
+	if (tmp->cmd_and_dep[0])
 	{
 		write(data->pipe[(tmp->index * 2) + 1], line, ft_strlen(line));
 	}
-	if (tmp->cmd_and_dep[0] && data->cmd_nbr == 1)
-	{
-		dprintf(2, "\n\n\n\n\nTESSSSST\n\n\n\n");
-		write(1, line, ft_strlen(line));
-	}
+	// if (tmp->cmd_and_dep[0] && data->cmd_nbr == 1)
+	// {
+	// 	// dprintf(2, "\n\n\n\n\nTESSSSST\n\n\n\n");
+	// 	write(1, line, ft_strlen(line));
+	// }
 }
 
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)

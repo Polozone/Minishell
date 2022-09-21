@@ -70,7 +70,6 @@ t_bool ft_empty_pipe(char	*line)
 		return (false);
 	if (line[i - 1] == '|')
 		empty_pipe = true;
-	printf("test 2 \n");
 	return (empty_pipe);
 }
 
