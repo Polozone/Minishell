@@ -45,7 +45,6 @@ void	close_pipe(t_prg *data)
 	// dprintf(2, "nbr == %d\n\n", data->cmd_nbr);
 	while (i < ((data->cmd_nbr - 1)) * 2)
 	{
-		printf("TEST\n");
 		close(data->pipe[i]);
 		i++;
 	}

@@ -4,9 +4,11 @@ SRCS =	srcs/main.c				\
 		srcs/parsing/quote.c			\
 		srcs/parsing/trim_quote.c		\
 		srcs/parsing/syntax_error.c		\
+		srcs/parsing/chevron_error.c	\
 		srcs/parsing/builtin_check.c	\
 		srcs/parsing/cmd_list.c			\
 		srcs/parsing/env_list.c			\
+		srcs/parsing/env_list_two.c			\
 		srcs/parsing/fill_cmd_lst.c		\
 		srcs/parsing/fill_nodes.c		\
 		srcs/parsing/fill_files.c		\
@@ -17,6 +19,7 @@ SRCS =	srcs/main.c				\
 		srcs/parsing/parsing.c			\
 		srcs/parsing/error_print.c		\
 		srcs/parsing/ft_free.c			\
+		srcs/parsing/memory_dealloc.c			\
 		srcs/strings_manip/strings_reproduction.c	\
 		srcs/strings_manip/strings_size.c	\
 		srcs/strings_manip/strings_search.c	\
@@ -41,7 +44,7 @@ RM = rm -f
 
 #FLAGS = -lreadline -Wall -Werror -Wextra -fsanitize=address -g3
 
-FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra -fsanitize=address -g3
+FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra #-fsanitize=address -g3
 
 %.o.c: $(INCL) Makefile
 	$(CC) $(FLAGS) -c $< -o $@
@@ -51,6 +54,7 @@ NAME = minishell
 $(NAME): $(OBJS) $(INCL) Makefile
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
 	make clean
+	
 clean:
 	$(RM) $(OBJS)
 

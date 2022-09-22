@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:42:34 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 16:53:25 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:19:44 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,12 @@ void	ft_parse(t_prg *prg)
 		if (buff2->redir_type != 0)
 			for (int i = 0; i < buff2->redir_nbr; i ++)
 				printf("redir_type[%d] = %u\n", i, buff2->redir_type[i]);
-		if (buff2->heredoc_delimiter != 0)
+		if (buff2->heredoc_delimiter[0] != 0)
 			for(int i = 0; buff2->heredoc_delimiter[i]; i ++)
 			{
 				printf("I = %d\n", i);
-				printf("heredoc delimiter[%d] = %s\n", i, buff2->heredoc_delimiter[i]);
+				printf("heredoc delimiter[%d] = %s\n",
+					i, buff2->heredoc_delimiter[i]);
 			}
 		if (buff2->is_cmd_builtin != 0)
 			printf("is_cmd_builtin = %d\n", buff2->is_cmd_builtin);

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 17:44:18 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:57:58 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define ONE_RED 3
 # define TWO_RED 4
 # define SYNT_ER 5
+# define QUOTE_ERROR 5
+# define PIPE_CHEV_ERROR 5
 
 # define STDIN 0
 # define STDOUT 1
@@ -102,13 +104,6 @@ typedef struct	l_env_list
 	void	*next;
 }				t_env_lst;
 
-typedef struct	l_dollz_lst
-{
-	char		*word;
-	void		*next;
-}				t_dollz_lst;
-
-
 typedef struct s_prg
 {
 	char		**path_list;
@@ -125,6 +120,8 @@ typedef struct s_prg
 	t_env_lst	*env_lst;
 	t_bool		is_there_path;
 }			t_prg;
+
+void		rl_replace_line(const char *text, int clear_undo);
 
 /***** STRING_SIZE.C *****/
 
@@ -168,12 +165,6 @@ t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
 t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 int					_lst_size_env(t_env_lst *head);
 
-/***** dollz_LIST.C *****/
-
-void			ft_add_back_dollz_list(t_dollz_lst **alpha, t_dollz_lst *newb);
-t_dollz_lst		*ft_lstnew_dollz_list(char *word);
-void			ft_lstclear_dollz_list(t_dollz_lst **lst);
-
 /***** FILL_CMD_LST.C *****/
 
 void		ft_fill_cmd_lst(t_prg *prg);
@@ -213,8 +204,6 @@ void		ft_parse(t_prg *prg);
 
 /***** QUOTE.C *****/
 
-// t_bool		ft_is_in_quote(const char *line, int index);
-// t_bool		ft_is_in_quote(const char *line, int index);
 t_bool			ft_is_in_quote(char *line, int index, t_var_quote *quote);
 
 /***** TRIM_QUOTE.C *****/
@@ -223,9 +212,13 @@ char			*ft_trim_quote(char *line);
 char			*ft_extracted_phrase(char *line, int index, t_var_quote quote);
 void			ft_quote_trimer(t_prg *prg, t_cmd_lst *buff);
 
-/***** PIPE_ERROR.C *****/
+/***** SYNTAX_ERROR.c *****/
 
 t_bool		ft_syntax_error(t_prg *prg);
+
+/***** CHEVRON_ERROR.c *****/
+
+t_bool			ft_chevron_error(char *line, int line_len, char chevron, char che_two);
 
 /***** BUILTIN_CHECK.C *****/
 
@@ -283,9 +276,10 @@ int		_is_outfile(t_cmd_lst *tmp);
 void	_close_files(t_prg	*data, t_cmd_lst *node);
 void	_open_all_outfile(t_cmd_lst		*node);
 
-/***** FREE_EXECUTIONS.C *****/
+/***** ERROR_PRINT.C *****/
 
 void		ft_error_print(t_cmd_lst *node, int error_code, char *error_source);
+t_bool		ft_syntax_error_print(int error_code);
 
 /***** FREE_EXECUTIONS.C *****/
 
@@ -293,6 +287,11 @@ void		_ft_free_exe(t_prg *data);
 void		ft_free_1d(void	**to_free);
 void		ft_free_2d(void	***to_free);
 void		ft_free_char_array(char **array);
+
+/***** MEMORY_DEALLOC.C *****/
+
+void	ft_free_parsing(t_prg *prg);
+void	ft_free_env_lst(t_prg *prg);
 
 /***** GET_NEXT_LINE.C *****/
 

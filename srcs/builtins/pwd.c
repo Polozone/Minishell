@@ -8,9 +8,7 @@ int		_pwd_exe()
 	path = getcwd(NULL, 0);
 	if (path == NULL)
 		perror("");
-	// dprintf(2, "\nTEST1\n");
 	printf("%s\n", path);
-	// dprintf(2, "\nTEST2\n");
 	free(path);
 	return (0);
 }

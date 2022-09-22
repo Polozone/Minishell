@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 08:49:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 16:32:30 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:57:41 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ static void	ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split,
 	while (++i < len)
 		if (line_token[i] == none)
 			cmd_dep_ct ++;
-	cmd_lst->cmd_and_dep = malloc ((cmd_dep_ct + 1) * sizeof(char *));
+	cmd_lst->cmd_and_dep = malloc((cmd_dep_ct + 1) * sizeof(char *));
+	if (!cmd_lst->cmd_and_dep)
+		exit (1);
 	i = -1;
 	while (line_split[++i])
 	{
@@ -43,8 +45,10 @@ static void	ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split,
 void	ft_heredoc_delimiter(t_prg *prg, t_cmd_lst *cmd_lst, char **l_split)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (i < cmd_lst->redir_nbr)
 		i ++;
 	cmd_lst->heredoc_delimiter = malloc((i + 1) * sizeof(char *));
@@ -52,10 +56,13 @@ void	ft_heredoc_delimiter(t_prg *prg, t_cmd_lst *cmd_lst, char **l_split)
 	while (cmd_lst->file[i])
 	{
 		if (cmd_lst->redir_type[i] == heredoc)
-			cmd_lst->heredoc_delimiter[i] = ft_strdup(cmd_lst->file[i]);
+		{
+			cmd_lst->heredoc_delimiter[j] = ft_strdup(cmd_lst->file[i]);
+			j ++;
+		}
 		i ++;
 	}
-	cmd_lst->heredoc_delimiter[i] = 0;
+	cmd_lst->heredoc_delimiter[j] = 0;
 }
 
 void	ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg)

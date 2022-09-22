@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 13:46:45 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 09:46:08 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:57:02 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ static void	ft_multiple_files_line(char **files, char *line, int *files_ct)
 			next_chev = i;
 			while ((line[next_chev])
 				&& (line[next_chev] != '>' && line[next_chev] != '<'))
-			{
 				next_chev ++;
-			}
 			files[*files_ct] = ft_substr(line, i, next_chev - i);
 			*files_ct += 1;
 		}

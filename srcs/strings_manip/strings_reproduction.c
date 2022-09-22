@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 17:33:22 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 17:57:34 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:59:25 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ char	*ft_join_shrtct(char *str1, char *str2)
 	new_line = ft_strjoin(str1, str2);
 	free(str1);
 	free(str2);
+
 	return (new_line);
 }
