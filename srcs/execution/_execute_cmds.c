@@ -65,11 +65,10 @@ void	_init_fd(t_prg *data)
 
 void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
-	// dprintf(2, "\n\nTEST (%s)\n\n", tmp->cmd_and_dep[0]);
+	dprintf(2, "[%d]cmd(in execve) ==%s\n", tmp->index, tmp->cmd_and_dep[0]);
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 		perror("execve: ");
 	// free ALL
-	// dprintf(2, "\n\nTEST\n\n");
 	exit (0);
 }
 

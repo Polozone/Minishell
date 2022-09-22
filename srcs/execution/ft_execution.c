@@ -75,6 +75,7 @@ void _ft_forks(t_prg *data, int j, t_cmd_lst *tmp)
 	tmp = data->cmd_list;
 	while (tmp)
 	{
+		// dprintf(2, "cmd = %s||\nheredoc == %s ", tmp->cmd_and_dep[0], tmp->heredoc_delimiter[0]);
 		if (is_builtin_nofork(data, tmp))
 		{
 			data->pid[j] = fork();

@@ -67,13 +67,11 @@ int	count_builtins_nofork(t_cmd_lst *list)
 void _wait_pids(t_prg data)
 {
 	int	i;
-	int		nbr_builtins;
 
 	i = 0;
-	dprintf(2, "data.nbr_builtins = %d\n", data.nbr_builtins);
+	dprintf(2, "Waiting....\n");
 	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
-		dprintf(2, "\n\nTEST\n\n");
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
