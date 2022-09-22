@@ -65,8 +65,13 @@ int _init_pipe(t_prg *data)
 		// free_data();
 		return (-1);
 	}
+	// dprintf(2, "hd nbr == %d\n", data->heredoc_nbr);
 	while (++i < data->cmd_nbr - 1)
+	{
+		dprintf(2, "init pipe\n");
 		pipe(&data->pipe[i * 2]);
+	}
+	// dprintf(2, "data->pipe[1] == %d\n", data->pipe[1]);
 	return (0);
 }
 
