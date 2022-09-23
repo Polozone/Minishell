@@ -65,13 +65,11 @@ int _init_pipe(t_prg *data)
 		// free_data();
 		return (-1);
 	}
-	// dprintf(2, "hd nbr == %d\n", data->heredoc_nbr);
-	while (++i < data->cmd_nbr - 1)
+	while (++i < data->cmd_nbr - 1/* + (data->heredoc_nbr)*/)
 	{
-		dprintf(2, "init pipe\n");
+		dprintf(2, "init pipe...\n");
 		pipe(&data->pipe[i * 2]);
 	}
-	// dprintf(2, "data->pipe[1] == %d\n", data->pipe[1]);
 	return (0);
 }
 
@@ -80,7 +78,6 @@ void _ft_forks(t_prg *data, int j, t_cmd_lst *tmp)
 	tmp = data->cmd_list;
 	while (tmp)
 	{
-		// dprintf(2, "cmd = %s||\nheredoc == %s ", tmp->cmd_and_dep[0], tmp->heredoc_delimiter[0]);
 		if (is_builtin_nofork(data, tmp))
 		{
 			data->pid[j] = fork();

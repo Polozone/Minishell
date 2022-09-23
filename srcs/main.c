@@ -67,13 +67,13 @@ void _wait_pids(t_prg data)
 	int	i;
 
 	i = 0;
-	int j = 0;
 	// while (j < 2)
 	// {
 	// 	dprintf(2, "PID =[%d]\n", data.pid[j]);
 	// 	j++;
 	// }
 	// dprintf(2, "calc == %d\n", data.cmd_nbr - data.nbr_builtins);
+	// dprintf(2, "data.pid[0] == %d, data.pid[1] == %d\n", data.pid[0], data.pid[1]);
 	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
 		dprintf(2, "Waiting...\n");
@@ -128,7 +128,7 @@ int main(int ac, char **av, char **env)
 {
 	t_prg prg;
 
-	(void)ac;
+	(void)ac;	
 	(void)av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
 	_init_exe_var(&prg);
