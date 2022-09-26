@@ -140,6 +140,7 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 		line = ft_strjoin_gnl(line, buf, -1, 0);
 		free(buf);
 	}
+	// _set_dup_outfile(tmp, data);
 	write(data->pipe[((tmp->index * 2) + 1)], line, ft_strlen(line));
 	free(line);
 }

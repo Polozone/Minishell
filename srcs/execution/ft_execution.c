@@ -58,7 +58,7 @@ int _init_pipe(t_prg *data)
 	int i;
 
 	i = -1;
-	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1 + data->cmd_nbr) * 2));
+	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1) * 2));
 	if (data->pipe == NULL)
 	{
 		// FREE ALL AND EXIT
@@ -71,7 +71,6 @@ int _init_pipe(t_prg *data)
 		// dprintf(2, "init pipe\n");
 		pipe(&data->pipe[i * 2]);
 	}
-	// dprintf(2, "data->pipe[1] == %d\n", data->pipe[1]);
 	return (0);
 }
 
@@ -79,13 +78,8 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 {
 	tmp = data->cmd_list;
 
-	// dprintf(2, "nbr pid == %d\n", data->nbr_pid);
 	while (tmp)
 	{
-		if (tmp->heredoc_delimiter[0])
-			tmp = tmp->next;
-		if (!tmp)
-			break ;
 		if (is_builtin_nofork(data, tmp))
 		{
 			data->pid[data->nbr_pid] = fork();
