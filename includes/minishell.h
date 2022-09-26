@@ -121,6 +121,7 @@ typedef struct s_prg
 	int			line_len;
 	int			cmd_nbr;
 	int			nbr_builtins;
+	int			nbr_pid;
 	t_cmd_lst	*cmd_list;
 	t_env_lst	*env_lst;
 	t_bool		is_there_path;
@@ -270,6 +271,7 @@ void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void		close_pipe(t_prg *data);
 void		_set_fd(t_cmd_lst *tmp, t_prg *data);
+void		_heredoc(t_prg *data, t_cmd_lst *tmp, int STDIN_TMP, int STDOUT_TMP);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
@@ -294,6 +296,7 @@ void		ft_free_2d(void	***to_free);
 
 char	*ft_strjoin_gnl(char *s1, char *s2, int i, int j);
 char	*get_next_line(int fd);
+
 
 
 #endif

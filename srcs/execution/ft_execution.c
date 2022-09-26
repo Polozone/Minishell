@@ -58,37 +58,44 @@ int _init_pipe(t_prg *data)
 	int i;
 
 	i = -1;
-	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1) * 2));
+	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1 + data->cmd_nbr) * 2));
 	if (data->pipe == NULL)
 	{
 		// FREE ALL AND EXIT
 		// free_data();
 		return (-1);
 	}
-	while (++i < data->cmd_nbr - 1/* + (data->heredoc_nbr)*/)
+	// dprintf(2, "hd nbr == %d\n", data->heredoc_nbr);
+	while (++i < data->cmd_nbr - 1 + data->heredoc_nbr)
 	{
-		dprintf(2, "init pipe...\n");
+		// dprintf(2, "init pipe\n");
 		pipe(&data->pipe[i * 2]);
 	}
+	// dprintf(2, "data->pipe[1] == %d\n", data->pipe[1]);
 	return (0);
 }
 
-void _ft_forks(t_prg *data, int j, t_cmd_lst *tmp)
+void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 {
 	tmp = data->cmd_list;
+
 	while (tmp)
 	{
+		if (tmp->heredoc_delimiter[0])
+			tmp = tmp->next;
+		if (!tmp)
+			break ;
 		if (is_builtin_nofork(data, tmp))
 		{
-			data->pid[j] = fork();
-			if (data->pid[j] == -1)
+			data->pid[data->nbr_pid] = fork();
+			if (data->pid[data->nbr_pid] == -1)
 			{
 				// FREE ALL;
 				// exit(0);
 			}
-			else if (data->pid[j] == 0)
+			else if (data->pid[data->nbr_pid] == 0)
 				_set_fd(tmp, data);
-			j++;
+			data->nbr_pid++;
 		}
 		tmp = tmp->next;
 	}
@@ -126,14 +133,49 @@ int	_alloc_exe_var(t_prg *data)
 	return (0);
 }
 
+void	_init_heredoc(t_prg *data)
+{
+	t_cmd_lst	*tmp;
+	int			i;
+	int			STDIN_TMP = dup(STDIN_FILENO);
+	int			STDOUT_TMP = dup(STDOUT_FILENO);
+
+	i = 0;
+	tmp = data->cmd_list;
+	while (tmp)
+	{
+		if (tmp->heredoc_delimiter[i])
+		{
+			while (tmp->heredoc_delimiter[i])
+			{
+				data->pid[data->nbr_pid] = fork();
+				if (data->pid[data->nbr_pid] == -1)
+				{
+					// FREE AND EXIT;
+				}
+				else if (data->pid[data->nbr_pid] == 0)
+				{
+					_heredoc(data, tmp, STDIN_TMP, STDOUT_TMP);
+					exit (0);
+				}
+				i++;
+			}
+			i = 0;
+		}
+		tmp = tmp->next;
+	}
+}
+
 int	_ft_exe(t_prg *data)
 {
+	data->nbr_pid = 0;
 	data->cmd_list->redir_fd = NULL;
 	data->nbr_builtins = count_builtins_nofork(data->cmd_list);
 	data->cmd_nbr = get_size_lst(data);
 	_set_index_list(data);
 	if (_init_pipe(data) || _alloc_exe_var(data))
 		return (-1);
-	_ft_forks(data, 0, NULL);
+	_init_heredoc(data);
+	_ft_forks(data, NULL);
 	return (0);
 }
