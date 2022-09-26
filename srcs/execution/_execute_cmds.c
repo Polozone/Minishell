@@ -43,7 +43,7 @@ void	close_pipe(t_prg *data)
 
 	i = 0;
 	// dprintf(2, "nbr == %d\n\n", data->cmd_nbr);
-	while (i < ((data->cmd_nbr - 1) * 2))
+	while (i < ((data->cmd_nbr - 1 + data->heredoc_nbr) * 2))
 	{
 		// dprintf(2, "Closing pipe...(%d)\n", i);
 		close(data->pipe[i]);
@@ -83,6 +83,11 @@ void	_redir_first_cmd(t_cmd_lst	*node, t_prg *data)
 	{
 		if (data->cmd_nbr != 1)
 			dup2(data->pipe[1], 1);
+		// else if (data->cmd_nbr == 1 && node->heredoc_delimiter[0])
+		// {
+		// 	dprintf(2, "\n\n\n\n\n\n\n\n");
+		// 	dup2(data->pipe[0], 0);
+		// }
 	}
 }
 
@@ -111,11 +116,20 @@ void	_redir_last_cmd(t_cmd_lst *node, t_prg *data)
 void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 {
 	if (node->index == 0)
+	{
+		dprintf(2, "FIRST CMD\n");
 		_redir_first_cmd(node, data);
+	}
 	else if (node->index != data->cmd_nbr - 1)
+	{
+		dprintf(2, "INSIDE CMD\n");
 		_redir_in_pipes(node, data);
+	}
 	else if (node->index == data->cmd_nbr - 1 && data->cmd_nbr != 1)
+	{
+		dprintf(2, "LAST CMD\n");
 		_redir_last_cmd(node, data);
+	}
 }
 
 void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
@@ -140,7 +154,6 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 		line = ft_strjoin_gnl(line, buf, -1, 0);
 		free(buf);
 	}
-	// _set_dup_outfile(tmp, data);
 	write(data->pipe[((tmp->index * 2) + 1)], line, ft_strlen(line));
 	free(line);
 }

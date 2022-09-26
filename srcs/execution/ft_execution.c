@@ -58,7 +58,7 @@ int _init_pipe(t_prg *data)
 	int i;
 
 	i = -1;
-	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1) * 2));
+	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1 + data->heredoc_nbr) * 2));
 	if (data->pipe == NULL)
 	{
 		// FREE ALL AND EXIT
@@ -66,7 +66,7 @@ int _init_pipe(t_prg *data)
 		return (-1);
 	}
 	// dprintf(2, "hd nbr == %d\n", data->heredoc_nbr);
-	while (++i < data->cmd_nbr - 1)
+	while (++i < data->cmd_nbr - 1 + data->heredoc_nbr)
 	{
 		// dprintf(2, "init pipe\n");
 		pipe(&data->pipe[i * 2]);
