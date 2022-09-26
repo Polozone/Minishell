@@ -67,16 +67,9 @@ void _wait_pids(t_prg data)
 	int	i;
 
 	i = 0;
-	// while (j < 2)
-	// {
-	// 	dprintf(2, "PID =[%d]\n", data.pid[j]);
-	// 	j++;
-	// }
-	// dprintf(2, "calc == %d\n", data.cmd_nbr - data.nbr_builtins);
-	// dprintf(2, "data.pid[0] == %d, data.pid[1] == %d\n", data.pid[0], data.pid[1]);
 	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
-		dprintf(2, "Waiting...\n");
+		// dprintf(2, "pid (in wait...) == %d\n", data.pid[i]);
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}

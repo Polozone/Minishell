@@ -43,7 +43,7 @@ void	close_pipe(t_prg *data)
 
 	i = 0;
 	// dprintf(2, "nbr == %d\n\n", data->cmd_nbr);
-	while (i < ((data->cmd_nbr - 1)/* + data->heredoc_nbr*/ * 2))
+	while (i < ((data->cmd_nbr - 1 + data->heredoc_nbr) * 2))
 	{
 		// dprintf(2, "Closing pipe...(%d)\n", i);
 		close(data->pipe[i]);
@@ -83,6 +83,11 @@ void	_redir_first_cmd(t_cmd_lst	*node, t_prg *data)
 	{
 		if (data->cmd_nbr != 1)
 			dup2(data->pipe[1], 1);
+		// else if (data->cmd_nbr == 1 && node->heredoc_delimiter[0])
+		// {
+		// 	dprintf(2, "\n\n\n\n\n\n\n\n");
+		// 	dup2(data->pipe[0], 0);
+		// }
 	}
 }
 
@@ -111,14 +116,23 @@ void	_redir_last_cmd(t_cmd_lst *node, t_prg *data)
 void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 {
 	if (node->index == 0)
+	{
+		dprintf(2, "FIRST CMD\n");
 		_redir_first_cmd(node, data);
+	}
 	else if (node->index != data->cmd_nbr - 1)
+	{
+		dprintf(2, "INSIDE CMD\n");
 		_redir_in_pipes(node, data);
+	}
 	else if (node->index == data->cmd_nbr - 1 && data->cmd_nbr != 1)
+	{
+		dprintf(2, "LAST CMD\n");
 		_redir_last_cmd(node, data);
+	}
 }
 
-void	_heredoc(t_prg *data, t_cmd_lst *tmp, int STDIN_TMP, int STDOUT_TMP)
+void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 {
 	char	*line;
 	char	*buf;
@@ -127,12 +141,12 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int STDIN_TMP, int STDOUT_TMP)
 	int longest;
 	while (1)
 	{
-		longest = ft_strlen(tmp->heredoc_delimiter[0]);
-		write(STDOUT_TMP, ">", 1);
-		buf = get_next_line(STDIN_TMP);
+		longest = ft_strlen(tmp->heredoc_delimiter[i]);
+		write(1, "> ", 2);
+		buf = get_next_line(0);
 		if (ft_strlen(buf) > longest)
 			longest = ft_strlen(buf) - 1;
-		if (ft_strncmp(buf, tmp->heredoc_delimiter[0], longest) == 0)
+		if (ft_strncmp(buf, tmp->heredoc_delimiter[i], longest) == 0)
 		{
 			free(buf);
 			break ;
@@ -140,27 +154,15 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int STDIN_TMP, int STDOUT_TMP)
 		line = ft_strjoin_gnl(line, buf, -1, 0);
 		free(buf);
 	}
-	if (data->cmd_nbr > 1)
-		write(1, line, ft_strlen(line));
-	// char buffer[50];
-	// dprintf(2, "fd[lecture] == %d\n", data->pipe[0]);
-	// read(data->pipe[0], buffer, 50);
-	// buffer[49] = 0;
-	// dprintf(2, "buffer == %s\n", buf);
+	write(data->pipe[((tmp->index * 2) + 1)], line, ft_strlen(line));
+	free(line);
 }
 
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
-	int		STDIN_TMP = dup(STDIN_FILENO);
-	int		STDOUT_TMP = dup(STDOUT_FILENO);
-
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	close_pipe(data);
-	if (tmp->heredoc_delimiter[0])
-	{
-		_heredoc(data, tmp, STDIN_TMP, STDOUT_TMP);
-	}
 	if (is_builtin_fork(data, tmp))
 		exit (0) ;
 	_ft_execve(data, tmp);
@@ -173,8 +175,8 @@ void	check_cmd(t_cmd_lst *tmp)
 	return ;
 }
 
-// char buffer[50];
+	// char buffer[50];
 	// dprintf(2, "fd[lecture] == %d\n", data->pipe[0]);
-	// read(data->pipe[0], buffer, 50);
+	// read(data->pipe[0], buffer, 49);
 	// buffer[49] = 0;
-	// dprintf(2, "buffer == %s\n", buf);
+	// dprintf(2, "buffer == %s\n", buffer);
