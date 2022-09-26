@@ -1,2 +1,0 @@
-enum ==== 6 (cmd == env)
-num ==== 0 (cmd == ls)
