@@ -43,7 +43,7 @@ void	close_pipe(t_prg *data)
 
 	i = 0;
 	// dprintf(2, "nbr == %d\n\n", data->cmd_nbr);
-	while (i < ((data->cmd_nbr - 1 + data->heredoc_nbr) * 2))
+	while (i < ((data->cmd_nbr - 1) * 2))
 	{
 		// dprintf(2, "Closing pipe...(%d)\n", i);
 		close(data->pipe[i]);
@@ -103,10 +103,7 @@ void	_redir_last_cmd(t_cmd_lst *node, t_prg *data)
 	if (_is_infile(node))
 		_set_dup_infile(node);
 	else
-	{
-		dprintf(2, "REDIR LAST CMD\n");
 		dup2(data->pipe[(node->index - 1) * 2], 0);
-	}
 	if (_is_outfile(node))
 		_set_dup_outfile(node, data);
 }
@@ -121,22 +118,21 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		_redir_last_cmd(node, data);
 }
 
-void	_heredoc(t_prg *data, t_cmd_lst *tmp, int STDIN_TMP, int STDOUT_TMP)
+void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 {
 	char	*line;
 	char	*buf;
 
 	line = NULL;
 	int longest;
-	dprintf(2, "\n\n\n\nTESSSSSST\n\n\n");
 	while (1)
 	{
-		longest = ft_strlen(tmp->heredoc_delimiter[0]);
-		write(STDOUT_TMP, "> ", 2);
-		buf = get_next_line(STDIN_TMP);
+		longest = ft_strlen(tmp->heredoc_delimiter[i]);
+		write(1, "> ", 2);
+		buf = get_next_line(0);
 		if (ft_strlen(buf) > longest)
 			longest = ft_strlen(buf) - 1;
-		if (ft_strncmp(buf, tmp->heredoc_delimiter[0], longest) == 0)
+		if (ft_strncmp(buf, tmp->heredoc_delimiter[i], longest) == 0)
 		{
 			free(buf);
 			break ;
@@ -144,19 +140,14 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int STDIN_TMP, int STDOUT_TMP)
 		line = ft_strjoin_gnl(line, buf, -1, 0);
 		free(buf);
 	}
-	// if (data->cmd_nbr > 1)
-	write(data->pipe[(tmp->index * 2) + 1], line, ft_strlen(line));
-	dup2(data->pipe[(tmp->index * 2)], 0);
+	write(data->pipe[((tmp->index * 2) + 1)], line, ft_strlen(line));
+	free(line);
 }
 
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	_init_fd(data);
 	_set_pipes(data, tmp);
-	// if (tmp->heredoc_delimiter[0])
-	// {
-	// 	_heredoc(data, tmp, STDIN_TMP, STDOUT_TMP);
-	// }
 	close_pipe(data);
 	if (is_builtin_fork(data, tmp))
 		exit (0) ;

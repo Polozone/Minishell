@@ -271,7 +271,8 @@ void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void		close_pipe(t_prg *data);
 void		_set_fd(t_cmd_lst *tmp, t_prg *data);
-void		_heredoc(t_prg *data, t_cmd_lst *tmp, int STDIN_TMP, int STDOUT_TMP);
+void		_heredoc(t_prg *data, t_cmd_lst *tmp, int i);
+void		_set_pipes(t_prg	*data, t_cmd_lst	*node);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 

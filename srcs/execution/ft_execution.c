@@ -66,7 +66,7 @@ int _init_pipe(t_prg *data)
 		return (-1);
 	}
 	// dprintf(2, "hd nbr == %d\n", data->heredoc_nbr);
-	while (++i < data->cmd_nbr - 1 + data->heredoc_nbr)
+	while (++i < data->cmd_nbr - 1)
 	{
 		// dprintf(2, "init pipe\n");
 		pipe(&data->pipe[i * 2]);
@@ -79,6 +79,7 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 {
 	tmp = data->cmd_list;
 
+	// dprintf(2, "nbr pid == %d\n", data->nbr_pid);
 	while (tmp)
 	{
 		if (tmp->heredoc_delimiter[0])
@@ -137,27 +138,29 @@ void	_init_heredoc(t_prg *data)
 {
 	t_cmd_lst	*tmp;
 	int			i;
-	int			STDIN_TMP = dup(STDIN_FILENO);
-	int			STDOUT_TMP = dup(STDOUT_FILENO);
+	// int			STDIN_TMP = dup(STDIN_FILENO);
+	// int			STDOUT_TMP = dup(STDOUT_FILENO);
 
 	i = 0;
 	tmp = data->cmd_list;
+	int		pid;
 	while (tmp)
 	{
 		if (tmp->heredoc_delimiter[i])
 		{
 			while (tmp->heredoc_delimiter[i])
 			{
-				data->pid[data->nbr_pid] = fork();
-				if (data->pid[data->nbr_pid] == -1)
+				pid = fork();
+				if (pid == -1)
 				{
 					// FREE AND EXIT;
 				}
-				else if (data->pid[data->nbr_pid] == 0)
+				else if (pid == 0)
 				{
-					_heredoc(data, tmp, STDIN_TMP, STDOUT_TMP);
+					_heredoc(data, tmp, i);
 					exit (0);
 				}
+				waitpid(pid, NULL, 0);
 				i++;
 			}
 			i = 0;
@@ -175,6 +178,7 @@ int	_ft_exe(t_prg *data)
 	_set_index_list(data);
 	if (_init_pipe(data) || _alloc_exe_var(data))
 		return (-1);
+	// dprintf(2, "heredoc nbr == %d\n\n", data->heredoc_nbr);
 	_init_heredoc(data);
 	_ft_forks(data, NULL);
 	return (0);

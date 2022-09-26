@@ -67,9 +67,9 @@ void _wait_pids(t_prg data)
 	int	i;
 
 	i = 0;
-	while (i < data.cmd_nbr - data.nbr_builtins + data.heredoc_nbr)
+	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
-		dprintf(2, "Waiting...\n");
+		// dprintf(2, "pid (in wait...) == %d\n", data.pid[i]);
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
