@@ -156,11 +156,11 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 
 	_init_fd(data);
 	_set_pipes(data, tmp);
+	close_pipe(data);
 	if (tmp->heredoc_delimiter[0])
 	{
 		_heredoc(data, tmp, STDIN_TMP, STDOUT_TMP);
 	}
-	close_pipe(data);
 	if (is_builtin_fork(data, tmp))
 		exit (0) ;
 	_ft_execve(data, tmp);
