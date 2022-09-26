@@ -140,6 +140,8 @@ int main(int ac, char **av, char **env)
 			if (g_error != 258)
 			{
 				_ft_exe(&prg);
+				// close(prg.pipe[0]);
+				// close(prg.pipe[1]);
 				close_pipe(&prg);
 				_wait_pids(prg);
 				_ft_free_exe(&prg);

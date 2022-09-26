@@ -58,7 +58,7 @@ int _init_pipe(t_prg *data)
 	int i;
 
 	i = -1;
-	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1 + data->heredoc_nbr) * 2));
+	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1) * 2));
 	if (data->pipe == NULL)
 	{
 		// FREE ALL AND EXIT
@@ -66,7 +66,7 @@ int _init_pipe(t_prg *data)
 		return (-1);
 	}
 	// dprintf(2, "hd nbr == %d\n", data->heredoc_nbr);
-	while (++i < data->cmd_nbr - 1 + data->heredoc_nbr)
+	while (++i < data->cmd_nbr - 1)
 	{
 		// dprintf(2, "init pipe\n");
 		pipe(&data->pipe[i * 2]);
@@ -90,6 +90,11 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 			}
 			else if (data->pid[data->nbr_pid] == 0)
 				_set_fd(tmp, data);
+			if (tmp->heredoc_delimiter[0])
+			{
+				close(tmp->pipe_hd[0]);
+				close(tmp->pipe_hd[1]);
+			}
 			data->nbr_pid++;
 		}
 		tmp = tmp->next;
@@ -144,6 +149,7 @@ void	_init_heredoc(t_prg *data)
 		{
 			while (tmp->heredoc_delimiter[i])
 			{
+				pipe(tmp->pipe_hd);
 				pid = fork();
 				if (pid == -1)
 				{
