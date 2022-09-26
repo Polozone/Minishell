@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:28:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/22 10:59:03 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/26 17:06:17 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,21 @@ void	ft_error_print(t_cmd_lst *node, int error_code, char *error_source)
 		ft_putstr_fd(": Permission denied\n", 2);
 		g_error = 126;
 	}
+	if (error_code == -126)
+	{
+		ft_putstr_fd("Minichell: ", 2);
+		ft_putstr_fd(error_source, 2);
+		ft_putstr_fd(": is a directory\n", 2);	
+		g_error = 126;
+	}
+	if (error_code == 2)
+	{
+		ft_putstr_fd("Minichell: ", 2);
+		ft_putstr_fd(error_source, 2);
+		ft_putstr_fd(": filename argument required\n", 2);
+		ft_putstr_fd(".: usage: . filename [arguments]\n", 2);	
+		g_error = 2;
+	}
 }
 
 t_bool	ft_syntax_error_print(int error_code)
@@ -50,4 +65,6 @@ t_bool	ft_syntax_error_print(int error_code)
 		g_error = 258;
 		return (true);
 	}
+	else
+		return (false);
 }

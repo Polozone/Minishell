@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/22 16:57:58 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/26 14:32:59 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef enum	s_redir
 typedef struct l_cmd_list
 {
 	char		**cmd_and_dep;		// command and his flags ___ exemple => (s1)unset (s2)variable
+	t_bool		*has_been_exp;
 	char		*path;				// path to the command (extract of PATH= in env variables)
 	char		**file;				// duble char array of each files -> infile and outfile (write at the last outfile)
 	int			redir_nbr;			// nbr of redirections

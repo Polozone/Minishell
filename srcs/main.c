@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/22 17:22:42 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:57:32 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,8 @@ int main(int ac, char **av, char **env)
 				close_pipe(&prg);
 				_wait_pids(prg);
 				_ft_free_exe(&prg);
+				ft_free_parsing(&prg);
 			}
-			ft_free_parsing(&prg);
 		}
 		free(prg.line);
 	}
