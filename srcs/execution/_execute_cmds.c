@@ -111,20 +111,11 @@ void	_redir_last_cmd(t_cmd_lst *node, t_prg *data)
 void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 {
 	if (node->index == 0)
-	{
-		dprintf(2, "FIRST CMD\n");
 		_redir_first_cmd(node, data);
-	}
 	else if (node->index != data->cmd_nbr - 1)
-	{
-		dprintf(2, "INSIDE CMD\n");
 		_redir_in_pipes(node, data);
-	}
 	else if (node->index == data->cmd_nbr - 1 && data->cmd_nbr != 1)
-	{
-		dprintf(2, "LAST CMD\n");
 		_redir_last_cmd(node, data);
-	}
 }
 
 void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)

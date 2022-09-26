@@ -178,7 +178,6 @@ int	_ft_exe(t_prg *data)
 	_set_index_list(data);
 	if (_init_pipe(data) || _alloc_exe_var(data))
 		return (-1);
-	// dprintf(2, "heredoc nbr == %d\n\n", data->heredoc_nbr);
 	_init_heredoc(data);
 	_ft_forks(data, NULL);
 	return (0);
