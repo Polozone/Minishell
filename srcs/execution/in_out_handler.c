@@ -58,7 +58,7 @@ int		_is_outfile(t_cmd_lst *tmp)
 void _open_all_outfile(t_cmd_lst *node)
 {
 	int i = 0;
-	// dprintf(2, "node->redir nbr == %d\n", node->redir_nbr);
+	dprintf(2, "node->redir nbr == %d\n", node->redir_nbr);
 	while (i < node->redir_nbr - 1)
 	{
 		// dprintf(2, "node->file[%d] = %s\n", i, node->file[i]);
