@@ -1,7 +1,9 @@
 
 #include "../../includes/minishell.h"
 
-void	check_cmd(t_cmd_lst *tmp);
+extern int g_error;
+
+// void	check_cmd(t_cmd_lst *tmp);
 
 void	_set_dup_infile(t_cmd_lst *node)
 {
@@ -64,19 +66,19 @@ void	_init_fd(t_prg *data)
 	}
 }
 
-void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
+int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
 	// dprintf(2, "[%d]cmd(in execve) ==%s dep = %s   {nbr cmd = %d}\n", tmp->index, tmp->cmd_and_dep[0], tmp->cmd_and_dep[1],data->cmd_nbr);
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 	{
 		if (access(tmp->path, F_OK) != 0 || ft_strcmp(tmp->cmd_and_dep[0], "..") == 0)
-			ft_error_print(tmp, 127, tmp->cmd_and_dep[0]);
+			exit (ft_error_print(tmp, 127, tmp->cmd_and_dep[0]));
+		else if (access(tmp->cmd_and_dep[0], F_OK) == 0)
+			exit (ft_error_print(tmp, -126, tmp->cmd_and_dep[0]));
 		else if (access(tmp->path, X_OK) != 0)
-			ft_error_print(tmp, 126, tmp->cmd_and_dep[0]);
+			exit (ft_error_print(tmp, 126, tmp->cmd_and_dep[0]));
 		else if (ft_strcmp(tmp->cmd_and_dep[0], ".") == 0)
-			ft_error_print(tmp, 2, tmp->cmd_and_dep[0]);
-		else if (access(tmp->path, F_OK) == 0)
-			ft_error_print(tmp, -126, tmp->cmd_and_dep[0]);
+			exit (ft_error_print(tmp, 2, tmp->cmd_and_dep[0]));
 	}
 	// free ALL
 	exit (0);
@@ -156,7 +158,7 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 	free(line);
 }
 
-void	_set_fd(t_cmd_lst *tmp, t_prg *data)
+int	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	_init_fd(data);
 	_set_pipes(data, tmp);
@@ -169,9 +171,8 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	}
 	close_pipe(data);
 	if (is_builtin_fork(data, tmp))
-		exit (0) ;
-	_ft_execve(data, tmp);
-	return ;
+		exit (0);
+	exit (_ft_execve(data, tmp));
 }
 
 void	check_cmd(t_cmd_lst *tmp)

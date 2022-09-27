@@ -1,6 +1,8 @@
 
 #include "../../includes/minishell.h"
 
+extern int g_error;
+
 int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 {
 	if (node->is_cmd_builtin == export || node->is_cmd_builtin == unset 
@@ -24,7 +26,7 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 			return (0);
 		}
 		if (node->is_cmd_builtin == quit)
-			exit(0);
+			exit(50);
 	}
 	return (1);
 }
@@ -77,6 +79,7 @@ int _init_pipe(t_prg *data)
 void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 {
 	tmp = data->cmd_list;
+	int	exit_status;
 
 	while (tmp)
 	{

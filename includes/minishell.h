@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/26 14:32:59 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:30:15 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,11 +143,16 @@ char		*ft_join_shrtct(char *str1, char *str2);
 
 /***** STRING_SEARCH.C *****/
 
-char		*ft_strstr(char *str, char *to_find);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-int			ft_strcmp(const char *s1, const char *s2);
-int			search_char(char *str, char c);
-t_bool		ft_isalnum(int c);
+char			*ft_strstr(char *str, char *to_find);
+int				ft_strncmp(const char *s1, const char *s2, size_t n);
+int				ft_strcmp(const char *s1, const char *s2);
+int				search_char(char *str, char c);
+t_bool			ft_isalnum(int c);
+
+/***** ITOA.C *****/
+
+
+char			*ft_itoa(int nb);
 
 /***** CMD_LIST.C *****/
 
@@ -268,7 +273,7 @@ int			_ft_exe(t_prg *data);
 void		_wait_pids(t_prg data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void		close_pipe(t_prg *data);
-void		_set_fd(t_cmd_lst *tmp, t_prg *data);
+int			_set_fd(t_cmd_lst *tmp, t_prg *data);
 void		_heredoc(t_prg *data, t_cmd_lst *tmp, int i);
 void		_set_pipes(t_prg	*data, t_cmd_lst	*node);
 
@@ -283,7 +288,7 @@ void	_open_all_outfile(t_cmd_lst		*node);
 
 /***** ERROR_PRINT.C *****/
 
-void		ft_error_print(t_cmd_lst *node, int error_code, char *error_source);
+int			ft_error_print(t_cmd_lst *node, int error_code, char *error_source);
 t_bool		ft_syntax_error_print(int error_code);
 
 /***** FREE_EXECUTIONS.C *****/

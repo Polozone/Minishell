@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:28:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/26 17:06:17 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/27 13:44:53 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_error;
 
-void	ft_error_print(t_cmd_lst *node, int error_code, char *error_source)
+int	ft_error_print(t_cmd_lst *node, int error_code, char *error_source)
 {
 	if (error_code == 127 && node->heredoc_delimiter[0]
 		== NULL && node->cmd_and_dep[0] != NULL
@@ -49,6 +49,7 @@ void	ft_error_print(t_cmd_lst *node, int error_code, char *error_source)
 		ft_putstr_fd(".: usage: . filename [arguments]\n", 2);	
 		g_error = 2;
 	}
+	return (g_error);
 }
 
 t_bool	ft_syntax_error_print(int error_code)

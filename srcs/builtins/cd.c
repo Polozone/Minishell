@@ -13,7 +13,7 @@ int		_is_old_pwd(t_prg *data, int mode, char* old_pwd)
 	{
 		while (tmp)
 		{
-			if (!ft_strcmp(tmp->name, "OLDPWD="))
+			if (!ft_strcmp(tmp->name, "OLDPWD"))
 				return (1);
 			tmp = tmp->next;
 		}
@@ -23,7 +23,7 @@ int		_is_old_pwd(t_prg *data, int mode, char* old_pwd)
 	{
 		while (tmp)
 		{
-			if (!ft_strcmp(tmp->name, "OLDPWD="))
+			if (!ft_strcmp(tmp->name, "OLDPWD"))
 				tmp->content = old_pwd;
 			tmp = tmp->next;
 		}
