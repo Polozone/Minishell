@@ -66,7 +66,7 @@ void	_init_fd(t_prg *data)
 
 void	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
-	// dprintf(2, "[%d]cmd(in execve) ==%s   {nbr cmd = %d}\n", tmp->index, tmp->cmd_and_dep[0], data->cmd_nbr);
+	// dprintf(2, "[%d]cmd(in execve) ==%s dep = %s   {nbr cmd = %d}\n", tmp->index, tmp->cmd_and_dep[0], tmp->cmd_and_dep[1],data->cmd_nbr);
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 		perror("execve: ");
 	// free ALL
@@ -105,7 +105,10 @@ void	_redir_last_cmd(t_cmd_lst *node, t_prg *data)
 	else
 		dup2(data->pipe[(node->index - 1) * 2], 0);
 	if (_is_outfile(node))
+	{
+		// dprintf(2, "\nTEST IN REDIR OUTFILE\n");
 		_set_dup_outfile(node, data);
+	}
 }
 
 void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
@@ -148,6 +151,7 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	_init_fd(data);
 	_set_pipes(data, tmp);
+	// dprintf(2, "tmp->cmd == %s\n", tmp->cmd_and_dep[0]);
 	if (tmp->heredoc_delimiter[0])
 	{
 		dup2(tmp->pipe_hd[0], 0);
