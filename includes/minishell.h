@@ -243,6 +243,11 @@ void			ft_add_c_to_nl(t_var_quote quote, char **new_line, char *line, int i);
 
 char		*ft_forge_new_line(t_prg *prg, char *line);
 
+/***** FR_ATOI.C *****/
+
+static long	ft_checker(long result, long neg);
+int	ft_atoi(const char *str);
+
 /***** BUILTINS.C *****/
 
 void		_print_env(t_env_lst *head);
@@ -261,6 +266,7 @@ int			is_builtin_nofork(t_prg *data, t_cmd_lst *node);
 int			is_builtin_fork(t_prg *data, t_cmd_lst *node);
 int			count_builtins_nofork(t_cmd_lst *list);
 void		env_to_tab(t_prg *prg, int i);
+int			_exit_builtins(t_cmd_lst *node);
 
 /***** EXECUTIONS.C *****/
 

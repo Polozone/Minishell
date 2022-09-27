@@ -42,10 +42,8 @@ void	close_pipe(t_prg *data)
 	int		i;
 
 	i = 0;
-	// dprintf(2, "nbr == %d\n\n", data->cmd_nbr);
 	while (i < ((data->cmd_nbr - 1) * 2))
 	{
-		// dprintf(2, "Closing pipe...(%d)\n", i);
 		close(data->pipe[i]);
 		i++;
 	}
@@ -158,9 +156,14 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
+	tmp->redir_fd = malloc(sizeof(int) * tmp->redir_nbr);
+	if (tmp->redir_fd == NULL)
+	{
+		// free and return ;
+		return ;
+	}
 	_init_fd(data);
 	_set_pipes(data, tmp);
-	// dprintf(2, "tmp->cmd == %s\n", tmp->cmd_and_dep[0]);
 	if (tmp->heredoc_delimiter[0])
 	{
 		dup2(tmp->pipe_hd[0], 0);

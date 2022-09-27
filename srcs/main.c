@@ -100,7 +100,6 @@ void env_to_tab(t_prg *prg, int i)
 void	_init_exe_var(t_prg *data)
 {
 	data->pid = NULL;
-	// data->cmd_list->redir_fd = NULL;
 	data->pipe = NULL;
 }
 
@@ -143,8 +142,6 @@ int main(int ac, char **av, char **env)
 			if (g_error != 258)
 			{
 				_ft_exe(&prg);
-				// close(prg.pipe[0]);
-				// close(prg.pipe[1]);
 				close_pipe(&prg);
 				_wait_pids(prg);
 				_ft_free_exe(&prg);

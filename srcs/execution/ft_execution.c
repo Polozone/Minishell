@@ -3,6 +3,8 @@
 
 int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 {
+	int exit_value;
+
 	if (node->is_cmd_builtin == export || node->is_cmd_builtin == unset 
 		|| node->is_cmd_builtin == cd || node->is_cmd_builtin == quit)
 	{
@@ -11,7 +13,7 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 		if (node->is_cmd_builtin == export)
 		{
 			_export_env(data);
-			return (0);
+			return (0); // virer tous les return 0 et foutre a la fin du if parent ? -> pr norme
 		}
 		if (node->is_cmd_builtin == unset)
 		{
@@ -21,10 +23,16 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 		if (node->is_cmd_builtin == cd)
 		{
 			_ch_dir(data);
-			return (0);
+			return (0); // virer tous les return 0 et foutre a la fin du if parent ? -> pr norme
 		}
 		if (node->is_cmd_builtin == quit)
-			exit(0);
+		{
+			exit_value = _exit_builtins(node);
+			if (exit_value == -1)
+				return (0);
+			else
+				exit(exit_value);
+		}
 	}
 	return (1);
 }
@@ -36,7 +44,7 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 	{
 		if (node->is_cmd_builtin == echo)
 		{
-			_echo_exe(data, 0);
+			_echo_exe(data, 1);
 			return (1);
 		}
 		if (node->is_cmd_builtin == pwd)
@@ -124,12 +132,12 @@ int	_alloc_exe_var(t_prg *data)
 		// free and return;
 		return (-1);
 	}
-	data->cmd_list->redir_fd = malloc(sizeof(int) * data->cmd_list->redir_nbr);
-	if (data->cmd_list->redir_fd == NULL)
-	{
-		// free and return ;
-		return (-1);
-	}
+	// data->cmd_list->redir_fd = malloc(sizeof(int) * data->cmd_list->redir_nbr);
+	// if (data->cmd_list->redir_fd == NULL)
+	// {
+	// 	// free and return ;
+	// 	return (-1);
+	// }
 	return (0);
 }
 

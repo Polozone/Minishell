@@ -20,12 +20,14 @@ SRCS =	srcs/main.c				\
 		srcs/parsing/error_print.c		\
 		srcs/parsing/ft_free.c			\
 		srcs/parsing/memory_dealloc.c			\
+		srcs/parsing/atoi.c						\
 		srcs/strings_manip/strings_reproduction.c	\
 		srcs/strings_manip/strings_size.c	\
 		srcs/strings_manip/strings_search.c	\
 		srcs/builtins/env.c			\
 		srcs/builtins/echo.c			\
 		srcs/builtins/cd.c			\
+		srcs/builtins/exit.c			\
 		srcs/builtins/pwd.c			\
 		srcs/execution/ft_free_execution.c			\
 		srcs/execution/ft_execution.c	\

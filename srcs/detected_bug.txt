@@ -109,3 +109,6 @@ ATTENTION TU CREE UNE ENV VAR OLDPWD A CHAQUE CHANGEMENT DE DOSSIER SANS LES EFF
 Pareil que pour export, les charactere non Alpha autre que _ sont refuse
 bash: unset: `2': not a valid identifier CODE ERREUR = 1
 
+
+$USER$^USER$non.bomjour$USER$USER
+cat <<ok1<<ok2<<ok3 > file1 > fil2 > file3 | echo bonjour -> ne print pas echo 

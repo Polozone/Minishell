@@ -13,7 +13,7 @@ int		_is_old_pwd(t_prg *data, int mode, char* old_pwd)
 	{
 		while (tmp)
 		{
-			if (!ft_strcmp(tmp->name, "OLDPWD="))
+			if (!ft_strcmp(tmp->name, "OLDPWD"))
 				return (1);
 			tmp = tmp->next;
 		}
@@ -23,7 +23,7 @@ int		_is_old_pwd(t_prg *data, int mode, char* old_pwd)
 	{
 		while (tmp)
 		{
-			if (!ft_strcmp(tmp->name, "OLDPWD="))
+			if (!ft_strcmp(tmp->name, "OLDPWD"))
 				tmp->content = old_pwd;
 			tmp = tmp->next;
 		}
@@ -31,9 +31,28 @@ int		_is_old_pwd(t_prg *data, int mode, char* old_pwd)
 	return (0);
 }
 
+char	*get_home_path(t_prg *data)
+{
+	t_env_lst	*tmp;
+	char	*buf;
+
+	tmp = data->env_lst;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, "HOME"))
+		{
+			buf = ft_strdup(tmp->content);
+			return (buf);
+		}
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
 int		_ch_dir(t_prg *data)
 {
 	char	*old_pwd;
+	char	*path_home;
 
 	old_pwd = malloc((sizeof(char) * 1016) + 1); // FREE CETTE VARIABLE AU BESOIN + CHECK AVEC MAX FT_lstnew_env_list si on malloc dedans
 	if (old_pwd == NULL)
@@ -42,11 +61,15 @@ int		_ch_dir(t_prg *data)
 		exit (0);
 	}
 	getcwd(old_pwd, 1016);
-	if (chdir(data->cmd_list->cmd_and_dep[1]) == -1)
+	if (!data->cmd_list->cmd_and_dep[1])
 	{
-		perror("");
-		return (-1);
+		path_home = get_home_path(data);
+		chdir(path_home);
+		free(path_home);
+		return (0);
 	}
+	if (chdir(data->cmd_list->cmd_and_dep[1]) == -1)
+		return (-1);
 	else
 		if (!_is_old_pwd(data, 1, old_pwd))
 			ft_add_back_env_list(&data->env_lst, ft_lstnew_env_list("OLDPWD", old_pwd));
