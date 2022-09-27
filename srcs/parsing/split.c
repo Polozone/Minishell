@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 09:25:00 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 09:46:10 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:28:05 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,16 @@ static int	ft_sprinkles_size(const char *str, char set)
 
 	i = 0;
 	while ((str[i] && str[i] != set)
-	|| (str[i] && str[i] == set && ft_is_in_quote((char *)str, i, &quote) == true))
-		i ++;
+		|| (str[i] && str[i] == set
+			&& ft_is_in_quote((char *)str, i, &quote) == true))
+				i ++;
 	return (i);
 }
 
 static int	ft_sep_count(char const *str, char sep)
 {
-	int	i;
-	int	count;
+	int			i;
+	int			count;
 	t_var_quote	quote;
 
 	count = 0;
@@ -46,7 +47,8 @@ static int	ft_sep_count(char const *str, char sep)
 	while (str[i])
 	{
 		while ((str[i] && str[i] == sep)
-		|| (str[i] && str[i] == sep && ft_is_in_quote((char *)str, i, &quote) == true))
+			|| (str[i] && str[i] == sep
+				&& ft_is_in_quote((char *)str, i, &quote) == true))
 			i ++;
 		if (str[i] && str[i] != sep)
 		{
@@ -54,36 +56,35 @@ static int	ft_sep_count(char const *str, char sep)
 			i ++;
 		}
 		while ((str[i] && str[i] != sep)
-		|| (str[i] && str[i] == sep && ft_is_in_quote((char *)str, i, &quote) == true))
+			|| (str[i] && str[i] == sep
+				&& ft_is_in_quote((char *)str, i, &quote) == true))
 			i ++;
 	}
 	return (count);
 }
 
-static char	**ft_actual_split(char **banana, char *str, char sep, int ct)
+static char	**ft_actual_split(char **banana, char *s, char sep, int ct)
 {
 	int			i;
 	int			j;
-	t_var_quote quote;
+	t_var_quote	q;
 
 	i = -1;
 	j = 0;
-	while (++i < ct && str[j])
+	while (++i < ct && s[j])
 	{
-		while ((str[j] == sep && str[j])
-		|| (str[j] && str[j] == sep && ft_is_in_quote((char *)str, j, &quote) == true))
+		while ((s[j] == sep && s[j])
+			|| (s[j] && s[j] == sep && ft_is_in_quote((char *)s, j, &q) == 0))
 			j ++;
-		if (str[j] != sep && str[j])
+		if (s[j] != sep && s[j])
 		{
-			banana[i] = ft_substr(str, j, ft_sprinkles_size(&str[j], sep));
-			if (ft_is_in_quote(str, i, &quote) == false)
-				;
+			banana[i] = ft_substr(s, j, ft_sprinkles_size(&s[j], sep));
 			if (banana[i] == NULL)
 				return (ft_free_split(banana, i));
 			j ++;
 		}
-		while ((str[j] != sep && str[j])
-		|| (str[j] && str[j] == sep && ft_is_in_quote((char *)str, j, &quote) == true))
+		while ((s[j] != sep && s[j])
+			|| (s[j] && s[j] == sep && ft_is_in_quote((char *)s, j, &q) == 0))
 			j ++;
 	}
 	banana[i] = 0;
