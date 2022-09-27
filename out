@@ -1,0 +1,9 @@
+total 112
+-rw-r--r--  1 pmulin  4221   1492 Sep 27 08:07 Makefile
+drwxr-xr-x  6 pmulin  4221    204 Sep 22 09:09 builtins
+drwxr-xr-x  4 pmulin  4221    136 Sep 27 08:07 includes
+-rwxr-xr-x  1 pmulin  4221  45324 Sep 27 09:22 minishell
+-rw-r--r--  1 pmulin  4221    446 Sep 27 09:22 out
+-rw-r--r--  1 pmulin  4221      0 Sep 27 09:22 out2
+drwxr-xr-x  6 pmulin  4221    204 Sep 22 09:09 poubelle
+drwxr-xr-x  8 pmulin  4221    272 Sep 27 08:07 srcs
