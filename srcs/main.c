@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 16:07:26 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:57:32 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,17 @@ void env_to_tab(t_prg *prg, int i)
 {
 	t_env_lst	*tmp;
 	int			size_lst;
+	char		*tmp_name;
 
 	size_lst = _lst_size_env(prg->env_lst);
 	prg->envp = malloc((sizeof(char *)) * size_lst + 1);
 	tmp = prg->env_lst;
 	while (tmp)
 	{
-		prg->envp[i] = ft_strjoin(ft_strjoin(tmp->name, "="), tmp->content);
+		tmp_name = ft_strjoin(tmp->name, "=");
+		prg->envp[i] = ft_strjoin(tmp_name, tmp->content);
 		tmp = tmp->next;
+		free(tmp_name);
 		i++;
 	}
 	prg->envp[i] = 0;
@@ -145,7 +148,10 @@ int main(int ac, char **av, char **env)
 				close_pipe(&prg);
 				_wait_pids(prg);
 				_ft_free_exe(&prg);
+				ft_free_parsing(&prg);
 			}
 		}
+		free(prg.line);
 	}
+	ft_free_env_lst(&prg);
 }

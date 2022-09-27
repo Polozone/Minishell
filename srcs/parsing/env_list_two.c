@@ -1,44 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   env_list_two.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 16:53:45 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/22 10:53:58 by mgolinva         ###   ########.fr       */
+/*   Created: 2022/09/22 10:55:57 by mgolinva          #+#    #+#             */
+/*   Updated: 2022/09/22 10:58:21 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_free_1d(void	**to_free)
+t_env_lst	*ft_search_in_env_lst(t_prg *prg, char *name)
 {
-	if (*to_free)
-	{
-		free(*to_free);
-		*to_free = NULL;
-	}
-}
+	t_env_lst	*buff;
 
-void	ft_free_2d(void	***to_free)
-{
-	if (**to_free)
+	buff = prg->env_lst;
+	while (buff != NULL)
 	{
-		free(**to_free);
-		**to_free = NULL;
+		if (ft_strstr(buff->name, name) != 0)
+			return (buff);
+		buff = buff->next;
 	}
-}
-
-void	ft_free_char_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i ++;
-	}
-	free(array);
+	return (0);
 }

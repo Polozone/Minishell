@@ -49,7 +49,7 @@ int		_ch_dir(t_prg *data)
 	}
 	else
 		if (!_is_old_pwd(data, 1, old_pwd))
-			ft_add_back_env_list(&data->env_lst, ft_lstnew_env_list("OLDPWD=", old_pwd));
+			ft_add_back_env_list(&data->env_lst, ft_lstnew_env_list("OLDPWD", old_pwd));
 		else
 			_is_old_pwd(data, 2, old_pwd);
 	return (0);

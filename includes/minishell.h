@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 12:11:54 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/26 14:32:59 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define ONE_RED 3
 # define TWO_RED 4
 # define SYNT_ER 5
+# define QUOTE_ERROR 5
+# define PIPE_CHEV_ERROR 5
 
 # define STDIN 0
 # define STDOUT 1
@@ -81,6 +83,7 @@ typedef enum	s_redir
 typedef struct l_cmd_list
 {
 	char		**cmd_and_dep;		// command and his flags ___ exemple => (s1)unset (s2)variable
+	t_bool		*has_been_exp;
 	char		*path;				// path to the command (extract of PATH= in env variables)
 	char		**file;				// duble char array of each files -> infile and outfile (write at the last outfile)
 	int			redir_nbr;			// nbr of redirections
@@ -103,13 +106,6 @@ typedef struct	l_env_list
 	void	*next;
 }				t_env_lst;
 
-typedef struct	l_dollz_lst
-{
-	char		*word;
-	void		*next;
-}				t_dollz_lst;
-
-
 typedef struct s_prg
 {
 	char		**path_list;
@@ -128,27 +124,30 @@ typedef struct s_prg
 	t_bool		is_there_path;
 }			t_prg;
 
-/***** STRING_MANIP.C *****/
+void		rl_replace_line(const char *text, int clear_undo);
+
+/***** STRING_SIZE.C *****/
 
 int			ft_strlen(char *str);
-char		*ft_strstr(char *str, char *to_find);
-char		*ft_substr(char *s, unsigned int start, size_t len);
 int			ft_array_len(char **envp);
+int			ft_strlen_2d(char **str);
+int			ft_strlen_to_char(char *str, char c);
+
+/***** STRING_REPRODUCTION.C *****/
+
 char		*ft_strdup(char *str);
+char		*ft_substr(char *s, unsigned int start, size_t len);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strjoin_backslash(char const *s1, char const *s2);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-int			ft_strlen_2d(char **str);
-int			ft_strcmp(const char *s1, const char *s2);
-void		ft_free_char_array(char **array);
-int			search_char(char *str, char c);
-int			ft_strlen_to_char(char *str, char c);
-t_bool		ft_isalnum(int c);
-// void		ft_free_array(void array, int len);
-
-/***** UTILS_SHORTCUT_FTS.C *****/
-
 char		*ft_join_shrtct(char *str1, char *str2);
+
+/***** STRING_SEARCH.C *****/
+
+char		*ft_strstr(char *str, char *to_find);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strcmp(const char *s1, const char *s2);
+int			search_char(char *str, char c);
+t_bool		ft_isalnum(int c);
 
 /***** CMD_LIST.C *****/
 
@@ -169,15 +168,10 @@ t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
 t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
 int					_lst_size_env(t_env_lst *head);
 
-/***** dollz_LIST.C *****/
-
-void			ft_add_back_dollz_list(t_dollz_lst **alpha, t_dollz_lst *newb);
-t_dollz_lst		*ft_lstnew_dollz_list(char *word);
-void			ft_lstclear_dollz_list(t_dollz_lst **lst);
-
 /***** FILL_CMD_LST.C *****/
 
 void		ft_fill_cmd_lst(t_prg *prg);
+void		ft_find_path(t_prg *prg, t_cmd_lst *cmd_list);
 
 /***** FILL_FILES.C *****/
 
@@ -186,7 +180,6 @@ void				ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token
 /***** FILL_NODES.C *****/
 
 void				ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
-void				ft_find_path(t_prg *prg, t_cmd_lst *cmd_list);
 
 /***** TOKEN.C *****/
 
@@ -198,10 +191,6 @@ int					ft_count_token(t_token *line_token, t_token token_name, char **line_spli
 /***** SPLIT.C *****/
 
 char				**ft_split(char *str, char sep);
-
-/***** SPLIT.C *****/
-
-char				**ft_split_charset(char *str, char *charset);
 
 /***** SPLIT_NO_QUOTES.C *****/
 
@@ -218,8 +207,6 @@ void		ft_parse(t_prg *prg);
 
 /***** QUOTE.C *****/
 
-// t_bool		ft_is_in_quote(const char *line, int index);
-// t_bool		ft_is_in_quote(const char *line, int index);
 t_bool			ft_is_in_quote(char *line, int index, t_var_quote *quote);
 
 /***** TRIM_QUOTE.C *****/
@@ -228,9 +215,13 @@ char			*ft_trim_quote(char *line);
 char			*ft_extracted_phrase(char *line, int index, t_var_quote quote);
 void			ft_quote_trimer(t_prg *prg, t_cmd_lst *buff);
 
-/***** PIPE_ERROR.C *****/
+/***** SYNTAX_ERROR.c *****/
 
 t_bool		ft_syntax_error(t_prg *prg);
+
+/***** CHEVRON_ERROR.c *****/
+
+t_bool			ft_chevron_error(char *line, int line_len, char chevron, char che_two);
 
 /***** BUILTIN_CHECK.C *****/
 
@@ -242,8 +233,14 @@ void		ft_redir_assignation(t_prg *prg, t_cmd_lst *cmd_lst, t_token *line_token, 
 
 /***** REPLACE_DOLLZ.C *****/
 
+char			*ft_get_var_name(char *line, int index);
+char			*ft_expend(t_prg *prg, char *line, int index);
+t_bool			ft_is_phrase_a_file(char *line, int index, t_var_quote quote);
+int				ft_char_is_dollz(t_prg *prg, char *line, char **new_line, int i);
+void			ft_add_c_to_nl(t_var_quote quote, char **new_line, char *line, int i);
 
-// char		*ft_replace_dollz(t_prg *prg, char *line);
+/***** REPLACE_DOLLZ.C *****/
+
 char		*ft_forge_new_line(t_prg *prg, char *line);
 
 /***** BUILTINS.C *****/
@@ -284,15 +281,22 @@ int		_is_outfile(t_cmd_lst *tmp);
 void	_close_files(t_prg	*data, t_cmd_lst *node);
 void	_open_all_outfile(t_cmd_lst		*node);
 
-/***** FREE_EXECUTIONS.C *****/
+/***** ERROR_PRINT.C *****/
 
 void		ft_error_print(t_cmd_lst *node, int error_code, char *error_source);
+t_bool		ft_syntax_error_print(int error_code);
 
 /***** FREE_EXECUTIONS.C *****/
 
 void		_ft_free_exe(t_prg *data);
 void		ft_free_1d(void	**to_free);
 void		ft_free_2d(void	***to_free);
+void		ft_free_char_array(char **array);
+
+/***** MEMORY_DEALLOC.C *****/
+
+void	ft_free_parsing(t_prg *prg);
+void	ft_free_env_lst(t_prg *prg);
 
 /***** GET_NEXT_LINE.C *****/
 

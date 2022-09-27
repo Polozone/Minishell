@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 13:17:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 09:46:11 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:59:02 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ft_trim_quote(char *line)
 			&& (quote == not_in_quote))
 				;
 		else
-			new_line = ft_strjoin(new_line, ft_substr(line, i, 1));
+			new_line = ft_join_shrtct(new_line, ft_substr(line, i, 1));
 		i ++;
 	}
 	return (new_line);
