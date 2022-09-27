@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:42:34 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 16:04:26 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/27 09:22:43 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_cmd_lst	*ft_create_cmd_lst(t_prg *prg)
 
 static void	ft_heredoc_counter(t_prg *prg)
 {
-	t_cmd_lst *cmd_lst;
+	t_cmd_lst	*cmd_lst;
 
 	cmd_lst = prg->cmd_list;
 	prg->heredoc_nbr = 0;
@@ -77,11 +77,12 @@ void	ft_parse(t_prg *prg)
 	// 	if (buff2->redir_type != 0)
 	// 		for (int i = 0; i < buff2->redir_nbr; i ++)
 	// 			printf("redir_type[%d] = %u\n", i, buff2->redir_type[i]);
-	// 	if (buff2->heredoc_delimiter != 0)
+	// 	if (buff2->heredoc_delimiter[0] != 0)
 	// 		for(int i = 0; buff2->heredoc_delimiter[i]; i ++)
 	// 		{
 	// 			printf("I = %d\n", i);
-	// 			printf("heredoc delimiter[%d] = %s\n", i, buff2->heredoc_delimiter[i]);
+	// 			printf("heredoc delimiter[%d] = %s\n",
+	// 				i, buff2->heredoc_delimiter[i]);
 	// 		}
 	// 	if (buff2->is_cmd_builtin != 0)
 	// 		printf("is_cmd_builtin = %d\n", buff2->is_cmd_builtin);

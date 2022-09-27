@@ -1,24 +1,28 @@
 SRCS =	srcs/main.c				\
 		srcs/parsing/split.c			\
-		srcs/parsing/split_charset.c	\
-		srcs/parsing/strings_manip.c	\
 		srcs/parsing/printing_ft.c		\
 		srcs/parsing/quote.c			\
 		srcs/parsing/trim_quote.c		\
 		srcs/parsing/syntax_error.c		\
+		srcs/parsing/chevron_error.c	\
 		srcs/parsing/builtin_check.c	\
 		srcs/parsing/cmd_list.c			\
 		srcs/parsing/env_list.c			\
+		srcs/parsing/env_list_two.c			\
 		srcs/parsing/fill_cmd_lst.c		\
 		srcs/parsing/fill_nodes.c		\
 		srcs/parsing/fill_files.c		\
 		srcs/parsing/redirections.c		\
 		srcs/parsing/token.c			\
 		srcs/parsing/replace_dollz.c	\
+		srcs/parsing/replace_dollz_forge.c	\
 		srcs/parsing/parsing.c			\
-		srcs/parsing/utilis_shortcut_fts.c	\
 		srcs/parsing/error_print.c		\
 		srcs/parsing/ft_free.c			\
+		srcs/parsing/memory_dealloc.c			\
+		srcs/strings_manip/strings_reproduction.c	\
+		srcs/strings_manip/strings_size.c	\
+		srcs/strings_manip/strings_search.c	\
 		srcs/builtins/env.c			\
 		srcs/builtins/echo.c			\
 		srcs/builtins/cd.c			\
