@@ -55,23 +55,21 @@ int	count_builtins_nofork(t_cmd_lst *list)
 	{
 		if (tmp->is_cmd_builtin == export || tmp->is_cmd_builtin == unset || tmp->is_cmd_builtin == cd || tmp->is_cmd_builtin == quit)
 		{
-			//dprintf(2, "cmd = %s cmd flag == (%d)\n", tmp->cmd_and_dep[0], tmp->is_cmd_builtin);
 			nbr_builtins++;
 		}
 		tmp = tmp->next;
 	}
-	// dprintf(2, "nbr buil == %d\n\n", nbr_builtins);
 	return (nbr_builtins);
 }
 
 void _wait_pids(t_prg data)
 {
 	int	i;
-	int		nbr_builtins;
 
 	i = 0;
 	while (i < data.cmd_nbr - data.nbr_builtins)
 	{
+		// dprintf(2, "pid (in wait...) == %d\n", data.pid[i]);
 		waitpid(data.pid[i], NULL, 0);
 		i++;
 	}
@@ -126,7 +124,7 @@ int main(int ac, char **av, char **env)
 {
 	t_prg prg;
 
-	(void)ac;
+	(void)ac;	
 	(void)av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
 	_init_exe_var(&prg);
@@ -145,6 +143,8 @@ int main(int ac, char **av, char **env)
 			if (g_error != 258)
 			{
 				_ft_exe(&prg);
+				// close(prg.pipe[0]);
+				// close(prg.pipe[1]);
 				close_pipe(&prg);
 				_wait_pids(prg);
 				_ft_free_exe(&prg);

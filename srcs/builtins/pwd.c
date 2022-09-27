@@ -4,7 +4,6 @@
 int		_pwd_exe()
 {
 	char *path;
-	// path = malloc(1016 * sizeof(char) + 1);
 	path = getcwd(NULL, 0);
 	if (path == NULL)
 		perror("");

@@ -44,17 +44,16 @@ RM = rm -f
 
 #FLAGS = -lreadline -Wall -Werror -Wextra -fsanitize=address -g3
 
-FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra -fsanitize=address -g3
+FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -Wall -Werror -Wextra
 
 %.o.c: $(INCL) Makefile
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) -c $< -o $@ $(FLAGS)
 
 NAME = minishell
 
 $(NAME): $(OBJS) $(INCL) Makefile
-	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
-	make clean
-	
+	$(CC) -o $(NAME) $(OBJS) $(FLAGS)
+
 clean:
 	$(RM) $(OBJS)
 
