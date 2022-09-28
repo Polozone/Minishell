@@ -31,6 +31,7 @@ SRCS =	srcs/main.c				\
 		srcs/builtins/pwd.c			\
 		srcs/execution/ft_free_execution.c			\
 		srcs/execution/ft_execution.c	\
+		srcs/execution/signals.c		\
 		srcs/execution/_execute_cmds.c	\
 		srcs/execution/in_out_handler.c	\
 		srcs/execution/get_next_line/get_next_line.c	\

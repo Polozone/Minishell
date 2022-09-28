@@ -16,25 +16,25 @@ int		check_args_echo(char	*str)
 	return (0);
 }
 
-int		_echo_exe(t_prg *data, int i)
+int		_echo_exe(t_cmd_lst *node, int i)
 {
 	int		flag;
 
 	flag = 1;
-	if (!data->cmd_list->cmd_and_dep[1])
+	if (!node->cmd_and_dep[1])
 	{
 		printf("\n");
 		return (0);
 	}
-	while (check_args_echo(data->cmd_list->cmd_and_dep[i]) == 0)
+	while (check_args_echo(node->cmd_and_dep[i]) == 0)
 	{
 		flag = 0;
 		i++;
 	}
-	while (data->cmd_list->cmd_and_dep[i])
+	while (node->cmd_and_dep[i])
 	{
-		printf("%s", data->cmd_list->cmd_and_dep[i]);
-		if (i != ft_strlen_2d(data->cmd_list->cmd_and_dep) - 1)
+		printf("%s", node->cmd_and_dep[i]);
+		if (i != ft_strlen_2d(node->cmd_and_dep) - 1)
 			printf(" ");
 		i++;
 	}

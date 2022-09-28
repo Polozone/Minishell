@@ -1,7 +1,4 @@
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "../../includes/minishell.h"
 
 void _print_env(t_env_lst *head)
@@ -55,12 +52,29 @@ void _unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
 	}
 }
 
-int _parsing_export(char *cmd)
+int _parsing_export(char *cmd, t_prg *prg)
 {
-	if (cmd[0] == '=')
+	int		i;
+
+	i = 0;
+	if (cmd[0] == '#')
+	{
+		_print_env_declare(prg);
+		return (0);
+	}
+	if (0 <= cmd[0] && cmd[0] <= 9)
 	{
 		printf("export: `%s': not a valid identifier\n", cmd);
 		return (1);
+	}
+	while (cmd[i])
+	{
+		if ((65 > cmd[i]) || (90 < cmd[i] && cmd[i] < 97) || (cmd[i] > 122))
+		{
+			printf("export: `%s': not a valid identifier\n", cmd);
+			return (1);
+		}
+		i++;
 	}
 	return (0);
 }
@@ -90,7 +104,7 @@ void _add_env(t_prg *prg, int i)
 
 	while (prg->cmd_list->cmd_and_dep[++i])
 	{
-		if (_parsing_export(prg->cmd_list->cmd_and_dep[i]))
+		if (_parsing_export(prg->cmd_list->cmd_and_dep[i], prg))
 			i++;
 		sep = ft_strlen_to_char(prg->cmd_list->cmd_and_dep[i], '=');
 		name = ft_substr(prg->cmd_list->cmd_and_dep[i], 0, sep);

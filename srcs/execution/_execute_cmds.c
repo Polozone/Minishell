@@ -128,6 +128,16 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		_redir_last_cmd(node, data);
 }
 
+void	handle_sigstp_hd(int sig)
+{
+	if (sig == 2)
+	{
+		printf("INSIDE HDDDD\n");
+		exit(0);
+		printf("INSIDE HDDDD\n");
+	}
+}
+
 void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 {
 	char	*line;
@@ -154,8 +164,15 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 	free(line);
 }
 
+void	sig_quit_handler_exec()
+{
+	write(1, "^\\Quit: 3", 9);
+	signal(SIGQUIT, SIG_DFL);
+}
+
 void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
+	signal(SIGQUIT, sig_quit_handler_exec);
 	tmp->redir_fd = malloc(sizeof(int) * tmp->redir_nbr);
 	if (tmp->redir_fd == NULL)
 	{

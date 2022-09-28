@@ -126,6 +126,11 @@ typedef struct s_prg
 
 void		rl_replace_line(const char *text, int clear_undo);
 
+/***** SIGNAUX.C *****/
+
+void	setup_term(void);
+void	handle_sigstp(int sig);
+
 /***** STRING_SIZE.C *****/
 
 int			ft_strlen(char *str);
@@ -248,6 +253,10 @@ char		*ft_forge_new_line(t_prg *prg, char *line);
 static long	ft_checker(long result, long neg);
 int	ft_atoi(const char *str);
 
+/***** ENV.C *****/
+
+void _print_env_declare(t_prg *prg);
+
 /***** BUILTINS.C *****/
 
 void		_print_env(t_env_lst *head);
@@ -258,7 +267,7 @@ int			_export_env_parse(t_prg *prg);
 void		_add_env(t_prg *prg, int i);
 int			_is_name_in_env(t_prg *prg, char *name_to_find);
 void		_set_content_env(t_env_lst *node, char *content, char **content2d, int mode);
-int			_echo_exe(t_prg *data, int i);
+int			_echo_exe(t_cmd_lst *node, int i);
 int			_pwd_exe();
 int			_ch_dir(t_prg *data);
 void		_add_node(char *name, char *content, t_prg *prg);
@@ -271,7 +280,7 @@ int			_exit_builtins(t_cmd_lst *node);
 /***** EXECUTIONS.C *****/
 
 int			_ft_exe(t_prg *data);
-void		_wait_pids(t_prg data);
+void		_wait_pids(t_prg *data);
 int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void		close_pipe(t_prg *data);
 void		_set_fd(t_cmd_lst *tmp, t_prg *data);
@@ -309,6 +318,12 @@ void	ft_free_env_lst(t_prg *prg);
 char	*ft_strjoin_gnl(char *s1, char *s2, int i, int j);
 char	*get_next_line(int fd);
 
+/***** SIGNALS.C *****/
 
+void	_sig_stp_main(int sig);
+void	sig_handler_hd();
+void	sig_parent(void);
+void	sig_quit_exec(int signo);
+void	sig_int_exec(int signo);
 
 #endif

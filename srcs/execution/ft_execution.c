@@ -44,7 +44,7 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 	{
 		if (node->is_cmd_builtin == echo)
 		{
-			_echo_exe(data, 1);
+			_echo_exe(node, 1);
 			return (1);
 		}
 		if (node->is_cmd_builtin == pwd)
@@ -73,10 +73,8 @@ int _init_pipe(t_prg *data)
 		// free_data();
 		return (-1);
 	}
-	// dprintf(2, "hd nbr == %d\n", data->heredoc_nbr);
 	while (++i < data->cmd_nbr - 1)
 	{
-		// dprintf(2, "init pipe\n");
 		pipe(&data->pipe[i * 2]);
 	}
 	return (0);
@@ -132,12 +130,6 @@ int	_alloc_exe_var(t_prg *data)
 		// free and return;
 		return (-1);
 	}
-	// data->cmd_list->redir_fd = malloc(sizeof(int) * data->cmd_list->redir_nbr);
-	// if (data->cmd_list->redir_fd == NULL)
-	// {
-	// 	// free and return ;
-	// 	return (-1);
-	// }
 	return (0);
 }
 
@@ -151,6 +143,7 @@ void	_init_heredoc(t_prg *data)
 	i = 0;
 	tmp = data->cmd_list;
 	int		pid;
+
 	while (tmp)
 	{
 		if (tmp->heredoc_delimiter[i])
@@ -158,6 +151,8 @@ void	_init_heredoc(t_prg *data)
 			while (tmp->heredoc_delimiter[i])
 			{
 				pipe(tmp->pipe_hd);
+				signal(SIGINT, SIG_IGN);
+				signal(SIGQUIT, SIG_IGN);
 				pid = fork();
 				if (pid == -1)
 				{
@@ -165,6 +160,7 @@ void	_init_heredoc(t_prg *data)
 				}
 				else if (pid == 0)
 				{
+					signal(SIGINT, sig_handler_hd);
 					_heredoc(data, tmp, i);
 					exit (0);
 				}
