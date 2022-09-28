@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/27 11:30:15 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/28 10:58:23 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@
 # define STDIN 0
 # define STDOUT 1
 
-typedef enum	s_bool
+typedef enum s_bool
 {
 	true,
 	false
 }				t_bool;
 
-typedef enum	s_token
+typedef enum s_token
 {
 	red,
 	file,
@@ -51,19 +51,19 @@ typedef enum	s_token
 	none
 }				t_token;
 
-typedef enum	s_builtin
+typedef enum s_builtin
 {
-	not_built_in, //egale a zero si il n y a pas de builtins, sinon valeur de 1 a 7
+	not_built_in,
 	echo,
 	cd,
 	pwd,
-	export,				// fork
-	unset,				// fork
-	env,				// fork
+	export,
+	unset,
+	env,
 	quit
 }				t_builtin;
 
-typedef enum	s_var_quote
+typedef enum s_var_quote
 {
 	not_in_quote,
 	in_single,
@@ -71,7 +71,7 @@ typedef enum	s_var_quote
 	in_both
 }				t_var_quote;
 
-typedef enum	s_redir
+typedef enum s_redir
 {
 	input,
 	output,
@@ -82,14 +82,14 @@ typedef enum	s_redir
 
 typedef struct l_cmd_list
 {
-	char		**cmd_and_dep;		// command and his flags ___ exemple => (s1)unset (s2)variable
+	char		**cmd_and_dep;
 	t_bool		*has_been_exp;
-	char		*path;				// path to the command (extract of PATH= in env variables)
-	char		**file;				// duble char array of each files -> infile and outfile (write at the last outfile)
-	int			redir_nbr;			// nbr of redirections
-	t_redir		*redir_type;		// enum to know the nature of the redirection
-	char		**heredoc_delimiter; //the heredoc delimiter
-	t_builtin	is_cmd_builtin; 	// enum to know if the command is a builtins and the nature of the builtins.
+	char		*path;
+	char		**file;
+	int			redir_nbr;
+	t_redir		*redir_type;
+	char		**heredoc_delimiter;
+	t_builtin	is_cmd_builtin;
 	int			infile;
 	int			outfile;
 	int			index;
@@ -99,7 +99,7 @@ typedef struct l_cmd_list
 	void		*next;
 }				t_cmd_lst;
 
-typedef struct	l_env_list
+typedef struct l_env_list
 {
 	char	*name;
 	char	*content;
@@ -124,22 +124,22 @@ typedef struct s_prg
 	t_bool		is_there_path;
 }			t_prg;
 
-void		rl_replace_line(const char *text, int clear_undo);
+void			rl_replace_line(const char *text, int clear_undo);
 
 /***** STRING_SIZE.C *****/
 
-int			ft_strlen(char *str);
-int			ft_array_len(char **envp);
-int			ft_strlen_2d(char **str);
-int			ft_strlen_to_char(char *str, char c);
+int				ft_strlen(char *str);
+int				ft_array_len(char **envp);
+int				ft_strlen_2d(char **str);
+int				ft_strlen_to_char(char *str, char c);
 
 /***** STRING_REPRODUCTION.C *****/
 
-char		*ft_strdup(char *str);
-char		*ft_substr(char *s, unsigned int start, size_t len);
-char		*ft_strjoin(char const *s1, char const *s2);
-char		*ft_strjoin_backslash(char const *s1, char const *s2);
-char		*ft_join_shrtct(char *str1, char *str2);
+char			*ft_strdup(char *str);
+char			*ft_substr(char *s, unsigned int start, size_t len);
+char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strjoin_backslash(char const *s1, char const *s2);
+char			*ft_join_shrtct(char *str1, char *str2);
 
 /***** STRING_SEARCH.C *****/
 
@@ -163,52 +163,52 @@ size_t			get_size_lst(t_prg *data);
 
 /***** ENV_LIST.C *****/
 
-t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
-t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
-t_env_lst			*ft_last_env_list(t_env_lst *lst);
-void				ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb);
-t_env_lst			*ft_lstnew_env_list(char *name, char *content);
-void				ft_make_elem(char *line, t_env_lst **env_lst, int index);
-t_env_lst			*ft_search_in_env_lst(t_prg *prg, char *name);
-t_env_lst			*ft_create_env_lst(char **envp, t_prg *prg);
-int					_lst_size_env(t_env_lst *head);
+t_env_lst		*ft_create_env_lst(char **envp, t_prg *prg);
+t_env_lst		*ft_search_in_env_lst(t_prg *prg, char *name);
+t_env_lst		*ft_last_env_list(t_env_lst *lst);
+void			ft_add_back_env_list(t_env_lst **alpha, t_env_lst *newb);
+t_env_lst		*ft_lstnew_env_list(char *name, char *content);
+void			ft_make_elem(char *line, t_env_lst **env_lst, int index);
+t_env_lst		*ft_search_in_env_lst(t_prg *prg, char *name);
+t_env_lst		*ft_create_env_lst(char **envp, t_prg *prg);
+int				_lst_size_env(t_env_lst *head);
 
 /***** FILL_CMD_LST.C *****/
 
-void		ft_fill_cmd_lst(t_prg *prg);
-void		ft_find_path(t_prg *prg, t_cmd_lst *cmd_list);
+void			ft_fill_cmd_lst(t_prg *prg);
+void			ft_find_path(t_prg *prg, t_cmd_lst *cmd_list);
 
 /***** FILL_FILES.C *****/
 
-void				ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token, int len);
+void			ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token, int len);
 
 /***** FILL_NODES.C *****/
 
-void				ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
+void			ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
 
 /***** TOKEN.C *****/
 
 
-t_token				ft_redir_token(char *word);
-t_token				*ft_assign_token(char **line_split, t_token *line_token);
-int					ft_count_token(t_token *line_token, t_token token_name, char **line_split, int len);
+t_token			ft_redir_token(char *word);
+t_token			*ft_assign_token(char **line_split, t_token *line_token);
+int				ft_count_token(t_token *line_token, t_token token_name, char **line_split, int len);
 
 /***** SPLIT.C *****/
 
-char				**ft_split(char *str, char sep);
+char			**ft_split(char *str, char sep);
 
 /***** SPLIT_NO_QUOTES.C *****/
 
-char				**ft_split_no_quotes(char const *str, char sep);
+char			**ft_split_no_quotes(char const *str, char sep);
 
 /***** PRINTF_FT.C *****/
 
-void				ft_putstr_fd(char *str, int fd);
-void				ft_putchar_fd(char c, int fd);
+void			ft_putstr_fd(char *str, int fd);
+void			ft_putchar_fd(char c, int fd);
 
 /***** PARSING.C *****/
 
-void		ft_parse(t_prg *prg);
+void			ft_parse(t_prg *prg);
 
 /***** QUOTE.C *****/
 
@@ -222,7 +222,7 @@ void			ft_quote_trimer(t_prg *prg, t_cmd_lst *buff);
 
 /***** SYNTAX_ERROR.c *****/
 
-t_bool		ft_syntax_error(t_prg *prg);
+t_bool			ft_syntax_error(t_prg *prg);
 
 /***** CHEVRON_ERROR.c *****/
 
@@ -230,11 +230,11 @@ t_bool			ft_chevron_error(char *line, int line_len, char chevron, char che_two);
 
 /***** BUILTIN_CHECK.C *****/
 
-void		ft_is_cmd_builtin(t_prg *prg, t_cmd_lst *cmd_lst);
+void			ft_is_cmd_builtin(t_prg *prg, t_cmd_lst *cmd_lst);
 
 /***** REDIRECTIONS.C *****/
 
-void		ft_redir_assignation(t_prg *prg, t_cmd_lst *cmd_lst, t_token *line_token, char **line_split);
+void			ft_redir_assignation(t_prg *prg, t_cmd_lst *cmd_lst, t_token *line_token, char **line_split);
 
 /***** REPLACE_DOLLZ.C *****/
 
@@ -246,68 +246,67 @@ void			ft_add_c_to_nl(t_var_quote quote, char **new_line, char *line, int i);
 
 /***** REPLACE_DOLLZ.C *****/
 
-char		*ft_forge_new_line(t_prg *prg, char *line);
+char			*ft_forge_new_line(t_prg *prg, char *line);
 
 /***** BUILTINS.C *****/
 
-void		_print_env(t_env_lst *head);
-void		_unset_env(t_prg *prg, size_t i, t_cmd_lst *node);
-void		_unset_env_parent(t_prg *prg, t_cmd_lst *node);
-int			_export_env(t_prg *prg);
-int			_export_env_parse(t_prg *prg);
-void		_add_env(t_prg *prg, int i);
-int			_is_name_in_env(t_prg *prg, char *name_to_find);
-void		_set_content_env(t_env_lst *node, char *content, char **content2d, int mode);
-int			_echo_exe(t_prg *data, int i);
-int			_pwd_exe();
-int			_ch_dir(t_prg *data);
-void		_add_node(char *name, char *content, t_prg *prg);
-int			is_builtin_nofork(t_prg *data, t_cmd_lst *node);
-int			is_builtin_fork(t_prg *data, t_cmd_lst *node);
-int			count_builtins_nofork(t_cmd_lst *list);
-void		env_to_tab(t_prg *prg, int i);
+void			_print_env(t_env_lst *head);
+void			_unset_env(t_prg *prg, size_t i, t_cmd_lst *node);
+void			_unset_env_parent(t_prg *prg, t_cmd_lst *node);
+int				_export_env(t_prg *prg);
+int				_export_env_parse(t_prg *prg);
+void			_add_env(t_prg *prg, int i);
+int				_is_name_in_env(t_prg *prg, char *name_to_find);
+void			_set_content_env(t_env_lst *node, char *content, char **content2d, int mode);
+int				_echo_exe(t_prg *data, int i);
+int				_pwd_exe();
+int				_ch_dir(t_prg *data);
+void			_add_node(char *name, char *content, t_prg *prg);
+int				is_builtin_nofork(t_prg *data, t_cmd_lst *node);
+int				is_builtin_fork(t_prg *data, t_cmd_lst *node);
+int				count_builtins_nofork(t_cmd_lst *list);
+void			env_to_tab(t_prg *prg, int i);
 
 /***** EXECUTIONS.C *****/
 
-int			_ft_exe(t_prg *data);
-void		_wait_pids(t_prg data);
-int			_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
-void		close_pipe(t_prg *data);
-int			_set_fd(t_cmd_lst *tmp, t_prg *data);
-void		_heredoc(t_prg *data, t_cmd_lst *tmp, int i);
-void		_set_pipes(t_prg	*data, t_cmd_lst	*node);
+int				_ft_exe(t_prg *data);
+void			_wait_pids(t_prg data);
+int				_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
+void			close_pipe(t_prg *data);
+int				_set_fd(t_cmd_lst *tmp, t_prg *data);
+void			_heredoc(t_prg *data, t_cmd_lst *tmp, int i);
+void			_set_pipes(t_prg	*data, t_cmd_lst	*node);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
-int		_last_infile(t_cmd_lst *tmp);
-int		_last_outfile(t_cmd_lst *tmp);
-int		_is_infile(t_cmd_lst *tmp);
-int		_is_outfile(t_cmd_lst *tmp);
-void	_close_files(t_prg	*data, t_cmd_lst *node);
-void	_open_all_outfile(t_cmd_lst		*node);
+int				_last_infile(t_cmd_lst *tmp);
+int				_last_outfile(t_cmd_lst *tmp);
+int				_is_infile(t_cmd_lst *tmp);
+int				_is_outfile(t_cmd_lst *tmp);
+void			_close_files(t_prg	*data, t_cmd_lst *node);
+void			_open_all_outfile(t_cmd_lst		*node);
 
 /***** ERROR_PRINT.C *****/
 
-int			ft_error_print(t_cmd_lst *node, int error_code, char *error_source);
-t_bool		ft_syntax_error_print(int error_code);
+int				ft_error_print_one(t_cmd_lst *node, int error_code, char *error_source);
+int				ft_error_print_two(t_cmd_lst *node, int error_code, char *error_source);
+t_bool			ft_syntax_error_print(int error_code);
 
 /***** FREE_EXECUTIONS.C *****/
 
-void		_ft_free_exe(t_prg *data);
-void		ft_free_1d(void	**to_free);
-void		ft_free_2d(void	***to_free);
-void		ft_free_char_array(char **array);
+void			_ft_free_exe(t_prg *data);
+void			ft_free_1d(void	**to_free);
+void			ft_free_2d(void	***to_free);
+void			ft_free_char_array(char **array);
 
 /***** MEMORY_DEALLOC.C *****/
 
-void	ft_free_parsing(t_prg *prg);
-void	ft_free_env_lst(t_prg *prg);
+void			ft_free_parsing(t_prg *prg);
+void			ft_free_env_lst(t_prg *prg);
 
 /***** GET_NEXT_LINE.C *****/
 
-char	*ft_strjoin_gnl(char *s1, char *s2, int i, int j);
-char	*get_next_line(int fd);
-
-
+char			*ft_strjoin_gnl(char *s1, char *s2, int i, int j);
+char			*get_next_line(int fd);
 
 #endif

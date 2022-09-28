@@ -68,19 +68,19 @@ void	_init_fd(t_prg *data)
 
 int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
-	// dprintf(2, "[%d]cmd(in execve) ==%s dep = %s   {nbr cmd = %d}\n", tmp->index, tmp->cmd_and_dep[0], tmp->cmd_and_dep[1],data->cmd_nbr);
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 	{
-		if (access(tmp->path, F_OK) != 0 || ft_strcmp(tmp->cmd_and_dep[0], "..") == 0)
-			exit (ft_error_print(tmp, 127, tmp->cmd_and_dep[0]));
-		else if (access(tmp->cmd_and_dep[0], F_OK) == 0)
-			exit (ft_error_print(tmp, -126, tmp->cmd_and_dep[0]));
+		if (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], ".") == 0)
+			exit (ft_error_print_one(tmp, 2, tmp->cmd_and_dep[0]));
+		else if ((access(tmp->path, F_OK) != 0)
+			|| (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], "..") == 0)
+			|| (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], tmp->path) == 0))
+			exit (ft_error_print_one(tmp, 127, tmp->cmd_and_dep[0]));
+		else if (access(tmp->path, F_OK) == 0)
+			exit (ft_error_print_two(tmp, -126, tmp->cmd_and_dep[0]));
 		else if (access(tmp->path, X_OK) != 0)
-			exit (ft_error_print(tmp, 126, tmp->cmd_and_dep[0]));
-		else if (ft_strcmp(tmp->cmd_and_dep[0], ".") == 0)
-			exit (ft_error_print(tmp, 2, tmp->cmd_and_dep[0]));
+			exit (ft_error_print_two(tmp, 126, tmp->cmd_and_dep[0]));
 	}
-	// free ALL
 	exit (0);
 }
 
