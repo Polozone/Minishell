@@ -160,7 +160,12 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 		line = ft_strjoin_gnl(line, buf, -1, 0);
 		free(buf);
 	}
-	write(tmp->pipe_hd[1], line, ft_strlen(line));
+	if (!tmp->heredoc_delimiter[i + 1])
+	{
+		close(tmp->pipe_hd[0]);
+		write(tmp->pipe_hd[1], line, ft_strlen(line));
+		close(tmp->pipe_hd[1]);
+	}
 	free(line);
 }
 

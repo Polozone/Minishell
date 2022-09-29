@@ -133,26 +133,43 @@ int	_alloc_exe_var(t_prg *data)
 	return (0);
 }
 
+void	sig_parent_hd(void)
+{
+	write(2, "\n", 1);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+}
+
+void	sig_handler_parent_hd(int sig)
+{
+	// if (sig == SIGINT)
+	// 	g_status = 1;
+	sig_parent_hd();
+}
+
+void	sig_child(void)
+{
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+}
+
 void	_init_heredoc(t_prg *data)
 {
 	t_cmd_lst	*tmp;
 	int			i;
-	// int			STDIN_TMP = dup(STDIN_FILENO);
-	// int			STDOUT_TMP = dup(STDOUT_FILENO);
 
-	i = 0;
 	tmp = data->cmd_list;
 	int		pid;
-
+	i = 0;
 	while (tmp)
 	{
 		if (tmp->heredoc_delimiter[i])
 		{
 			while (tmp->heredoc_delimiter[i])
 			{
-				pipe(tmp->pipe_hd);
-				signal(SIGINT, SIG_IGN);
-				signal(SIGQUIT, SIG_IGN);
+				if (!tmp->heredoc_delimiter[i + 1])
+					pipe(tmp->pipe_hd);
+				signal(SIGINT, sig_handler_parent_hd);
 				pid = fork();
 				if (pid == -1)
 				{
@@ -160,7 +177,7 @@ void	_init_heredoc(t_prg *data)
 				}
 				else if (pid == 0)
 				{
-					signal(SIGINT, sig_handler_hd);
+					sig_child();
 					_heredoc(data, tmp, i);
 					exit (0);
 				}

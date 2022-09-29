@@ -92,29 +92,3 @@ char	*get_next_line(int fd)
 		return (NULL);
 	return (line);
 }
-
-// int main()
-// {
-// 	printf("%s", get_next_line(open("fichier.txt", O_RDWR)));
-// 	return (0);
-// }
-
-// int main()
-// {
-// 	int fdbible = open("alternate_line_nl_with_nl", O_RDWR);
-// 	printf("fdbible == %d", fdbible);
-// 	int fd = open("test.txt", O_RDWR);
-// 	printf("fd == %d", fd);
-// 	char *str;
-// 	//ft_putstr_fd("sdssd", 3);
-// 	str = get_next_line(fdbible);
-// 	while (str)
-// 	{
-// 		ft_putstr_fd(str, 4);
-// 		printf("%s", str);
-// 		free(str);
-// 		str = get_next_line(fdbible);
-// 	}
-// 	close(fd);
-// 	return (0);
-// }

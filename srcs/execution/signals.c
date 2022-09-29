@@ -3,7 +3,7 @@
 
 void		sig_handler_hd()
 {
-	write(1, "\n", 1);
+
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
@@ -12,7 +12,7 @@ void	_sig_stp_main(int sig)
 {
 	if (sig == 2)
 	{
-		// dprintf(2, "OKTEST");
+		// printf(2, "OKTEST");
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);

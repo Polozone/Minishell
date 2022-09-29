@@ -57,19 +57,19 @@ int _parsing_export(char *cmd, t_prg *prg)
 	int		i;
 
 	i = 0;
-	if (cmd[0] == '#')
+	if (cmd[0] == '#' || cmd[0] == '$')
 	{
 		_print_env_declare(prg);
 		return (0);
 	}
-	if (0 <= cmd[0] && cmd[0] <= 9)
+	if ((cmd[0] == '=') || (48 <= cmd[0] && cmd[0] <= 57))
 	{
 		printf("export: `%s': not a valid identifier\n", cmd);
 		return (1);
 	}
 	while (cmd[i])
 	{
-		if ((65 > cmd[i]) || (90 < cmd[i] && cmd[i] < 97) || (cmd[i] > 122))
+		if ((61 > cmd[i]) || (61 < cmd[i] && cmd[i] < 65) || (90 < cmd[i] && cmd[i] < 97) || (cmd[i] > 122))
 		{
 			printf("export: `%s': not a valid identifier\n", cmd);
 			return (1);
@@ -101,11 +101,15 @@ void _add_env(t_prg *prg, int i)
 	char *name;
 	char *content;
 	int sep;
+	int	len;
 
+	len = ft_strlen_2d(prg->cmd_list->cmd_and_dep) - 1;
 	while (prg->cmd_list->cmd_and_dep[++i])
 	{
 		if (_parsing_export(prg->cmd_list->cmd_and_dep[i], prg))
 			i++;
+		if (i > len)
+			break ;
 		sep = ft_strlen_to_char(prg->cmd_list->cmd_and_dep[i], '=');
 		name = ft_substr(prg->cmd_list->cmd_and_dep[i], 0, sep);
 		content = ft_substr(prg->cmd_list->cmd_and_dep[i], sep + 1, ft_strlen(prg->cmd_list->cmd_and_dep[i]) - sep);
