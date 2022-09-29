@@ -129,6 +129,16 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		_redir_last_cmd(node, data);
 }
 
+void	handle_sigstp_hd(int sig)
+{
+	if (sig == 2)
+	{
+		printf("INSIDE HDDDD\n");
+		exit(0);
+		printf("INSIDE HDDDD\n");
+	}
+}
+
 void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 {
 	char	*line;
@@ -151,12 +161,30 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 		line = ft_strjoin_gnl(line, buf, -1, 0);
 		free(buf);
 	}
-	write(tmp->pipe_hd[1], line, ft_strlen(line));
+	if (!tmp->heredoc_delimiter[i + 1])
+	{
+		close(tmp->pipe_hd[0]);
+		write(tmp->pipe_hd[1], line, ft_strlen(line));
+		close(tmp->pipe_hd[1]);
+	}
 	free(line);
 }
 
-int	_set_fd(t_cmd_lst *tmp, t_prg *data)
+void	sig_quit_handler_exec()
 {
+	write(1, "^\\Quit: 3", 9);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+void	_set_fd(t_cmd_lst *tmp, t_prg *data)
+{
+	signal(SIGQUIT, sig_quit_handler_exec);
+	tmp->redir_fd = malloc(sizeof(int) * tmp->redir_nbr);
+	if (tmp->redir_fd == NULL)
+	{
+		// free and return ;
+		return ;
+	}
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	if (tmp->heredoc_delimiter[0])
