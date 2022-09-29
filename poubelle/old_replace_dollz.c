@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 08:26:55 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 09:46:04 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/29 12:58:55 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,10 @@ static char	*ft_d_q_var(char *line, int index, char *content)
 		new_line = ft_join_shrtct(ft_substr(line, fst_qt, (index - 1) - fst_qt), ft_strdup(content));
 	else 
 		new_line = ft_strdup(content);
-	printf("line premier join = %s\n", new_line);
 	while (line[i] && ft_isalnum(line[i]) == true)
 		i ++;
 	if (i < scd_qt)
 		new_line = ft_join_shrtct(new_line, ft_substr(line, i, scd_qt - i));
-	printf("line second join = %s\n", new_line);
 	return (new_line);
 }
 

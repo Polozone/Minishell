@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/26 15:57:32 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:00:14 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void _wait_pids(t_prg *data)
 	i = 0;
 	while (i < data->cmd_nbr - data->nbr_builtins)
 	{
-		waitpid(data->pid[i], NULL, 0);
+		waitpid(data.pid[i], &g_error, 0);
+		g_error = WEXITSTATUS(g_error);
 		i++;
 	}
 	// free(data.pid);
@@ -113,6 +114,7 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
+	ft_update_shell_lvl(&prg, 1);
 	_init_exe_var(&prg);
 	while (1)
 	{
@@ -123,14 +125,16 @@ int main(int ac, char **av, char **env)
 		// sig_parent();
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		if (prg.line == NULL)
-			exit(0); // ctrl+d
+			exit(1); // ctrl+d
 		else if (ft_line_is_blank_space(prg.line) == false)
 		{
 			add_history(prg.line);
-			env_to_tab(&prg, 0);
-			ft_parse(&prg);
-			if (g_error != 258)
+			if (ft_syntax_error(&prg) == true)
+				g_error = 258;
+			else
 			{
+				env_to_tab(&prg, 0);
+				ft_parse(&prg);
 				_ft_exe(&prg);
 				close_pipe(&prg);
 				_wait_pids(&prg);

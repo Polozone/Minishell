@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/26 15:31:23 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/29 11:32:55 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_find_path(t_prg *prg, t_cmd_lst *cmd_list)
 	int		i;
 	char	*path;
 
-	if ((access(cmd_list->cmd_and_dep[0], F_OK) == 0)
+	if ((access(cmd_list->cmd_and_dep[0], F_OK) == 0 || prg->path_list == 0)
 		|| (cmd_list->cmd_and_dep[0] && cmd_list->cmd_and_dep[0][0] == '\0'))
 	{
 		cmd_list->path = ft_strdup(cmd_list->cmd_and_dep[0]);
@@ -55,6 +55,8 @@ void	ft_create_path_list(t_prg *prg)
 	}
 	if (prg->is_there_path == true)
 		prg->path_list = ft_split(buff->content, ':');
+	else
+		prg->path_list = NULL;
 }
 
 t_bool	ft_is_there_dollzzz(char *line)

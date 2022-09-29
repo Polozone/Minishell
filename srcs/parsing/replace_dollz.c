@@ -6,11 +6,13 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 14:24:53 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/26 15:39:08 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/27 13:35:52 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+extern int	g_error;
 
 char	*ft_get_var_name(char *line, int index)
 {
@@ -43,9 +45,12 @@ char	*ft_expend(t_prg *prg, char *line, int index)
 
 	env_lst = prg->env_lst;
 	var_name = ft_get_var_name(line, index);
-	if (var_name == NULL)
-		return (ft_strdup(""));
-	while (env_lst != NULL)
+	if (line[index + 1] && line[index + 1] == '?')
+	{
+		free(var_name);
+		return (ft_itoa(g_error));
+	}
+	while (env_lst != NULL && var_name != NULL)
 	{
 		if (ft_strcmp(env_lst->name, var_name) == 0)
 		{
@@ -54,6 +59,7 @@ char	*ft_expend(t_prg *prg, char *line, int index)
 		}
 		env_lst = env_lst->next;
 	}
+	free(var_name);
 	return (ft_strdup(""));
 }
 
@@ -91,7 +97,10 @@ int	ft_char_is_dollz(t_prg *prg, char *line, char **new_line, int i)
 			break ;
 		i ++;
 	}
-	i --;
+	if (line[i] == '?')
+		i ++;
+	else
+		i --;
 	return (i);
 }
 

@@ -24,6 +24,7 @@ SRCS =	srcs/main.c				\
 		srcs/strings_manip/strings_reproduction.c	\
 		srcs/strings_manip/strings_size.c	\
 		srcs/strings_manip/strings_search.c	\
+		srcs/strings_manip/ft_itoa.c	\
 		srcs/builtins/env.c			\
 		srcs/builtins/echo.c			\
 		srcs/builtins/cd.c			\
@@ -34,6 +35,7 @@ SRCS =	srcs/main.c				\
 		srcs/execution/signals.c		\
 		srcs/execution/_execute_cmds.c	\
 		srcs/execution/in_out_handler.c	\
+		srcs/execution/modify_env_lst.c	\
 		srcs/execution/get_next_line/get_next_line.c	\
 		srcs/execution/get_next_line/get_next_line_utils.c	\
 
@@ -54,7 +56,7 @@ FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -
 
 NAME = minishell
 
-$(NAME): $(OBJS) $(INCL) Makefile
+$(NAME): $(OBJS) $(INCL) Makefile ./minishell
 	$(CC) -o $(NAME) $(OBJS) $(FLAGS)
 
 clean:
