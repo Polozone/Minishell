@@ -49,6 +49,8 @@ int	ft_strlen_to_char(char *str, char c)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (-1);
 	while (str[i] != c && str[i])
 		i++;
 	return (i);

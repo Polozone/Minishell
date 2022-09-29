@@ -14,34 +14,22 @@
 
 int	g_error;
 
-void	setup_term(void)
+void    change_termios(int action)
 {
-	struct termios	t;
-	
-	tcgetattr(0, &t);
-	t.c_lflag &= ~ECHOCTL;
-	tcsetattr(0, TCSANOW, &t);
-}
+    static struct termios old_termios;
+    struct termios new_termios;
 
-void	handle_sigstp(int sig)
-{
-	if (sig == 2)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void	_sig_handler(void)
-{
-	struct sigaction sa;
-	
-	setup_term();
-	sa.sa_handler = &handle_sigstp;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
+    if (action == 1)
+    {
+        tcgetattr(0, &old_termios);
+        new_termios = old_termios;
+        new_termios.c_lflag &= ~ECHOCTL;
+        tcsetattr(0, 0, &new_termios);
+    }
+    else
+    {
+        tcsetattr(0, 0, &old_termios);
+    }
 }
 
 int	count_builtins_nofork(t_cmd_lst *list)
@@ -62,12 +50,12 @@ int	count_builtins_nofork(t_cmd_lst *list)
 	return (nbr_builtins);
 }
 
-void _wait_pids(t_prg data)
+void _wait_pids(t_prg *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < data.cmd_nbr - data.nbr_builtins)
+	while (i < data->cmd_nbr - data->nbr_builtins)
 	{
 		waitpid(data.pid[i], &g_error, 0);
 		g_error = WEXITSTATUS(g_error);
@@ -100,7 +88,6 @@ void env_to_tab(t_prg *prg, int i)
 void	_init_exe_var(t_prg *data)
 {
 	data->pid = NULL;
-	// data->cmd_list->redir_fd = NULL;
 	data->pipe = NULL;
 }
 
@@ -124,15 +111,18 @@ int main(int ac, char **av, char **env)
 {
 	t_prg prg;
 
-	(void)ac;	
+	(void)ac;
 	(void)av;
 	prg.env_lst = ft_create_env_lst(env, &prg);
 	ft_update_shell_lvl(&prg, 1);
 	_init_exe_var(&prg);
-	_sig_handler();
-	g_error = 0;
 	while (1)
 	{
+		g_error = 0;
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, _sig_stp_main);
+		change_termios(1);
+		// sig_parent();
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		if (prg.line == NULL)
 			exit(1); // ctrl+d
@@ -146,10 +136,8 @@ int main(int ac, char **av, char **env)
 				env_to_tab(&prg, 0);
 				ft_parse(&prg);
 				_ft_exe(&prg);
-				// close(prg.pipe[0]);
-				// close(prg.pipe[1]);
 				close_pipe(&prg);
-				_wait_pids(prg);
+				_wait_pids(&prg);
 				_ft_free_exe(&prg);
 				ft_free_parsing(&prg);
 			}

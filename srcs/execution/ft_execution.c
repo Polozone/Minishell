@@ -5,6 +5,8 @@ extern int g_error;
 
 int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 {
+	int exit_value;
+
 	if (node->is_cmd_builtin == export || node->is_cmd_builtin == unset 
 		|| node->is_cmd_builtin == cd || node->is_cmd_builtin == quit)
 	{
@@ -13,7 +15,7 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 		if (node->is_cmd_builtin == export)
 		{
 			_export_env(data);
-			return (0);
+			return (0); // virer tous les return 0 et foutre a la fin du if parent ? -> pr norme
 		}
 		if (node->is_cmd_builtin == unset)
 		{
@@ -23,10 +25,16 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 		if (node->is_cmd_builtin == cd)
 		{
 			_ch_dir(data);
-			return (0);
+			return (0); // virer tous les return 0 et foutre a la fin du if parent ? -> pr norme
 		}
 		if (node->is_cmd_builtin == quit)
-			exit(50);
+		{
+			exit_value = _exit_builtins(node);
+			if (exit_value == -1)
+				return (0);
+			else
+				exit(exit_value);
+		}
 	}
 	return (1);
 }
@@ -38,7 +46,7 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 	{
 		if (node->is_cmd_builtin == echo)
 		{
-			_echo_exe(data, 0);
+			_echo_exe(node, 1);
 			return (1);
 		}
 		if (node->is_cmd_builtin == pwd)
@@ -123,32 +131,46 @@ int	_alloc_exe_var(t_prg *data)
 		// free and return;
 		return (-1);
 	}
-	data->cmd_list->redir_fd = malloc(sizeof(int) * data->cmd_list->redir_nbr);
-	if (data->cmd_list->redir_fd == NULL)
-	{
-		// free and return ;
-		return (-1);
-	}
 	return (0);
+}
+
+void	sig_parent_hd(void)
+{
+	write(2, "\n", 1);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+}
+
+void	sig_handler_parent_hd(int sig)
+{
+	// if (sig == SIGINT)
+	// 	g_status = 1;
+	sig_parent_hd();
+}
+
+void	sig_child(void)
+{
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 }
 
 void	_init_heredoc(t_prg *data)
 {
 	t_cmd_lst	*tmp;
 	int			i;
-	// int			STDIN_TMP = dup(STDIN_FILENO);
-	// int			STDOUT_TMP = dup(STDOUT_FILENO);
 
-	i = 0;
 	tmp = data->cmd_list;
 	int		pid;
+	i = 0;
 	while (tmp)
 	{
 		if (tmp->heredoc_delimiter[i])
 		{
 			while (tmp->heredoc_delimiter[i])
 			{
-				pipe(tmp->pipe_hd);
+				if (!tmp->heredoc_delimiter[i + 1])
+					pipe(tmp->pipe_hd);
+				signal(SIGINT, sig_handler_parent_hd);
 				pid = fork();
 				if (pid == -1)
 				{
@@ -156,6 +178,7 @@ void	_init_heredoc(t_prg *data)
 				}
 				else if (pid == 0)
 				{
+					sig_child();
 					_heredoc(data, tmp, i);
 					exit (0);
 				}
