@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_list_two.c                                     :+:      :+:    :+:   */
+/*   modify_env_lst.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/22 10:55:57 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/29 10:42:26 by mgolinva         ###   ########.fr       */
+/*   Created: 2022/09/29 10:12:00 by mgolinva          #+#    #+#             */
+/*   Updated: 2022/09/29 11:47:52 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_env_lst	*ft_search_in_env_lst(t_prg *prg, char *name)
+void	ft_update_shell_lvl(t_prg *data, int update)
 {
-	t_env_lst	*buff;
+	t_env_lst	*tmp;
+	char		*new_shell_lvl;
+	int			shell_lvl;
 
-	buff = prg->env_lst;
-	while (buff != NULL)
-	{
-		if (ft_strcmp(buff->name, name) == 0)
-			return (buff);
-		buff = buff->next;
-	}
-	return (0);
+	tmp = data->env_lst;
+	while (tmp && ft_strcmp(tmp->name, "SHLVL") != 0)
+		tmp = tmp->next;
+	shell_lvl = atoi(tmp->content); //mettre ft_atoi
+	shell_lvl += update;
+	new_shell_lvl = ft_itoa(shell_lvl);
+	free(tmp->content);
+	tmp->content = new_shell_lvl;
 }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/28 10:58:23 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/29 11:15:28 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,5 +308,9 @@ void			ft_free_env_lst(t_prg *prg);
 
 char			*ft_strjoin_gnl(char *s1, char *s2, int i, int j);
 char			*get_next_line(int fd);
+
+/***** EXECUTIONS//IN_OUT_HANDLER.C*****/
+
+void			ft_update_shell_lvl(t_prg *data, int update);
 
 #endif

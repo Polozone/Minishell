@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 11:06:40 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 09:55:14 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/29 11:33:40 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static char	*ft_builtin_strstr(char *cmd, char *to_find)
 	while (cmd[++i])
 	{
 		j = -1;
-		while (cmd[i + ++j] && cmd[i + j] == to_find[j])
+		while ((cmd[i + ++j] && cmd[i + j] == to_find[j])
+		|| (cmd[i + j] && cmd[i + j] == to_find[j] - 32))
 		{
 			if (to_find[j + 1] == '\0')
 			{

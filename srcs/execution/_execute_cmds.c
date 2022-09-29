@@ -44,10 +44,8 @@ void	close_pipe(t_prg *data)
 	int		i;
 
 	i = 0;
-	// dprintf(2, "nbr == %d\n\n", data->cmd_nbr);
 	while (i < ((data->cmd_nbr - 1) * 2))
 	{
-		// dprintf(2, "Closing pipe...(%d)\n", i);
 		close(data->pipe[i]);
 		i++;
 	}
@@ -72,7 +70,7 @@ int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 	{
 		if (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], ".") == 0)
 			exit (ft_error_print_one(tmp, 2, tmp->cmd_and_dep[0]));
-		else if ((access(tmp->path, F_OK) != 0)
+		else if ((tmp->path == NULL || access(tmp->path, F_OK) != 0)
 			|| (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], "..") == 0)
 			|| (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], tmp->path) == 0))
 			exit (ft_error_print_one(tmp, 127, tmp->cmd_and_dep[0]));
@@ -117,7 +115,6 @@ void	_redir_last_cmd(t_cmd_lst *node, t_prg *data)
 		dup2(data->pipe[(node->index - 1) * 2], 0);
 	if (_is_outfile(node))
 	{
-		// dprintf(2, "\nTEST IN REDIR OUTFILE\n");
 		_set_dup_outfile(node, data);
 	}
 }
@@ -162,7 +159,6 @@ int	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	_init_fd(data);
 	_set_pipes(data, tmp);
-	// dprintf(2, "tmp->cmd == %s\n", tmp->cmd_and_dep[0]);
 	if (tmp->heredoc_delimiter[0])
 	{
 		dup2(tmp->pipe_hd[0], 0);
@@ -180,9 +176,3 @@ void	check_cmd(t_cmd_lst *tmp)
 	dprintf(2, "\n\ncmd == %s\n\n", tmp->cmd_and_dep[0]);
 	return ;
 }
-
-	// char buffer[50];
-	// dprintf(2, "fd[lecture] == %d\n", data->pipe[0]);
-	// read(data->pipe[0], buffer, 49);
-	// buffer[49] = 0;
-	// dprintf(2, "buffer == %s\n", buffer);
