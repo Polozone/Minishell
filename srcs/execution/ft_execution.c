@@ -1,6 +1,8 @@
 
 #include "../../includes/minishell.h"
 
+extern int g_error;
+
 int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 {
 	if (node->is_cmd_builtin == export || node->is_cmd_builtin == unset 
@@ -24,7 +26,7 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 			return (0);
 		}
 		if (node->is_cmd_builtin == quit)
-			exit(0);
+			exit(50);
 	}
 	return (1);
 }
@@ -65,18 +67,15 @@ int _init_pipe(t_prg *data)
 		// free_data();
 		return (-1);
 	}
-	// dprintf(2, "hd nbr == %d\n", data->heredoc_nbr);
 	while (++i < data->cmd_nbr - 1)
-	{
-		// dprintf(2, "init pipe\n");
 		pipe(&data->pipe[i * 2]);
-	}
 	return (0);
 }
 
 void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 {
 	tmp = data->cmd_list;
+	int	exit_status;
 
 	while (tmp)
 	{
