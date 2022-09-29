@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:42:34 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/27 09:22:43 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/29 12:58:05 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,6 @@ void	ft_parse(t_prg *prg)
 	if (prg->line == NULL)
 		return ;
 	prg->line_len = ft_strlen(prg->line);
-	if (ft_syntax_error(prg) == true)
-	{
-		g_error = 258;
-		return ;
-	}
 	prg->cells = ft_split(prg->line, '|');
 	prg->cmd_nbr = ft_array_len(prg->cells);
 	prg->cmd_list = ft_create_cmd_lst(prg);

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 13:46:45 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/22 15:57:02 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/28 14:31:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,7 @@ t_token *line_token, int len)
 		i ++;
 	}
 	cmd_list->file[file_ct] = 0;
+	// cmd_list->cmd_and_dep = malloc(1 * sizeof(char *));
+	// if (cmd_list->file[0] && cmd_list->cmd_and_dep[0] == NULL)
+	// 	cmd_list->cmd_and_dep[0] = ft_strdup(cmd_list->file[0]);
 }
