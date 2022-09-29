@@ -96,7 +96,7 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 				// exit(0);
 			}
 			else if (data->pid[data->nbr_pid] == 0)
-				_set_fd(tmp, data);
+				g_error =_set_fd(tmp, data);
 			if (tmp->heredoc_delimiter[0])
 			{
 				close(tmp->pipe_hd[0]);

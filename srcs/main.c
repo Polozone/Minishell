@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/29 13:00:14 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:13:13 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void _wait_pids(t_prg *data)
 	i = 0;
 	while (i < data->cmd_nbr - data->nbr_builtins)
 	{
-		waitpid(data.pid[i], &g_error, 0);
+		waitpid(data->pid[i], &g_error, 0);
 		g_error = WEXITSTATUS(g_error);
 		i++;
 	}
@@ -118,7 +118,6 @@ int main(int ac, char **av, char **env)
 	_init_exe_var(&prg);
 	while (1)
 	{
-		g_error = 0;
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, _sig_stp_main);
 		change_termios(1);

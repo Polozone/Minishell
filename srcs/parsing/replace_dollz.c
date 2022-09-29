@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 14:24:53 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/27 13:35:52 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:24:56 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_char_is_dollz(t_prg *prg, char *line, char **new_line, int i)
 		i ++;
 	}
 	if (line[i] == '?')
-		i ++;
+		;
 	else
 		i --;
 	return (i);

@@ -111,3 +111,23 @@ bash: unset: `2': not a valid identifier CODE ERREUR = 1
 
 $USER$^USER$non.bomjour$USER$USER
 cat <<ok1<<ok2<<ok3 > file1 > fil2 > file3 | echo bonjour -> ne print pas echo 
+
+ECHO : 
+
+n'imprime pas les '-' tout seul
+
+EXIT : quand argument numerique, on exit ET on affiche le message d'erreur
++ CODE ERREUR A 255
+
+RETOUR D'ERREUR :
+
+CTRL + C sur une promt vide ou ou on a ecrit sans appuer sur Enter CODE_ERREUR = 1
+Dans une commande style cat, CODE_ERREUR = 130
+
+signaux : 
+
+ctrl + / dans une commande bloquante : afficher quit 3 CODE_ERROR = 131
+
+PARSING :
+
+echo $? + $? colle le chiffre et le +
