@@ -57,7 +57,7 @@ void _wait_pids(t_prg *data)
 	i = 0;
 	while (i < data->cmd_nbr - data->nbr_builtins)
 	{
-		waitpid(data.pid[i], &g_error, 0);
+		waitpid(data->pid[i], &g_error, 0);
 		g_error = WEXITSTATUS(g_error);
 		i++;
 	}

@@ -267,7 +267,7 @@ void _print_env_declare(t_prg *prg);
 void			_print_env(t_env_lst *head);
 void			_unset_env(t_prg *prg, size_t i, t_cmd_lst *node);
 void			_unset_env_parent(t_prg *prg, t_cmd_lst *node);
-int				_export_env(t_prg *prg);
+int				_export_env(t_prg *prg, t_cmd_lst *node);
 int				_export_env_parse(t_prg *prg);
 void			_add_env(t_prg *prg, int i);
 int				_is_name_in_env(t_prg *prg, char *name_to_find);
@@ -284,10 +284,10 @@ void			env_to_tab(t_prg *prg, int i);
 /***** EXECUTIONS.C *****/
 
 int				_ft_exe(t_prg *data);
-void			_wait_pids(t_prg data);
+void			_wait_pids(t_prg *data);
 int				_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void			close_pipe(t_prg *data);
-int				_set_fd(t_cmd_lst *tmp, t_prg *data);
+void			_set_fd(t_cmd_lst *tmp, t_prg *data);
 void			_heredoc(t_prg *data, t_cmd_lst *tmp, int i);
 void			_set_pipes(t_prg	*data, t_cmd_lst	*node);
 

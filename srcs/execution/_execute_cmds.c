@@ -181,10 +181,7 @@ void	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	signal(SIGQUIT, sig_quit_handler_exec);
 	tmp->redir_fd = malloc(sizeof(int) * tmp->redir_nbr);
 	if (tmp->redir_fd == NULL)
-	{
-		// free and return ;
 		return ;
-	}
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	if (tmp->heredoc_delimiter[0])

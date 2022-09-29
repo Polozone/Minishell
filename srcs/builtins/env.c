@@ -147,9 +147,9 @@ int _lst_size_env(t_env_lst *head)
 	return (i);
 }
 
-int _export_env(t_prg *prg)
+int _export_env(t_prg *prg, t_cmd_lst *node)
 {
-	if (strcmp(prg->cmd_list->cmd_and_dep[0], "export") == 0 && prg->cmd_list->cmd_and_dep[1] == NULL)
+	if (strcmp(node->cmd_and_dep[0], "export") == 0 && node->cmd_and_dep[1] == NULL)
 	{
 		_print_env_declare(prg);
 		return (0);

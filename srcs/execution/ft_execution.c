@@ -13,20 +13,11 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 		if (data->cmd_nbr != 1)
 			return (0);
 		if (node->is_cmd_builtin == export)
-		{
-			_export_env(data);
-			return (0); // virer tous les return 0 et foutre a la fin du if parent ? -> pr norme
-		}
+			_export_env(data, node);
 		if (node->is_cmd_builtin == unset)
-		{
 			_unset_env_parent(data, node);
-			return (0);
-		}
 		if (node->is_cmd_builtin == cd)
-		{
 			_ch_dir(data);
-			return (0); // virer tous les return 0 et foutre a la fin du if parent ? -> pr norme
-		}
 		if (node->is_cmd_builtin == quit)
 		{
 			exit_value = _exit_builtins(node);
@@ -35,6 +26,7 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 			else
 				exit(exit_value);
 		}
+		return (0);
 	}
 	return (1);
 }
@@ -87,6 +79,7 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 
 	while (tmp)
 	{
+		// dprintf(2, "tmp cmd == %s\n", tmp->cmd_and_dep[0]);
 		if (is_builtin_nofork(data, tmp))
 		{
 			data->pid[data->nbr_pid] = fork();
