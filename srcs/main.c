@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/29 13:00:14 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/30 13:28:28 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void    change_termios(int action)
 {
     static struct termios old_termios;
     struct termios new_termios;
-
     if (action == 1)
     {
         tcgetattr(0, &old_termios);
@@ -59,9 +58,16 @@ void _wait_pids(t_prg *data)
 	while (i < data->cmd_nbr - data->nbr_builtins)
 	{
 		waitpid(data->pid[i], &g_error, 0);
-		g_error = WEXITSTATUS(g_error);
+		if (data->fork_capacity_met == true)
+		{
+			g_error = 1;
+		}
+		else
+			g_error = WEXITSTATUS(g_error);
 		i++;
 	}
+	data->fork_capacity_met = false;
+	// free(data.pid);
 	return;
 }
 
@@ -89,6 +95,7 @@ void	_init_exe_var(t_prg *data)
 {
 	data->pid = NULL;
 	data->pipe = NULL;
+	data->fork_capacity_met = false;
 }
 
 static t_bool	ft_line_is_blank_space(char *line)
@@ -118,7 +125,6 @@ int main(int ac, char **av, char **env)
 	_init_exe_var(&prg);
 	while (1)
 	{
-		// g_error = 0;
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, _sig_stp_main);
 		change_termios(1);

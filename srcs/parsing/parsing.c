@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:42:34 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/29 12:58:05 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/30 13:28:50 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	ft_parse(t_prg *prg)
 	prg->cmd_list = ft_create_cmd_lst(prg);
 	ft_fill_cmd_lst(prg);
 	ft_heredoc_counter(prg);
-	t_cmd_lst *buff2 = prg->cmd_list;
 }
+	// t_cmd_lst *buff2 = prg->cmd_list;
 	// while (buff2)
 	// {
 	// 	printf ("IN PARSE\n");

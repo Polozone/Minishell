@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:28:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/29 09:44:30 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:27:37 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ extern int	g_error;
 
 int	ft_error_print_one(t_cmd_lst *node, int error_code, char *error_source)
 {
-	if (error_code == 127) 
-	// && node->heredoc_delimiter[0]
-	// 	== NULL && node->cmd_and_dep[0] != NULL
-	// 	&& node->is_cmd_builtin == not_built_in)
+	if ((error_code == 127) 
+	&& (node->heredoc_delimiter[0]
+		== NULL && node->cmd_and_dep[0] != NULL
+		&& node->is_cmd_builtin == not_built_in))
 	{
 		ft_putstr_fd("Minichell: ", 2);
 		ft_putstr_fd(error_source, 2);

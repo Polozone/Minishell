@@ -78,12 +78,12 @@ int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 			exit (ft_error_print_one(tmp, 2, tmp->cmd_and_dep[0]));
 		else if ((tmp->path == NULL || access(tmp->path, F_OK) != 0)
 			|| (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], "..") == 0)
-			|| (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], tmp->path) == 0))
+			|| (access(tmp->path, F_OK) == 0 && ft_strncmp(tmp->cmd_and_dep[0], "/", 1) != 0))
 			exit (ft_error_print_one(tmp, 127, tmp->cmd_and_dep[0]));
-		else if (access(tmp->path, F_OK) == 0)
-			exit (ft_error_print_two(tmp, -126, tmp->cmd_and_dep[0]));
-		else if (access(tmp->path, X_OK) != 0)
+		else if (access(tmp->path, X_OK) != 0 && ft_strncmp(tmp->cmd_and_dep[0], "./", 2) == 0)
 			exit (ft_error_print_two(tmp, 126, tmp->cmd_and_dep[0]));
+		else if (access(tmp->path, F_OK) == 0 && ft_strncmp(tmp->cmd_and_dep[0], "/", 1) == 0)
+			exit (ft_error_print_two(tmp, -126, tmp->cmd_and_dep[0]));
 	}
 	exit (0);
 }
@@ -182,12 +182,15 @@ void	sig_quit_handler_exec()
 	signal(SIGQUIT, SIG_DFL);
 }
 
-void	_set_fd(t_cmd_lst *tmp, t_prg *data)
+int	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	signal(SIGQUIT, sig_quit_handler_exec);
 	tmp->redir_fd = malloc(sizeof(int) * tmp->redir_nbr);
 	if (tmp->redir_fd == NULL)
-		return ;
+	{
+		// free and return ;
+		return (0);
+	}
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	if (tmp->heredoc_delimiter[0])

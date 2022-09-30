@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/29 11:15:28 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/30 13:17:24 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct s_prg
 	t_cmd_lst	*cmd_list;
 	t_env_lst	*env_lst;
 	t_bool		is_there_path;
+	t_bool		fork_capacity_met;
 }			t_prg;
 
 void			rl_replace_line(const char *text, int clear_undo);
@@ -285,7 +286,7 @@ int				_exit_builtins(t_cmd_lst *node);
 /***** EXECUTIONS.C *****/
 
 int				_ft_exe(t_prg *data);
-void			_wait_pids(t_prg *data);
+void 			_wait_pids(t_prg *data);
 int				_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void			close_pipe(t_prg *data);
 void			_set_fd(t_cmd_lst *tmp, t_prg *data);
