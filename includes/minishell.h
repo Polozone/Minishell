@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/29 14:08:34 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/30 13:17:24 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct s_prg
 	t_cmd_lst	*cmd_list;
 	t_env_lst	*env_lst;
 	t_bool		is_there_path;
+	t_bool		fork_capacity_met;
 }			t_prg;
 
 void			rl_replace_line(const char *text, int clear_undo);

@@ -128,6 +128,11 @@ signaux :
 
 ctrl + / dans une commande bloquante : afficher quit 3 CODE_ERROR = 131
 
+EXPORT :
+
+LEAKS qunand on remplace des var env et leur content
+PRENDRE EN COMPTE LES GUILLEMETS POUR LE PARSING DE LA LIGNE
+
 PARSING :
 
 echo $? + $? colle le chiffre et le +

@@ -92,6 +92,9 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 			data->pid[data->nbr_pid] = fork();
 			if (data->pid[data->nbr_pid] == -1)
 			{
+				if (data->fork_capacity_met == false)
+					ft_putstr_fd("minishell: fork: Resource temporarily unavailable\n", 2);
+				data->fork_capacity_met = true;
 				// FREE ALL;
 				// exit(0);
 			}

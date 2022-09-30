@@ -1,6 +1,8 @@
 
 #include "../../includes/minishell.h"
 
+extern int	g_error;
+
 void _print_env(t_env_lst *head)
 {
 	t_env_lst *tmp;
@@ -65,6 +67,7 @@ int _parsing_export(char *cmd, t_prg *prg)
 	if ((cmd[0] == '=') || (48 <= cmd[0] && cmd[0] <= 57))
 	{
 		printf("export: `%s': not a valid identifier\n", cmd);
+		g_error = 1;
 		return (1);
 	}
 	while (cmd[i])
@@ -72,6 +75,7 @@ int _parsing_export(char *cmd, t_prg *prg)
 		if ((61 > cmd[i]) || (61 < cmd[i] && cmd[i] < 65) || (90 < cmd[i] && cmd[i] < 97) || (cmd[i] > 122))
 		{
 			printf("export: `%s': not a valid identifier\n", cmd);
+			g_error = 1;
 			return (1);
 		}
 		i++;
