@@ -36,7 +36,6 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 	if (node->is_cmd_builtin == echo || node->is_cmd_builtin == pwd 
 		|| node->is_cmd_builtin == env || node->is_cmd_builtin == export)
 	{
-		// dprintf(2, "OKOKOKOK\n");
 		if ((strcmp(node->cmd_and_dep[0], "export") == 0) && node->cmd_and_dep[1] == NULL)
 		{
 			_print_env_declare(data);

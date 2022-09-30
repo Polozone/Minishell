@@ -6,18 +6,16 @@ int		check_args_echo(char	*str)
 	int		i;
 
 	i = 0;
-	if (str[i] == '-' && str[i + 1] == 'n')
-		return (1);
-	// if (ft_strlen(str) < 2)
-	// 	return (-1);
-	// if (str[i] != '-')
-	// 	return (-1);
-	// while (str[++i])
-	// {
-	// 	if (str[i] != 'n')
-	// 		return (-1);
-	// }
-	return (0);
+	if (str[0] != '-')
+		return (0);
+	if (str[0] == '-' && str[1] == '\0')
+		return (0);
+	while (str[++i])
+	{
+		if (str[i] != 'n')
+			return (0);
+	}
+	return (1);
 }
 
 int		_echo_exe(t_cmd_lst *node, int i)
