@@ -7,26 +7,17 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 {
 	int exit_value;
 
-	if (node->is_cmd_builtin == export || node->is_cmd_builtin == unset 
-		|| node->is_cmd_builtin == cd || node->is_cmd_builtin == quit)
+	if (node->is_cmd_builtin == unset || node->is_cmd_builtin == cd || node->is_cmd_builtin == quit
+		|| (node->is_cmd_builtin == export && node->cmd_and_dep[1] != NULL))
 	{
 		if (data->cmd_nbr != 1)
 			return (0);
 		if (node->is_cmd_builtin == export)
-		{
-			_export_env(data);
-			return (0); // virer tous les return 0 et foutre a la fin du if parent ? -> pr norme
-		}
+			_export_env(data, node);
 		if (node->is_cmd_builtin == unset)
-		{
 			_unset_env_parent(data, node);
-			return (0);
-		}
 		if (node->is_cmd_builtin == cd)
-		{
 			_ch_dir(data);
-			return (0); // virer tous les return 0 et foutre a la fin du if parent ? -> pr norme
-		}
 		if (node->is_cmd_builtin == quit)
 		{
 			exit_value = _exit_builtins(node);
@@ -35,6 +26,7 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 			else
 				exit(exit_value);
 		}
+		return (0);
 	}
 	return (1);
 }
@@ -42,8 +34,14 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 {
 	if (node->is_cmd_builtin == echo || node->is_cmd_builtin == pwd 
-		|| node->is_cmd_builtin == env)
+		|| node->is_cmd_builtin == env || node->is_cmd_builtin == export)
 	{
+		// dprintf(2, "OKOKOKOK\n");
+		if ((strcmp(node->cmd_and_dep[0], "export") == 0) && node->cmd_and_dep[1] == NULL)
+		{
+			_print_env_declare(data);
+			return (1);
+		}
 		if (node->is_cmd_builtin == echo)
 		{
 			_echo_exe(node, 1);

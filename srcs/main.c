@@ -40,7 +40,8 @@ int	count_builtins_nofork(t_cmd_lst *list)
 	nbr_builtins = 0;
 	while (tmp)
 	{
-		if (tmp->is_cmd_builtin == export || tmp->is_cmd_builtin == unset || tmp->is_cmd_builtin == cd || tmp->is_cmd_builtin == quit)
+		if ((tmp->is_cmd_builtin == export && tmp->cmd_and_dep[0] == NULL) || tmp->is_cmd_builtin == unset 
+			|| tmp->is_cmd_builtin == cd || tmp->is_cmd_builtin == quit)
 		{
 			nbr_builtins++;
 		}
