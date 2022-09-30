@@ -12,10 +12,16 @@ void	_set_dup_infile(t_cmd_lst *node)
 		node->infile = open(node->file[_last_infile(node) - 1], O_RDWR);
 		node->redir_fd[node->index_fd] = node->infile;
 		node->index_fd++;
-		if (dup2(node->infile, 0) == -1)
+		if (node->infile == -1)
 		{
-			write(2, "dup2 failed to run\n", 19);
-			// FREE AND EXIT
+			// FREE AND EXIT;
+		}
+		else
+		{
+			if (dup2(node->infile, 0) == -1)
+			{
+				// FREE AND EXIT
+			}
 		}
 	}
 }
@@ -28,7 +34,7 @@ void	_set_dup_outfile(t_cmd_lst *node, t_prg *data)
 		if (node->redir_type[_last_outfile(node)] == 2)
 			node->outfile = open(node->file[_last_outfile(node)], O_CREAT | O_RDWR | O_APPEND, 0644); // DONT FORGET TO PROTECT THIS OPEN
 		else if (node->redir_type[_last_outfile(node)] == 1)
-			node->outfile = open(node->file[_last_outfile(node)], O_CREAT | O_RDWR, 0644); // DONT FORGET TO PROTECT THIS OPEN
+			node->outfile = open(node->file[_last_outfile(node)], O_CREAT | O_RDWR | O_TRUNC, 0644); // DONT FORGET TO PROTECT THIS OPEN
 		node->redir_fd[node->index_fd] = node->outfile;
 		node->index_fd++;
 		if (dup2(node->outfile, 1) == -1)

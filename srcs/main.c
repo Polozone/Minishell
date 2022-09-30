@@ -41,7 +41,8 @@ int	count_builtins_nofork(t_cmd_lst *list)
 	nbr_builtins = 0;
 	while (tmp)
 	{
-		if (tmp->is_cmd_builtin == export || tmp->is_cmd_builtin == unset || tmp->is_cmd_builtin == cd || tmp->is_cmd_builtin == quit)
+		if ((tmp->is_cmd_builtin == export && tmp->cmd_and_dep[0] == NULL) || tmp->is_cmd_builtin == unset 
+			|| tmp->is_cmd_builtin == cd || tmp->is_cmd_builtin == quit)
 		{
 			nbr_builtins++;
 		}
@@ -61,7 +62,6 @@ void _wait_pids(t_prg *data)
 		g_error = WEXITSTATUS(g_error);
 		i++;
 	}
-	// free(data.pid);
 	return;
 }
 
@@ -118,7 +118,7 @@ int main(int ac, char **av, char **env)
 	_init_exe_var(&prg);
 	while (1)
 	{
-		g_error = 0;
+		// g_error = 0;
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, _sig_stp_main);
 		change_termios(1);

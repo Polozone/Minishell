@@ -280,6 +280,7 @@ int				is_builtin_nofork(t_prg *data, t_cmd_lst *node);
 int				is_builtin_fork(t_prg *data, t_cmd_lst *node);
 int				count_builtins_nofork(t_cmd_lst *list);
 void			env_to_tab(t_prg *prg, int i);
+int				_exit_builtins(t_cmd_lst *node);
 
 /***** EXECUTIONS.C *****/
 

@@ -7,8 +7,8 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 {
 	int exit_value;
 
-	if (node->is_cmd_builtin == export || node->is_cmd_builtin == unset 
-		|| node->is_cmd_builtin == cd || node->is_cmd_builtin == quit)
+	if (node->is_cmd_builtin == unset || node->is_cmd_builtin == cd || node->is_cmd_builtin == quit
+		|| (node->is_cmd_builtin == export && node->cmd_and_dep[1] != NULL))
 	{
 		if (data->cmd_nbr != 1)
 			return (0);
@@ -34,8 +34,14 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 {
 	if (node->is_cmd_builtin == echo || node->is_cmd_builtin == pwd 
-		|| node->is_cmd_builtin == env)
+		|| node->is_cmd_builtin == env || node->is_cmd_builtin == export)
 	{
+		// dprintf(2, "OKOKOKOK\n");
+		if ((strcmp(node->cmd_and_dep[0], "export") == 0) && node->cmd_and_dep[1] == NULL)
+		{
+			_print_env_declare(data);
+			return (1);
+		}
 		if (node->is_cmd_builtin == echo)
 		{
 			_echo_exe(node, 1);
@@ -79,15 +85,11 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 
 	while (tmp)
 	{
-		// dprintf(2, "tmp cmd == %s\n", tmp->cmd_and_dep[0]);
 		if (is_builtin_nofork(data, tmp))
 		{
 			data->pid[data->nbr_pid] = fork();
 			if (data->pid[data->nbr_pid] == -1)
-			{
-				// FREE ALL;
-				// exit(0);
-			}
+				g_error = 1;
 			else if (data->pid[data->nbr_pid] == 0)
 				_set_fd(tmp, data);
 			if (tmp->heredoc_delimiter[0])

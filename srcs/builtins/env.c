@@ -40,13 +40,21 @@ void _unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
 	before = prg->env_lst;
 	if (!ft_strcmp(node->cmd_and_dep[i], tmp->name))
 	{
+		free(prg->env_lst->name);
+		free(prg->env_lst->content);
+		free(prg->env_lst);
 		prg->env_lst = ((t_env_lst*)prg->env_lst->next);
 		return ;
 	}
 	while (tmp)
 	{
 		if (!ft_strcmp(node->cmd_and_dep[i], tmp->name))
+		{
+			free(tmp->name);
+			free(tmp->content);
+			free(tmp);
 			before->next = tmp->next;
+		}
 		before = tmp;
 		tmp = tmp->next;
 	}
@@ -149,11 +157,11 @@ int _lst_size_env(t_env_lst *head)
 
 int _export_env(t_prg *prg, t_cmd_lst *node)
 {
-	if (strcmp(node->cmd_and_dep[0], "export") == 0 && node->cmd_and_dep[1] == NULL)
-	{
-		_print_env_declare(prg);
-		return (0);
-	}
+	// if (strcmp(node->cmd_and_dep[0], "export") == 0 && node->cmd_and_dep[1] == NULL)
+	// {
+	// 	_print_env_declare(prg);
+	// 	return (0);
+	// }
 	_add_env(prg, 0);
 	return (0);
 }
