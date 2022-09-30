@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/30 13:17:24 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/30 13:37:27 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,7 @@ int				_ft_exe(t_prg *data);
 void 			_wait_pids(t_prg *data);
 int				_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void			close_pipe(t_prg *data);
-void			_set_fd(t_cmd_lst *tmp, t_prg *data);
+int				_set_fd(t_cmd_lst *tmp, t_prg *data);
 void			_heredoc(t_prg *data, t_cmd_lst *tmp, int i);
 void			_set_pipes(t_prg	*data, t_cmd_lst	*node);
 
