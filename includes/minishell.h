@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/30 14:12:09 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/30 16:41:23 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,7 @@ void			ft_add_c_to_nl(t_var_quote quote, char **new_line, char *line, int i);
 /***** REPLACE_DOLLZ.C *****/
 
 char			*ft_forge_new_line(t_prg *prg, char *line);
+char			*ft_forge_new_line_heredoc(t_prg *prg, char *line);
 
 /***** FR_ATOI.C *****/
 

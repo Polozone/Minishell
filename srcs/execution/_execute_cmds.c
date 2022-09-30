@@ -83,7 +83,9 @@ int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 		else if (access(tmp->path, X_OK) != 0 && ft_strncmp(tmp->cmd_and_dep[0], "./", 2) == 0)
 			exit (ft_error_print_two(tmp, 126, tmp->cmd_and_dep[0]));
 		else if (access(tmp->path, F_OK) == 0 && ft_strncmp(tmp->cmd_and_dep[0], "/", 1) == 0)
+		{
 			exit (ft_error_print_two(tmp, -126, tmp->cmd_and_dep[0]));
+		}
 	}
 	exit (0);
 }
@@ -167,6 +169,9 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 		line = ft_strjoin_gnl(line, buf, -1, 0);
 		free(buf);
 	}
+	buf = line;
+	line = ft_forge_new_line_heredoc(data, line);
+	free(buf);
 	if (!tmp->heredoc_delimiter[i + 1])
 	{
 		close(tmp->pipe_hd[0]);

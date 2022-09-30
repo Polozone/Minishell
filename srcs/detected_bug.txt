@@ -136,3 +136,13 @@ PRENDRE EN COMPTE LES GUILLEMETS POUR LE PARSING DE LA LIGNE
 PARSING :
 
 echo $? + $? colle le chiffre et le +
+
+cat un directory infile / message d'erreur si directory
+
+var env dans les heredoc
+
+Messages d'erreur sur ECHO
+
+ECRIRE EXIT SUR CTRL + D
+
+LEAK SUR CD + qund homme is not set, messqge d'erreur + code erreur 1
