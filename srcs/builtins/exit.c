@@ -1,6 +1,8 @@
 
 #include "../../includes/minishell.h"
 
+extern int	g_error;
+
 int		_exit_builtins(t_cmd_lst *node)
 {
 	int		len;
@@ -16,8 +18,9 @@ int		_exit_builtins(t_cmd_lst *node)
 	len = ft_strlen_2d(node->cmd_and_dep);
 	if (len > 2)
 	{
-		write(2, "exit: too many arguments\n", 25);
-		return (1);
+		write(2, "exit\nexit: too many arguments\n", 30);
+		g_error = 1;
+		return (-1);
 	}
 	while (node->cmd_and_dep[1][++i])
 	{
@@ -25,7 +28,9 @@ int		_exit_builtins(t_cmd_lst *node)
 			i++;
 		if (!('0' <= node->cmd_and_dep[1][i] && node->cmd_and_dep[1][i] <= '9'))
 		{
-			dprintf(2, "exit: %s: numeric argument required\n", node->cmd_and_dep[1]);	
+			ft_putstr_fd("exit\nexit: ", 2);
+			ft_putstr_fd(node->cmd_and_dep[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
 			return (255);
 		}
 	}

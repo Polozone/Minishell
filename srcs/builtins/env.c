@@ -93,14 +93,20 @@ int _parsing_export(char *cmd, t_prg *prg)
 
 void _add_node(char *name, char *content, t_prg *prg)
 {
-	t_env_lst *tmp;
+	t_env_lst	*tmp;
+	char		*tmp_line;
 
 	tmp = prg->env_lst;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->name, name))
 		{
+			tmp_line = tmp->content;
 			tmp->content = content;
+			free(tmp_line);
+			tmp_line = tmp->name;
+			tmp->name = name;
+			free(tmp_line);
 			return;
 		}
 		tmp = tmp->next;
@@ -110,10 +116,10 @@ void _add_node(char *name, char *content, t_prg *prg)
 
 void _add_env(t_prg *prg, int i)
 {
-	char *name;
-	char *content;
-	int sep;
-	int	len;
+	char	*name;
+	char	*content;
+	int		sep;
+	int		len;
 
 	len = ft_strlen_2d(prg->cmd_list->cmd_and_dep) - 1;
 	while (prg->cmd_list->cmd_and_dep[++i])
