@@ -14,8 +14,8 @@ void	_sig_stp_main(int sig)
 {
 	if (sig == 2)
 	{
-		printf("OKTEST\n");
-		// printf("\n");
+		// dprintf(2, "OKTEST");
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

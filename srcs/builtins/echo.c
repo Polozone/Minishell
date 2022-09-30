@@ -6,13 +6,17 @@ int		check_args_echo(char	*str)
 	int		i;
 
 	i = 0;
-	if (str[i] != '-')
-		return (-1);
-	while (str[++i])
-	{
-		if (str[i] != 'n')
-			return (-1);
-	}
+	if (str[i] == '-' && str[i + 1] == 'n')
+		return (1);
+	// if (ft_strlen(str) < 2)
+	// 	return (-1);
+	// if (str[i] != '-')
+	// 	return (-1);
+	// while (str[++i])
+	// {
+	// 	if (str[i] != 'n')
+	// 		return (-1);
+	// }
 	return (0);
 }
 
@@ -26,7 +30,7 @@ int		_echo_exe(t_cmd_lst *node, int i)
 		printf("\n");
 		return (0);
 	}
-	while (check_args_echo(node->cmd_and_dep[i]) == 0)
+	while (check_args_echo(node->cmd_and_dep[i]))
 	{
 		flag = 0;
 		i++;
