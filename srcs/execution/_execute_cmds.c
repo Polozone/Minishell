@@ -20,7 +20,7 @@ void	_set_dup_infile(t_cmd_lst *node)
 		node->index_fd++;
 		if (node->infile == -1)
 		{
-			// FREE AND EXIT;			
+			// FREE AND EXIT;
 			if (is_file(node->file[_last_infile(node) - 1]))
 			{
 				write(2, node->cmd_and_dep[0], ft_strlen(node->cmd_and_dep[0]));
