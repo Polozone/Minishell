@@ -131,7 +131,7 @@ int main(int ac, char **av, char **env)
 		// sig_parent();
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		if (prg.line == NULL)
-			exit(1); // ctrl+d
+			exit(1);
 		else if (ft_line_is_blank_space(prg.line) == false)
 		{
 			add_history(prg.line);

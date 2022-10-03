@@ -294,6 +294,7 @@ void			close_pipe(t_prg *data);
 int				_set_fd(t_cmd_lst *tmp, t_prg *data);
 void			_heredoc(t_prg *data, t_cmd_lst *tmp, int i);
 void			_set_pipes(t_prg	*data, t_cmd_lst	*node);
+char			*ft_strjoin_hd(char const *s1, char const *s2);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 

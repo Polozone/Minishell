@@ -178,16 +178,16 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 	while (1)
 	{
 		longest = ft_strlen(tmp->heredoc_delimiter[i]);
-		write(1, "> ", 2);
-		buf = get_next_line(0);
+		buf = readline("> ");
 		if (ft_strlen(buf) > longest)
-			longest = ft_strlen(buf) - 1;
+			longest = ft_strlen(buf);
 		if (ft_strncmp(buf, tmp->heredoc_delimiter[i], longest) == 0)
 		{
 			free(buf);
 			break ;
 		}
-		line = ft_strjoin_gnl(line, buf, -1, 0);
+		buf = ft_strjoin_hd(buf, "\n");
+		line = ft_strjoin_hd(line, buf);
 		free(buf);
 	}
 	if (!tmp->heredoc_delimiter[i + 1])
