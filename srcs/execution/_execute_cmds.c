@@ -74,7 +74,9 @@ int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 	{
-		if (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], ".") == 0)
+		if (ft_strncmp(tmp->cmd_and_dep[0], "/", 1) == 0)
+			exit (ft_error_print_two(tmp, -126, tmp->cmd_and_dep[0]));
+		else if (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], ".") == 0)
 			exit (ft_error_print_one(tmp, 2, tmp->cmd_and_dep[0]));
 		else if ((tmp->path == NULL || access(tmp->path, F_OK) != 0)
 			|| (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], "..") == 0)
@@ -82,10 +84,6 @@ int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 			exit (ft_error_print_one(tmp, 127, tmp->cmd_and_dep[0]));
 		else if (access(tmp->path, X_OK) != 0 && ft_strncmp(tmp->cmd_and_dep[0], "./", 2) == 0)
 			exit (ft_error_print_two(tmp, 126, tmp->cmd_and_dep[0]));
-		else if (access(tmp->path, F_OK) == 0 && ft_strncmp(tmp->cmd_and_dep[0], "/", 1) == 0)
-		{
-			exit (ft_error_print_two(tmp, -126, tmp->cmd_and_dep[0]));
-		}
 	}
 	exit (0);
 }
@@ -139,12 +137,9 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 
 void	handle_sigstp_hd(int sig)
 {
+	dprintf(2, "sig = %d\n", sig);
 	if (sig == 2)
-	{
-		printf("INSIDE HDDDD\n");
-		exit(0);
-		printf("INSIDE HDDDD\n");
-	}
+		exit(1);
 }
 
 void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
@@ -183,8 +178,9 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 
 void	sig_quit_handler_exec()
 {
-	write(1, "^\\Quit: 3", 9);
-	signal(SIGQUIT, SIG_DFL);
+	dprintf(2, "je passe dans sig_quit_handler_exec\n");
+	write(2, "^\\Quit: 3", 9);
+	// signal(SIGQUIT, SIG_DFL);
 }
 
 int	_set_fd(t_cmd_lst *tmp, t_prg *data)

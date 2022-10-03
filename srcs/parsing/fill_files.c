@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 13:46:45 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/28 14:31:47 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/03 13:39:25 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,15 @@ t_token *line_token, int len)
 	int	file_ct;
 	int	file_nbr;
 
-	i = 0;
+	i = -1;
 	file_nbr = ft_count_token(line_token, red, line_split, len)
-		+ ft_count_token(line_token, rednfile, line_split, len);
+		+ ft_count_token(line_token, rednfile, line_split, len)
+		+ ft_count_token(line_token, cmdnredirnfile, line_split, len);
 	file_ct = 0;
 	cmd_list->file = malloc((file_nbr + 1) * sizeof(char *));
 	if (!cmd_list->file)
 		exit(1);
-	while (i < len)
+	while (++i < len)
 	{
 		if (line_token[i] == file)
 		{
@@ -60,10 +61,8 @@ t_token *line_token, int len)
 		}
 		else if (line_token[i] == rednfile)
 			ft_multiple_files_line(cmd_list->file, line_split[i], &file_ct);
-		i ++;
+		else if (line_token[i] == cmdnredirnfile)
+			ft_multiple_files_line(cmd_list->file, line_split[i], &file_ct);	
 	}
 	cmd_list->file[file_ct] = 0;
-	// cmd_list->cmd_and_dep = malloc(1 * sizeof(char *));
-	// if (cmd_list->file[0] && cmd_list->cmd_and_dep[0] == NULL)
-	// 	cmd_list->cmd_and_dep[0] = ft_strdup(cmd_list->file[0]);
 }

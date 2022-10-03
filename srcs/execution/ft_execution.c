@@ -77,11 +77,20 @@ int _init_pipe(t_prg *data)
 	return (0);
 }
 
+void	ft_sigignore(int mdr)
+{
+	printf("test\n");
+	(void) mdr;
+}
+
 void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 {
 	tmp = data->cmd_list;
 	int	exit_status;
 
+	change_termios(2);
+	signal(SIGINT, ft_sigignore);
+	signal(SIGQUIT, ft_sigignore);
 	while (tmp)
 	{
 		if (is_builtin_nofork(data, tmp))
@@ -136,6 +145,7 @@ int	_alloc_exe_var(t_prg *data)
 
 void	sig_parent_hd(void)
 {
+	dprintf(2, "je passe dans sig_parent_hd\n");
 	write(2, "\n", 1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_IGN);
@@ -143,13 +153,15 @@ void	sig_parent_hd(void)
 
 void	sig_handler_parent_hd(int sig)
 {
-	// if (sig == SIGINT)
-	// 	g_status = 1;
+	dprintf(2, "je passe dans sig_handler_parent\n");
+	if (sig == SIGINT)
+		g_error = 800;
 	sig_parent_hd();
 }
 
 void	sig_child(void)
 {
+	dprintf(2, "je passe dans sig_child\n");
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 }

@@ -6,41 +6,11 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:13:31 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/22 10:53:21 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/03 14:30:41 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	ft_count_token(t_token *line_token, t_token token_name,
-char **line_split, int len)
-{
-	int	i;
-	int	j;
-	int	ct;
-
-	i = -1;
-	ct = 0;
-	while (++i < len)
-	{	
-		j = 0;
-		if (line_token[i] == token_name)
-		{
-			while (line_split[i][j])
-			{
-				if (line_split[i][j] == '<' || line_split[i][j] == '>')
-				{
-					ct ++;
-					while ((line_split[i][j])
-					&& (line_split[i][j] == '<' || line_split[i][j] == '>'))
-						j ++;
-				}
-				j ++;
-			}
-		}
-	}
-	return (ct);
-}
 
 t_token	ft_redir_token(char *word)
 {
@@ -56,21 +26,83 @@ t_token	ft_redir_token(char *word)
 	return (red);
 }
 
-t_token	*ft_assign_token(char **line_split, t_token *line_token)
+static int	ft_ct_fl_st(char **line_split)
+{
+	int	i;
+	int	j;
+	int	file_suite_ct;
+
+	i = 0;
+	j = 0;
+	file_suite_ct = 0;
+	while (line_split[i])
+	{
+		while (line_split[i][j])
+		{
+			if ((line_split[i][j] == '>' || line_split[i][j] == '<')
+				&& (j <= 1))
+			{
+				if (line_split[i][j + 1] == '>' || line_split[i][j +1] == '<')
+					j ++;
+				file_suite_ct ++;
+			}
+			j ++;
+		}
+		i ++;
+	}
+	return (file_suite_ct);
+}
+
+t_bool ft_ghetto(char *word)
 {
 	int	i;
 
 	i = 0;
-	line_token = malloc ((ft_array_len(line_split) + 1) * sizeof(t_token *));
-	while (line_split[i])
+	while (word[i])
 	{
-		if (line_split[i][0] == '<' || line_split[i][0] == '>')
-			line_token[i] = ft_redir_token(line_split[i]);
-		else if (i > 0 && line_token[i - 1] == red)
-			line_token[i] = file;
-		else
-			line_token[i] = none;
+		if (word[i] == '<' || word[i] == '>')
+			return (true);
 		i ++;
+	}
+	return (false);
+}
+
+t_token ft_assign_rdnfile(char **split, int i)
+{
+	char	*buf;
+
+	buf = split[i - 1];
+	split[i - 1] = ft_strdup(buf);
+	split[i] = ft_join_shrtct(buf, split[i]);
+	return (rednfile);	
+}
+
+t_token	*ft_assign_token(char **split, t_token *line_token)
+{
+	int		i;
+
+	i = -1;
+	line_token = malloc((ft_array_len(split) + ft_ct_fl_st(split) + 1) * 8); //8 = sizeof token putqin de norme
+	while (split[++i])
+	{
+		if (split[i][0] == '<' || split[i][0] == '>')
+			line_token[i] = ft_redir_token(split[i]);
+		else if (i > 0 && line_token[i - 1] == red)
+		{
+			if (ft_ghetto(split[i]) == true)
+			{
+				line_token[i] = ft_assign_rdnfile(split, i);
+			}
+			else
+				line_token[i] = file;
+		}
+		else
+		{
+			if (ft_ghetto(split[i]) == true)
+				line_token[i] = cmdnredirnfile;
+			else
+				line_token[i] = none;
+		}
 	}
 	return (line_token);
 }

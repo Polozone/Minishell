@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 17:02:17 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/30 17:18:40 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/03 11:25:41 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	*ft_forge_new_line_heredoc(t_prg *prg, char *line)
 
 	i = 0;
 	new_line = ft_strdup("");
+	if (line == NULL)
+		return (NULL);
 	while (line[i])
 	{
 		ft_is_in_quote(line, i, &quote);
@@ -83,6 +85,5 @@ char	*ft_forge_new_line_heredoc(t_prg *prg, char *line)
 		if (line[i])
 			i ++;
 	}
-	// new_line = ft_join_shrtct(new_line, ft_strdup("\n"));
 	return (new_line);
 }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/30 16:41:23 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/03 16:41:20 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef enum s_token
 	red,
 	file,
 	rednfile,
+	cmdnredirnfile,
 	none
 }				t_token;
 
@@ -336,5 +337,6 @@ void	sig_int_exec(int signo);
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
 void			ft_update_shell_lvl(t_prg *data, int update);
+void    		change_termios(int action);
 
 #endif

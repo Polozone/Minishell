@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 11:00:01 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 17:00:09 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/03 13:35:18 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_token *line_token, char **line_split)
 				= ft_redir_t_finder(cmd_lst, line_split, i);
 			red_ct ++;
 		}
-		else if (line_token[i] == rednfile)
+		else if (line_token[i] == rednfile || line_token[i] == cmdnredirnfile)
 			ft_multiple_redir_line(cmd_lst->redir_type, line_split[i], &red_ct);
 		i ++;
 	}

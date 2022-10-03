@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/30 16:13:24 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/03 17:23:41 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,18 @@ void    change_termios(int action)
         tcgetattr(0, &old_termios);
         new_termios = old_termios;
         new_termios.c_lflag &= ~ECHOCTL;
-        tcsetattr(0, 0, &new_termios);
+        tcsetattr(0, TCSANOW, &new_termios);
+    }
+	 if (action == 2)
+    {
+        // tcgetattr(0, &old_termios);
+        // new_termios = old_termios;
+        // tcsetattr(0, 0, &new_termios);
+        tcsetattr(0, TCSANOW, &old_termios);
     }
     else
     {
-        tcsetattr(0, 0, &old_termios);
+        tcsetattr(0, TCSANOW, &old_termios);
     }
 }
 
@@ -62,12 +69,18 @@ void _wait_pids(t_prg *data)
 		{
 			g_error = 1;
 		}
-		else
+		else if (WIFEXITED(g_error) == 1)
 			g_error = WEXITSTATUS(g_error);
+		else if (WIFSIGNALED(g_error) == 1)
+		{
+			g_error = WEXITSTATUS(g_error);
+			write(2, "\n", 1);
+		}
 		i++;
 	}
 	data->fork_capacity_met = false;
 	// free(data.pid);
+	// signal(SIGINT, _sig_stp_main);
 	return;
 }
 
@@ -125,13 +138,16 @@ int main(int ac, char **av, char **env)
 	_init_exe_var(&prg);
 	while (1)
 	{
+		// sig_parent();
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, _sig_stp_main);
 		change_termios(1);
-		// sig_parent();
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		if (prg.line == NULL)
-			exit(1); // ctrl+d
+		{
+			ft_putstr_fd("exit\n", 2);
+			exit(g_error); // ctrl+d
+		}
 		else if (ft_line_is_blank_space(prg.line) == false)
 		{
 			add_history(prg.line);
