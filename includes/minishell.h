@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/30 14:12:09 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/04 11:21:50 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef enum s_token
 	red,
 	file,
 	rednfile,
+	cmdnredirnfile,
 	none
 }				t_token;
 
@@ -125,6 +126,8 @@ typedef struct s_prg
 	t_env_lst	*env_lst;
 	t_bool		is_there_path;
 	t_bool		fork_capacity_met;
+	struct termios old_termios;
+    struct termios new_termios;
 }			t_prg;
 
 void			rl_replace_line(const char *text, int clear_undo);
@@ -255,6 +258,7 @@ void			ft_add_c_to_nl(t_var_quote quote, char **new_line, char *line, int i);
 /***** REPLACE_DOLLZ.C *****/
 
 char			*ft_forge_new_line(t_prg *prg, char *line);
+char			*ft_forge_new_line_heredoc(t_prg *prg, char *line);
 
 /***** FR_ATOI.C *****/
 
@@ -341,5 +345,6 @@ void	sig_int_exec(int signo);
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
 void			ft_update_shell_lvl(t_prg *data, int update);
+void    		change_termios(int action);
 
 #endif

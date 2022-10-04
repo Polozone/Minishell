@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 12:59:48 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/22 16:23:32 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/09/30 16:11:58 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,23 @@ void	ft_make_elem(char *line, t_env_lst **env_lst, int index)
 		ft_add_back_env_list(env_lst, ft_lstnew_env_list(name, content));
 }
 
+t_env_lst	*ft_empty_env_lst(void)
+{
+	t_env_lst	*env;
+
+	env = ft_lstnew_env_list(ft_strdup("PWD"), getcwd(NULL, 0));
+	ft_add_back_env_list(&env, ft_lstnew_env_list(ft_strdup("SHLVL"), ft_strdup("0")));
+	ft_add_back_env_list(&env, ft_lstnew_env_list(ft_strdup("_"), ft_strdup("/usr/bin/env")));
+	return (env);
+}
+
 t_env_lst	*ft_create_env_lst(char **envp, t_prg *prg)
 {
 	int	i;
 
 	i = 1;
-	if (envp[0] == NULL)
-		return (ft_lstnew_env_list(0, 0));
+	if (&envp[0][0] == NULL)
+		return (ft_empty_env_lst());
 	ft_make_elem(envp[0], &prg->env_lst, 0);
 	while (envp[i])
 	{
