@@ -258,8 +258,10 @@ char			*ft_forge_new_line(t_prg *prg, char *line);
 
 /***** FR_ATOI.C *****/
 
-static long	ft_checker(long result, long neg);
-int	ft_atoi(const char *str);
+static long			ft_checker(long result, long neg);
+int					ft_atoi(const char *str);
+long long int		ft_atol(const char *str);
+int					checker_lli(char *to_cmp);
 
 /***** ENV.C *****/
 

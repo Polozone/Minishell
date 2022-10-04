@@ -14,7 +14,7 @@ void _print_env(t_env_lst *head)
 		{
 			printf("%s=", tmp->name);
 			printf("%s\n", tmp->content);
-		}
+		}.3
 		tmp = tmp->next;
 	}
 }
@@ -70,8 +70,9 @@ int _parsing_export(char *cmd, t_prg *prg)
 	{
 		printf("export: `%s': not a valid identifier\n", cmd);
 		g_error = 1;
+		return (1);
 	}
-	i = 1;
+	i = 0;
 	while (cmd[i])
 	{
 		if (!((64 < cmd[i] && cmd[i] < 91) || (96 < cmd[i] && cmd[i] < 123) || (47 < cmd[i] && cmd[i] < 58) || cmd[i] == '_'))
@@ -132,7 +133,6 @@ void _add_env(t_prg *prg, int i)
 			i++;
 		if (i > len)
 			break ;
-		name = ft_substr(prg->cmd_list->cmd_and_dep[i], 0, sep);
 		content = ft_substr(prg->cmd_list->cmd_and_dep[i], sep + 1, ft_strlen(prg->cmd_list->cmd_and_dep[i]) - sep);
 		_add_node(name, content, prg);
 	}
@@ -170,11 +170,6 @@ int _lst_size_env(t_env_lst *head)
 
 int _export_env(t_prg *prg, t_cmd_lst *node)
 {
-	// if (strcmp(node->cmd_and_dep[0], "export") == 0 && node->cmd_and_dep[1] == NULL)
-	// {
-	// 	_print_env_declare(prg);
-	// 	return (0);
-	// }
 	_add_env(prg, 0);
 	return (0);
 }
