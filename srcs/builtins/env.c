@@ -66,21 +66,16 @@ int _parsing_export(char *cmd, t_prg *prg)
 {
 	int		i;
 
-	i = 0;
-	if (cmd[0] == '#' || cmd[0] == '$')
-	{
-		_print_env_declare(prg);
-		return (0);
-	}
 	if ((cmd[0] == '=') || (48 <= cmd[0] && cmd[0] <= 57))
 	{
 		printf("export: `%s': not a valid identifier\n", cmd);
 		g_error = 1;
 		return (1);
 	}
+	i = 0;
 	while (cmd[i])
 	{
-		if ((61 > cmd[i]) || (61 < cmd[i] && cmd[i] < 65) || (90 < cmd[i] && cmd[i] < 97) || (cmd[i] > 122))
+		if (!((64 < cmd[i] && cmd[i] < 91) || (96 < cmd[i] && cmd[i] < 123) || (47 < cmd[i] && cmd[i] < 58) || cmd[i] == '_'))
 		{
 			printf("export: `%s': not a valid identifier\n", cmd);
 			g_error = 1;
@@ -124,12 +119,20 @@ void _add_env(t_prg *prg, int i)
 	len = ft_strlen_2d(prg->cmd_list->cmd_and_dep) - 1;
 	while (prg->cmd_list->cmd_and_dep[++i])
 	{
-		if (_parsing_export(prg->cmd_list->cmd_and_dep[i], prg))
+		sep = ft_strlen_to_char(prg->cmd_list->cmd_and_dep[i], '=');
+		if (sep)
+			name = ft_substr(prg->cmd_list->cmd_and_dep[i], 0, sep);
+		else
+			name = ft_strdup(prg->cmd_list->cmd_and_dep[i]);
+		if (i == 1 && (name[0] == '#' || name[0] == '$'))
+		{
+			_print_env_declare(prg);
+			return ;
+		}
+		if (_parsing_export(name, prg))
 			i++;
 		if (i > len)
 			break ;
-		sep = ft_strlen_to_char(prg->cmd_list->cmd_and_dep[i], '=');
-		name = ft_substr(prg->cmd_list->cmd_and_dep[i], 0, sep);
 		content = ft_substr(prg->cmd_list->cmd_and_dep[i], sep + 1, ft_strlen(prg->cmd_list->cmd_and_dep[i]) - sep);
 		_add_node(name, content, prg);
 	}
@@ -167,11 +170,6 @@ int _lst_size_env(t_env_lst *head)
 
 int _export_env(t_prg *prg, t_cmd_lst *node)
 {
-	// if (strcmp(node->cmd_and_dep[0], "export") == 0 && node->cmd_and_dep[1] == NULL)
-	// {
-	// 	_print_env_declare(prg);
-	// 	return (0);
-	// }
 	_add_env(prg, 0);
 	return (0);
 }

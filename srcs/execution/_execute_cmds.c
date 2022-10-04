@@ -3,7 +3,13 @@
 
 extern int g_error;
 
-// void	check_cmd(t_cmd_lst *tmp);
+int is_file(const char *path)
+{
+    struct stat path_stat;
+    stat(path, &path_stat);
+    return S_ISDIR(path_stat.st_mode);
+}
+
 
 void	_set_dup_infile(t_cmd_lst *node)
 {
@@ -15,6 +21,17 @@ void	_set_dup_infile(t_cmd_lst *node)
 		if (node->infile == -1)
 		{
 			// FREE AND EXIT;
+			if (is_file(node->file[_last_infile(node) - 1]))
+			{
+				write(2, node->cmd_and_dep[0], ft_strlen(node->cmd_and_dep[0]));
+				write(2, ": -: Is a directory\n", 20);
+			}
+			else
+			{
+				write(2, node->file[_last_infile(node) - 1], ft_strlen(node->file[_last_infile(node) - 1]));
+				write(2, ": No such file or directory\n", 28);
+			}
+			exit(0);
 		}
 		else
 		{
@@ -37,6 +54,12 @@ void	_set_dup_outfile(t_cmd_lst *node, t_prg *data)
 			node->outfile = open(node->file[_last_outfile(node)], O_CREAT | O_RDWR | O_TRUNC, 0644); // DONT FORGET TO PROTECT THIS OPEN
 		node->redir_fd[node->index_fd] = node->outfile;
 		node->index_fd++;
+		if (is_file(node->file[_last_outfile(node)]))
+		{
+			write(2, node->file[_last_outfile(node)], ft_strlen(node->file[_last_outfile(node)]));
+			write(2, ": -: Is a directory\n", 20);
+			exit (0);
+		}
 		if (dup2(node->outfile, 1) == -1)
 		{
 			write(2, "dup2 failed to run\n", 19);
@@ -145,16 +168,16 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 	while (1)
 	{
 		longest = ft_strlen(tmp->heredoc_delimiter[i]);
-		write(1, "> ", 2);
-		buf = get_next_line(0);
+		buf = readline("> ");
 		if (ft_strlen(buf) > longest)
-			longest = ft_strlen(buf) - 1;
+			longest = ft_strlen(buf);
 		if (ft_strncmp(buf, tmp->heredoc_delimiter[i], longest) == 0)
 		{
 			free(buf);
 			break ;
 		}
-		line = ft_strjoin_gnl(line, buf, -1, 0);
+		buf = ft_strjoin_hd(buf, "\n");
+		line = ft_strjoin_hd(line, buf);
 		free(buf);
 	}
 	buf = line;

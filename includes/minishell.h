@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>
@@ -260,8 +262,10 @@ char			*ft_forge_new_line_heredoc(t_prg *prg, char *line);
 
 /***** FR_ATOI.C *****/
 
-static long	ft_checker(long result, long neg);
-int	ft_atoi(const char *str);
+static long			ft_checker(long result, long neg);
+int					ft_atoi(const char *str);
+long long int		ft_atol(const char *str);
+int					checker_lli(char *to_cmp);
 
 /***** ENV.C *****/
 
@@ -296,6 +300,7 @@ void			close_pipe(t_prg *data);
 int				_set_fd(t_cmd_lst *tmp, t_prg *data);
 void			_heredoc(t_prg *data, t_cmd_lst *tmp, int i);
 void			_set_pipes(t_prg	*data, t_cmd_lst	*node);
+char			*ft_strjoin_hd(char const *s1, char const *s2);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
@@ -305,6 +310,7 @@ int				_is_infile(t_cmd_lst *tmp);
 int				_is_outfile(t_cmd_lst *tmp);
 void			_close_files(t_prg	*data, t_cmd_lst *node);
 void			_open_all_outfile(t_cmd_lst		*node);
+int				is_file(const char *path);
 
 /***** ERROR_PRINT.C *****/
 
