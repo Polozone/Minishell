@@ -63,6 +63,36 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (ditto);
 }
 
+char	*ft_strjoin_hd(char const *s1, char const *s2)
+{
+	char	*str;
+	size_t	i;
+	size_t	j;
+
+	j = 0;
+	i = 0;
+	if (!s2)
+		return (NULL);
+	str = malloc((ft_strlen((char *)s1)
+				+ ft_strlen((char *)s2) + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	while (i < ft_strlen((char *)s1))
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (j < ft_strlen((char *)s2))
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	str[i] = '\0';
+	free(s1);
+	return (str);
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;

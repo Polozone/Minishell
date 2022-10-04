@@ -5,9 +5,9 @@ extern int	g_error;
 
 int		_exit_builtins(t_cmd_lst *node)
 {
-	int		len;
-	int		i;
-	int		exit_value;
+	int					len;
+	int					i;
+	long long			exit_value;
 
 	if (!node->cmd_and_dep[1])
 	{
@@ -24,7 +24,7 @@ int		_exit_builtins(t_cmd_lst *node)
 	}
 	while (node->cmd_and_dep[1][++i])
 	{
-		if (node->cmd_and_dep[1][i] == '-')
+		if (node->cmd_and_dep[1][i] == '-' || node->cmd_and_dep[1][i] == '+')
 			i++;
 		if (!('0' <= node->cmd_and_dep[1][i] && node->cmd_and_dep[1][i] <= '9'))
 		{
@@ -34,7 +34,12 @@ int		_exit_builtins(t_cmd_lst *node)
 			return (255);
 		}
 	}
-	ft_putstr_fd("exit\n", 2);
-	exit_value = ft_atoi(node->cmd_and_dep[1]);
+	write(2, "exit\n", 5);
+	exit_value = ft_atol(node->cmd_and_dep[1]);
+	if (!checker_lli(node->cmd_and_dep[1]))
+	{
+		write(2, node->cmd_and_dep[1], ft_strlen(node->cmd_and_dep[1]));
+		write(2, ": numeric argument required\n", 28);
+	}
 	return ((unsigned char)exit_value);
 }

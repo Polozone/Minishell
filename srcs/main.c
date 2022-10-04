@@ -23,8 +23,10 @@ int	count_builtins_nofork(t_cmd_lst *list)
 	nbr_builtins = 0;
 	while (tmp)
 	{
-		if ((tmp->is_cmd_builtin == export && tmp->cmd_and_dep[0] == NULL) || tmp->is_cmd_builtin == unset 
-			|| tmp->is_cmd_builtin == cd || tmp->is_cmd_builtin == quit)
+		if ((tmp->is_cmd_builtin == export && tmp->cmd_and_dep[0] == NULL)
+			|| tmp->is_cmd_builtin == unset
+			|| tmp->is_cmd_builtin == cd
+			|| tmp->is_cmd_builtin == quit)
 		{
 			nbr_builtins++;
 		}
@@ -33,7 +35,7 @@ int	count_builtins_nofork(t_cmd_lst *list)
 	return (nbr_builtins);
 }
 
-void _wait_pids(t_prg *data)
+void	_wait_pids(t_prg *data)
 {
 	int	i;
 
@@ -55,10 +57,10 @@ void _wait_pids(t_prg *data)
 		i++;
 	}
 	data->fork_capacity_met = false;
-	return;
+	return ;
 }
 
-void env_to_tab(t_prg *prg, int i)
+void	env_to_tab(t_prg *prg, int i)
 {
 	t_env_lst	*tmp;
 	int			size_lst;
@@ -101,9 +103,9 @@ static t_bool	ft_line_is_blank_space(char *line)
 	return (true);
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-	t_prg prg;
+	t_prg	prg;
 
 	(void)ac;
 	(void)av;
