@@ -14,7 +14,7 @@ void _print_env(t_env_lst *head)
 		{
 			printf("%s=", tmp->name);
 			printf("%s\n", tmp->content);
-		}.3
+		}
 		tmp = tmp->next;
 	}
 }
