@@ -74,7 +74,7 @@ int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 	{
-		if (ft_strncmp(tmp->cmd_and_dep[0], "/", 1) == 0)
+		if (tmp->cmd_and_dep[0] && ft_strncmp(tmp->cmd_and_dep[0], "/", 1) == 0)
 			exit (ft_error_print_two(tmp, -126, tmp->cmd_and_dep[0]));
 		else if (tmp->cmd_and_dep[0] != 0 && ft_strcmp(tmp->cmd_and_dep[0], ".") == 0)
 			exit (ft_error_print_one(tmp, 2, tmp->cmd_and_dep[0]));
@@ -135,13 +135,6 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		_redir_last_cmd(node, data);
 }
 
-void	handle_sigstp_hd(int sig)
-{
-	dprintf(2, "sig = %d\n", sig);
-	if (sig == 2)
-		exit(1);
-}
-
 void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 {
 	char	*line;
@@ -176,16 +169,8 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 	free(line);
 }
 
-void	sig_quit_handler_exec()
-{
-	dprintf(2, "je passe dans sig_quit_handler_exec\n");
-	write(2, "^\\Quit: 3", 9);
-	// signal(SIGQUIT, SIG_DFL);
-}
-
 int	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
-	signal(SIGQUIT, sig_quit_handler_exec);
 	tmp->redir_fd = malloc(sizeof(int) * tmp->redir_nbr);
 	if (tmp->redir_fd == NULL)
 	{

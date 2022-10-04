@@ -146,3 +146,5 @@ Messages d'erreur sur ECHO
 ECRIRE EXIT SUR CTRL + D
 
 LEAK SUR CD + qund homme is not set, messqge d'erreur + code erreur 1
+
+delimiter heredoc gerer : test1<<test2<<test3

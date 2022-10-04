@@ -77,10 +77,18 @@ int _init_pipe(t_prg *data)
 	return (0);
 }
 
-void	ft_sigignore(int mdr)
+void	ft_sigignore(int sig)
 {
-	printf("test\n");
-	(void) mdr;
+	// (void) sig;
+	if (sig == 2)
+	{
+		exit(130);
+	}
+	if (sig == 3)
+	{
+		ft_putstr_fd("Quit: 3", 2);
+		exit(131);
+	}
 }
 
 void _ft_forks(t_prg *data, t_cmd_lst *tmp)
@@ -88,9 +96,6 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 	tmp = data->cmd_list;
 	int	exit_status;
 
-	change_termios(2);
-	signal(SIGINT, ft_sigignore);
-	signal(SIGQUIT, ft_sigignore);
 	while (tmp)
 	{
 		if (is_builtin_nofork(data, tmp))
@@ -105,7 +110,12 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 				// exit(0);
 			}
 			else if (data->pid[data->nbr_pid] == 0)
+			{
 				g_error =_set_fd(tmp, data);
+				signal(SIGINT, ft_sigignore);
+				signal(SIGQUIT, ft_sigignore);
+
+			}
 			if (tmp->heredoc_delimiter[0])
 			{
 				close(tmp->pipe_hd[0]);
@@ -145,7 +155,6 @@ int	_alloc_exe_var(t_prg *data)
 
 void	sig_parent_hd(void)
 {
-	dprintf(2, "je passe dans sig_parent_hd\n");
 	write(2, "\n", 1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_IGN);
@@ -153,15 +162,13 @@ void	sig_parent_hd(void)
 
 void	sig_handler_parent_hd(int sig)
 {
-	dprintf(2, "je passe dans sig_handler_parent\n");
 	if (sig == SIGINT)
-		g_error = 800;
+		g_error = 1;
 	sig_parent_hd();
 }
 
 void	sig_child(void)
 {
-	dprintf(2, "je passe dans sig_child\n");
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 }
