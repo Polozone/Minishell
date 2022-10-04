@@ -34,6 +34,7 @@ int		_exit_builtins(t_cmd_lst *node)
 			return (255);
 		}
 	}
+	ft_putstr_fd("exit\n", 2);
 	exit_value = ft_atoi(node->cmd_and_dep[1]);
 	return ((unsigned char)exit_value);
 }

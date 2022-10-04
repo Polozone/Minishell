@@ -6,30 +6,13 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/30 13:28:28 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/04 14:13:07 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int	g_error;
-
-void    change_termios(int action)
-{
-    static struct termios old_termios;
-    struct termios new_termios;
-    if (action == 1)
-    {
-        tcgetattr(0, &old_termios);
-        new_termios = old_termios;
-        new_termios.c_lflag &= ~ECHOCTL;
-        tcsetattr(0, 0, &new_termios);
-    }
-    else
-    {
-        tcsetattr(0, 0, &old_termios);
-    }
-}
 
 int	count_builtins_nofork(t_cmd_lst *list)
 {
@@ -62,12 +45,16 @@ void _wait_pids(t_prg *data)
 		{
 			g_error = 1;
 		}
-		else
+		else if (WIFEXITED(g_error) == 1)
 			g_error = WEXITSTATUS(g_error);
+		else if (WIFSIGNALED(g_error) == 1)
+		{
+			g_error = WEXITSTATUS(g_error);
+			write(2, "\n", 1);
+		}
 		i++;
 	}
 	data->fork_capacity_met = false;
-	// free(data.pid);
 	return;
 }
 
@@ -123,15 +110,21 @@ int main(int ac, char **av, char **env)
 	prg.env_lst = ft_create_env_lst(env, &prg);
 	ft_update_shell_lvl(&prg, 1);
 	_init_exe_var(&prg);
+	tcgetattr(0, &prg.old_termios);
+	prg.new_termios = prg.old_termios;
+	prg.new_termios.c_lflag &= ~ECHOCTL;
 	while (1)
 	{
+		// sig_parent();
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, _sig_stp_main);
-		change_termios(1);
-		// sig_parent();
+		tcsetattr(0, TCSANOW, &prg.new_termios);
 		prg.line = readline("Minichell_Drucker1.3$ ");
 		if (prg.line == NULL)
-			exit(1); // ctrl+d
+		{
+			ft_putstr_fd("exit\n", 2);
+			exit(g_error); // ctrl+d
+		}
 		else if (ft_line_is_blank_space(prg.line) == false)
 		{
 			add_history(prg.line);
@@ -141,7 +134,9 @@ int main(int ac, char **av, char **env)
 			{
 				env_to_tab(&prg, 0);
 				ft_parse(&prg);
+				tcsetattr(0, TCSANOW, &prg.new_termios);
 				_ft_exe(&prg);
+				tcsetattr(0, TCSANOW, &prg.old_termios);
 				close_pipe(&prg);
 				_wait_pids(&prg);
 				_ft_free_exe(&prg);

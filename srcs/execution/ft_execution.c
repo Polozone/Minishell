@@ -77,6 +77,20 @@ int _init_pipe(t_prg *data)
 	return (0);
 }
 
+void	ft_sigignore(int sig)
+{
+	// (void) sig;
+	if (sig == 2)
+	{
+		exit(130);
+	}
+	if (sig == 3)
+	{
+		ft_putstr_fd("Quit: 3", 2);
+		exit(131);
+	}
+}
+
 void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 {
 	tmp = data->cmd_list;
@@ -96,7 +110,12 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 				// exit(0);
 			}
 			else if (data->pid[data->nbr_pid] == 0)
+			{
 				g_error =_set_fd(tmp, data);
+				signal(SIGINT, ft_sigignore);
+				signal(SIGQUIT, ft_sigignore);
+
+			}
 			if (tmp->heredoc_delimiter[0])
 			{
 				close(tmp->pipe_hd[0]);
@@ -143,8 +162,8 @@ void	sig_parent_hd(void)
 
 void	sig_handler_parent_hd(int sig)
 {
-	// if (sig == SIGINT)
-	// 	g_status = 1;
+	if (sig == SIGINT)
+		g_error = 1;
 	sig_parent_hd();
 }
 
