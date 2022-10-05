@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:02:31 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 11:03:42 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:51:46 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,8 @@ int	checker_lli(char *to_cmp)
 		}
 	}
 	else
-	{
 		while (to_cmp[++i])
-		{
 			if (charcmp(to_cmp[i], lli_max[i]))
 				return (0);
-		}
-	}
 	return (1);
 }

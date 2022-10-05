@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:17:26 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 15:36:16 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/05 17:22:04 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,15 @@ void	sig_handler_parent_hd(int sig)
 	sig_parent_hd();
 }
 
-void	sig_child(void)
+void	ft_waitpid_hd(int pid)
 {
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
+	int	ptr;
+
+	waitpid(pid, &ptr, 0);
+	if (WIFEXITED(ptr) == 1)
+	{
+		g_error = WEXITSTATUS(ptr);
+	}
 }
 
 void	_init_heredoc(t_prg *data, int i, int pid)
@@ -51,11 +56,11 @@ void	_init_heredoc(t_prg *data, int i, int pid)
 				_ft_free_and_exit(data);
 			else if (pid == 0)
 			{
-				sig_child();
+				signal(SIGINT, SIG_DFL);
 				_heredoc(data, tmp, i);
 				exit (0);
 			}
-			waitpid(pid, NULL, 0);
+			ft_waitpid_hd(pid);
 			i++;
 		}
 		i = 0;
@@ -74,6 +79,8 @@ void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
 	{
 		longest = ft_strlen(tmp->heredoc_delimiter[i]);
 		buf = readline("> ");
+		if (buf == NULL)
+			exit(0);
 		if (ft_strlen(buf) > longest)
 			longest = ft_strlen(buf);
 		if (ft_strncmp(buf, tmp->heredoc_delimiter[i], longest) == 0)
