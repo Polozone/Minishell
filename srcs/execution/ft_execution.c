@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 09:02:24 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/05 10:14:52 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 			_ch_dir(data);
 		if (node->is_cmd_builtin == quit)
 		{
-			exit_value = _exit_builtins(node);
+			exit_value = _exit_builtins(node, -1, 0, 0);
 			if (exit_value == -1)
 				return (0);
 			else

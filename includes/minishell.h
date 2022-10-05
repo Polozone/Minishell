@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/04 11:21:50 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 09:27:17 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,7 @@ int				is_builtin_nofork(t_prg *data, t_cmd_lst *node);
 int				is_builtin_fork(t_prg *data, t_cmd_lst *node);
 int				count_builtins_nofork(t_cmd_lst *list);
 void			env_to_tab(t_prg *prg, int i);
-int				_exit_builtins(t_cmd_lst *node);
+int				_exit_builtins(t_cmd_lst *node, int i, int len, long long exit_value);
 
 /***** EXECUTIONS.C *****/
 
