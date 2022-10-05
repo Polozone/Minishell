@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 14:48:32 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/05 15:25:21 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,19 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 void	ft_sigignore(int sig)
 {
 	if (sig == 2)
-	{
-		exit(130);
-	}
-	if (sig == 3)
+		g_error = 130;
+	else if (sig == 3)
 	{
 		ft_putstr_fd("Quit: 3", 2);
-		exit(131);
+		g_error = 131;
 	}
 }
 
 void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 {
 	tmp = data->cmd_list;
+	signal(SIGINT, ft_sigignore);
+	signal(SIGQUIT, ft_sigignore);
 	while (tmp)
 	{
 		if (is_builtin_nofork(data, tmp))
@@ -94,8 +94,6 @@ void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 			else if (data->pid[data->nbr_pid] == 0)
 			{
 				g_error = _set_fd(tmp, data);
-				signal(SIGINT, ft_sigignore);
-				signal(SIGQUIT, ft_sigignore);
 			}
 			check_heredoc(tmp);
 			data->nbr_pid++;

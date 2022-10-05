@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 14:42:40 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/05 16:15:58 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,11 @@ typedef struct s_prg
 
 void			rl_replace_line(const char *text, int clear_undo);
 
+/***** FT_INIT *****/
+
+void			ft_init(char **env, t_prg *data);
+void			env_to_tab(t_prg *prg, int i);
+
 /***** SIGNAUX.C *****/
 
 void			setup_term(void);
@@ -151,7 +156,7 @@ char			*ft_substr(char *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strjoin_backslash(char const *s1, char const *s2);
 char			*ft_join_shrtct(char *str1, char *str2);
-int				ft_dup_cmd(char **cmd, char **split_line, int j);
+int				ft_dup_cmd(char **cmd, char **split_line, int *j);
 
 /***** STRING_SEARCH.C *****/
 

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 17:33:22 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 11:39:00 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 12:59:15 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,15 @@ char	*ft_strjoin_hd(char const *s1, char const *s2)
 	size_t	j;
 
 	j = 0;
-	i = 0;
+	i = -1;
 	if (!s2)
 		return (NULL);
 	str = malloc((ft_strlen((char *)s1)
 				+ ft_strlen((char *)s2) + 1) * sizeof(char));
 	if (str == NULL)
-		return (NULL);
-	while (i < ft_strlen((char *)s1))
-	{
+		exit (1);
+	while (++i < ft_strlen((char *)s1))
 		str[i] = s1[i];
-		i++;
-	}
 	while (j < ft_strlen((char *)s2))
 	{
 		str[i] = s2[j];
