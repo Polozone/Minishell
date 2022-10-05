@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/04 11:21:50 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:45:56 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,31 +111,31 @@ typedef struct l_env_list
 
 typedef struct s_prg
 {
-	char		**path_list;
-	char		**envp;
-	char		**cells;
-	char		*line;
-	int			*pipe;
-	int			*pid;
-	int			heredoc_nbr;
-	int			line_len;
-	int			cmd_nbr;
-	int			nbr_builtins;
-	int			nbr_pid;
-	t_cmd_lst	*cmd_list;
-	t_env_lst	*env_lst;
-	t_bool		is_there_path;
-	t_bool		fork_capacity_met;
-	struct termios old_termios;
-    struct termios new_termios;
-}			t_prg;
+	char			**path_list;
+	char			**envp;
+	char			**cells;
+	char			*line;
+	int				*pipe;
+	int				*pid;
+	int				heredoc_nbr;
+	int				line_len;
+	int				cmd_nbr;
+	int				nbr_builtins;
+	int				nbr_pid;
+	t_cmd_lst		*cmd_list;
+	t_env_lst		*env_lst;
+	t_bool			is_there_path;
+	t_bool			fork_capacity_met;
+	struct termios	old_termios;
+	struct termios	new_termios;
+}					t_prg;
 
 void			rl_replace_line(const char *text, int clear_undo);
 
 /***** SIGNAUX.C *****/
 
-void	setup_term(void);
-void	handle_sigstp(int sig);
+void			setup_term(void);
+void			handle_sigstp(int sig);
 
 /***** STRING_SIZE.C *****/
 
@@ -151,6 +151,7 @@ char			*ft_substr(char *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strjoin_backslash(char const *s1, char const *s2);
 char			*ft_join_shrtct(char *str1, char *str2);
+int				ft_dup_cmd(char **cmd, char **split_line, int j);
 
 /***** STRING_SEARCH.C *****/
 
@@ -161,7 +162,6 @@ int				search_char(char *str, char c);
 t_bool			ft_isalnum(int c);
 
 /***** ITOA.C *****/
-
 
 char			*ft_itoa(int nb);
 
@@ -183,6 +183,7 @@ void			ft_make_elem(char *line, t_env_lst **env_lst, int index);
 t_env_lst		*ft_search_in_env_lst(t_prg *prg, char *name);
 t_env_lst		*ft_create_env_lst(char **envp, t_prg *prg);
 int				_lst_size_env(t_env_lst *head);
+t_env_lst		*ft_empty_env_lst(void);
 
 /***** FILL_CMD_LST.C *****/
 
@@ -191,7 +192,8 @@ void			ft_find_path(t_prg *prg, t_cmd_lst *cmd_list);
 
 /***** FILL_FILES.C *****/
 
-void			ft_fill_file(t_cmd_lst *cmd_list, char **line_split, t_token *line_token, int len);
+void			ft_fill_file(t_cmd_lst *cmd_list, char **line_split,
+					t_token *line_token, int len);
 
 /***** FILL_NODES.C *****/
 
@@ -199,10 +201,10 @@ void			ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg);
 
 /***** TOKEN.C *****/
 
-
 t_token			ft_redir_token(char *word);
-t_token			*ft_assign_token(char **line_split, t_token *line_token);
-int				ft_count_token(t_token *line_token, t_token token_name, char **line_split, int len);
+t_token			*ft_assign_token(char **line_split, t_token *line_token, int i);
+int				ft_count_token(t_token *line_token,
+					t_token token_name, char **line_split, int len);
 
 /***** SPLIT.C *****/
 
@@ -237,7 +239,8 @@ t_bool			ft_syntax_error(t_prg *prg);
 
 /***** CHEVRON_ERROR.c *****/
 
-t_bool			ft_chevron_error(char *line, int line_len, char chevron, char che_two);
+t_bool			ft_chevron_error(char *line, int line_len,
+					char chevron, char che_two);
 
 /***** BUILTIN_CHECK.C *****/
 
@@ -245,15 +248,19 @@ void			ft_is_cmd_builtin(t_prg *prg, t_cmd_lst *cmd_lst);
 
 /***** REDIRECTIONS.C *****/
 
-void			ft_redir_assignation(t_prg *prg, t_cmd_lst *cmd_lst, t_token *line_token, char **line_split);
+void			ft_redir_assignation(t_prg *prg, t_cmd_lst *cmd_lst,
+					t_token *line_token, char **line_split);
 
 /***** REPLACE_DOLLZ.C *****/
 
 char			*ft_get_var_name(char *line, int index);
 char			*ft_expend(t_prg *prg, char *line, int index);
-t_bool			ft_is_phrase_a_file(char *line, int index, t_var_quote quote);
-int				ft_char_is_dollz(t_prg *prg, char *line, char **new_line, int i);
-void			ft_add_c_to_nl(t_var_quote quote, char **new_line, char *line, int i);
+t_bool			ft_is_phrase_a_file(char *line, int index,
+					t_var_quote quote);
+int				ft_char_is_dollz(t_prg *prg, char *line,
+					char **new_line, int i);
+void			ft_add_c_to_nl(t_var_quote quote, char **new_line,
+					char *line, int i);
 
 /***** REPLACE_DOLLZ.C *****/
 
@@ -262,14 +269,14 @@ char			*ft_forge_new_line_heredoc(t_prg *prg, char *line);
 
 /***** FR_ATOI.C *****/
 
-static long			ft_checker(long result, long neg);
-int					ft_atoi(const char *str);
-long long int		ft_atol(const char *str);
-int					checker_lli(char *to_cmp);
+static long		ft_checker(long result, long neg);
+int				ft_atoi(const char *str);
+long long int	ft_atol(const char *str);
+int				checker_lli(char *to_cmp);
 
 /***** ENV.C *****/
 
-void _print_env_declare(t_prg *prg);
+void			_print_env_declare(t_prg *prg);
 
 /***** BUILTINS.C *****/
 
@@ -280,9 +287,10 @@ int				_export_env(t_prg *prg, t_cmd_lst *node);
 int				_export_env_parse(t_prg *prg);
 void			_add_env(t_prg *prg, int i);
 int				_is_name_in_env(t_prg *prg, char *name_to_find);
-void			_set_content_env(t_env_lst *node, char *content, char **content2d, int mode);
+void			_set_content_env(t_env_lst *node, char *content,
+					char **content2d, int mode);
 int				_echo_exe(t_cmd_lst *node, int i);
-int				_pwd_exe();
+int				_pwd_exe(void);
 int				_ch_dir(t_prg *data);
 void			_add_node(char *name, char *content, t_prg *prg);
 int				is_builtin_nofork(t_prg *data, t_cmd_lst *node);
@@ -294,7 +302,7 @@ int				_exit_builtins(t_cmd_lst *node);
 /***** EXECUTIONS.C *****/
 
 int				_ft_exe(t_prg *data);
-void 			_wait_pids(t_prg *data);
+void			_wait_pids(t_prg *data);
 int				_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void			close_pipe(t_prg *data);
 int				_set_fd(t_cmd_lst *tmp, t_prg *data);
@@ -309,13 +317,15 @@ int				_last_outfile(t_cmd_lst *tmp);
 int				_is_infile(t_cmd_lst *tmp);
 int				_is_outfile(t_cmd_lst *tmp);
 void			_close_files(t_prg	*data, t_cmd_lst *node);
-void			_open_all_outfile(t_cmd_lst		*node);
+void			_open_all_outfile(t_cmd_lst *node);
 int				is_file(const char *path);
 
 /***** ERROR_PRINT.C *****/
 
-int				ft_error_print_one(t_cmd_lst *node, int error_code, char *error_source);
-int				ft_error_print_two(t_cmd_lst *node, int error_code, char *error_source);
+int				ft_error_print_one(t_cmd_lst *node,
+					int error_code, char *error_source);
+int				ft_error_print_two(t_cmd_lst *node,
+					int error_code, char *error_source);
 t_bool			ft_syntax_error_print(int error_code);
 
 /***** FREE_EXECUTIONS.C *****/
@@ -337,14 +347,15 @@ char			*get_next_line(int fd);
 
 /***** SIGNALS.C *****/
 
-void	_sig_stp_main(int sig);
-void	sig_handler_hd();
-void	sig_parent(void);
-void	sig_quit_exec(int signo);
-void	sig_int_exec(int signo);
+void			_sig_stp_main(int sig);
+void			sig_handler_hd(void);
+void			sig_parent(void);
+void			sig_quit_exec(int signo);
+void			sig_int_exec(int signo);
+
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
 void			ft_update_shell_lvl(t_prg *data, int update);
-void    		change_termios(int action);
+void			change_termios(int action);
 
 #endif

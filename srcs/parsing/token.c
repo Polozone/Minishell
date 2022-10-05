@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:13:31 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/03 14:30:41 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:37:04 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	ft_ct_fl_st(char **line_split)
 	return (file_suite_ct);
 }
 
-t_bool ft_ghetto(char *word)
+t_bool	ft_ghetto(char *word)
 {
 	int	i;
 
@@ -67,22 +67,20 @@ t_bool ft_ghetto(char *word)
 	return (false);
 }
 
-t_token ft_assign_rdnfile(char **split, int i)
+t_token	ft_assign_rdnfile(char **split, int i)
 {
 	char	*buf;
 
 	buf = split[i - 1];
 	split[i - 1] = ft_strdup(buf);
 	split[i] = ft_join_shrtct(buf, split[i]);
-	return (rednfile);	
+	return (rednfile);
 }
 
-t_token	*ft_assign_token(char **split, t_token *line_token)
+t_token	*ft_assign_token(char **split, t_token *line_token, int i)
 {
-	int		i;
-
 	i = -1;
-	line_token = malloc((ft_array_len(split) + ft_ct_fl_st(split) + 1) * 8); //8 = sizeof token putqin de norme
+	line_token = malloc((ft_array_len(split) + ft_ct_fl_st(split) + 1) * 8);
 	while (split[++i])
 	{
 		if (split[i][0] == '<' || split[i][0] == '>')

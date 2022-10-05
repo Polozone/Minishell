@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:42:27 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/04 15:18:38 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:09:02 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	ft_find_path(t_prg *prg, t_cmd_lst *cmd_list)
 	int		i;
 	char	*path;
 
-	if ((prg->path_list == 0 
-		|| ft_strncmp(cmd_list->cmd_and_dep[0], "./", 2) == 0)
+	if ((prg->path_list == 0
+			|| ft_strncmp(cmd_list->cmd_and_dep[0], "./", 2) == 0)
 		|| ft_strncmp(cmd_list->cmd_and_dep[0], "/", 1) == 0
 		|| (cmd_list->cmd_and_dep[0] && cmd_list->cmd_and_dep[0][0] == '\0'))
 	{

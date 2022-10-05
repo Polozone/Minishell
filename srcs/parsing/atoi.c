@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   atoi.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/05 11:02:31 by mgolinva          #+#    #+#             */
+/*   Updated: 2022/10/05 11:03:42 by mgolinva         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -41,7 +52,7 @@ long long int	ft_atol(const char *str)
 {
 	int					sign;
 	int					i;
-	long long int 		result;
+	long long int		result;
 
 	i = 0;
 	result = 0;
