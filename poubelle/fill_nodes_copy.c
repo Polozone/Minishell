@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 08:49:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 11:45:13 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:12:36 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,15 @@ static void	ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split,
 	while (line_split[++i])
 	{
 		if (line_token[i] == none)
-			j = ft_dup_cmd(&cmd_lst->cmd_and_dep[j], &line_split[j], j);
+		{
+			cmd_lst->cmd_and_dep[j] = ft_strdup(line_split[i]);
+			j ++;
+		}
 		else if (line_token[i] == cmdnredirnfile)
-			j = ft_dup_cmd(&cmd_lst->cmd_and_dep[j], &line_split[j], j);
+		{
+			cmd_lst->cmd_and_dep[j] = ft_get_dep(line_split[i]);
+			j ++;
+		}
 	}
 	cmd_lst->cmd_and_dep[j] = 0;
 }
@@ -118,7 +124,7 @@ void	ft_fill_node(char *cell, t_cmd_lst *cmd_lst, t_prg *prg)
 	i = 0;
 	line_split = ft_split(cell, ' ');
 	split_len = ft_array_len(line_split);
-	line_token = ft_assign_token(line_split, line_token, i);
+	line_token = ft_assign_token(line_split, line_token);
 	ft_fill_cmd_and_dep(cmd_lst, line_split, line_token);
 	ft_fill_file(cmd_lst, line_split, line_token, split_len);
 	ft_is_cmd_builtin(prg, cmd_lst);

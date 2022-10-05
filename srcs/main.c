@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/04 15:10:43 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/05 14:42:51 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void	_wait_pids(t_prg *data)
 			g_error = WEXITSTATUS(g_error);
 		else if (WIFSIGNALED(g_error) == 1)
 		{
-			g_error = WEXITSTATUS(g_error);
+			if (WTERMSIG(g_error) == 2)
+				g_error = 130;
+			if (WTERMSIG(g_error) == 3)
+				g_error = 131;
 			write(2, "\n", 1);
 		}
 		i++;
@@ -125,6 +128,7 @@ int	main(int ac, char **av, char **env)
 		if (prg.line == NULL)
 		{
 			ft_putstr_fd("exit\n", 2);
+			tcsetattr(0, TCSANOW, &prg.old_termios);
 			exit(g_error); // ctrl+d
 		}
 		else if (ft_line_is_blank_space(prg.line) == false)
