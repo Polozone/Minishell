@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:37:56 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/04 14:53:27 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/05 13:44:54 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,65 +20,6 @@ int	is_file(const char *path)
 
 	stat(path, &path_stat);
 	return (S_ISDIR(path_stat.st_mode));
-}
-
-void	_set_dup_infile(t_cmd_lst *node)
-{
-	if ((_is_infile(node)))
-	{
-		node->infile = open(node->file[_last_infile(node) - 1], O_RDWR);
-		node->redir_fd[node->index_fd] = node->infile;
-		node->index_fd++;
-		if (node->infile == -1)
-		{
-			if (is_file(node->file[_last_infile(node) - 1]))
-			{
-				write(2, node->cmd_and_dep[0], ft_strlen(node->cmd_and_dep[0]));
-				write(2, ": -: Is a directory\n", 20);
-			}
-			else
-			{
-				write(2, node->file[_last_infile(node) - 1],
-					ft_strlen(node->file[_last_infile(node) - 1]));
-				write(2, ": No such file or directory\n", 28);
-			}
-			exit(0);
-		}
-		else
-		{
-			if (dup2(node->infile, 0) == -1)
-				exit (0);
-		}
-	}
-}
-
-void	_set_dup_outfile(t_cmd_lst *node, t_prg *data)
-{
-	if (_is_outfile(node))
-	{
-		_open_all_outfile(node);
-		if (node->redir_type[_last_outfile(node)] == 2)
-			node->outfile = open(node->file[_last_outfile(node)], O_CREAT
-					| O_RDWR | O_APPEND, 0644);
-		else if (node->redir_type[_last_outfile(node)] == 1)
-			node->outfile = open(node->file[_last_outfile(node)], O_CREAT
-					| O_RDWR | O_TRUNC, 0644);
-		if (node->outfile == -1)
-			exit (0);
-		node->redir_fd[node->index_fd] = node->outfile;
-		node->index_fd++;
-		if (is_file(node->file[_last_outfile(node)]))
-		{
-			ft_putstr_fd(node->file[_last_outfile(node)], 2);
-			write(2, ": -: Is a directory\n", 20);
-			exit (0);
-		}
-		if (dup2(node->outfile, 1) == -1)
-		{
-			perror("");
-			exit (0);
-		}
-	}
 }
 
 void	close_pipe(t_prg *data)
@@ -128,95 +69,11 @@ int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 	exit (0);
 }
 
-void	_redir_first_cmd(t_cmd_lst	*node, t_prg *data)
-{
-	if (_is_infile(node))
-		_set_dup_infile(node);
-	if (_is_outfile(node))
-		_set_dup_outfile(node, data);
-	else
-	{
-		if (data->cmd_nbr != 1)
-			dup2(data->pipe[1], 1);
-	}
-}
-
-void	_redir_in_pipes(t_cmd_lst	*node, t_prg *data)
-{
-	if (_is_infile(node))
-		_set_dup_infile(node);
-	else
-		dup2(data->pipe[(node->index - 1) * 2], 0);
-	if (_is_outfile(node))
-		_set_dup_outfile(node, data);
-	else
-		dup2(data->pipe[(node->index * 2) + 1], 1);
-}
-
-void	_redir_last_cmd(t_cmd_lst *node, t_prg *data)
-{
-	if (_is_infile(node))
-		_set_dup_infile(node);
-	else
-		dup2(data->pipe[(node->index - 1) * 2], 0);
-	if (_is_outfile(node))
-	{
-		_set_dup_outfile(node, data);
-	}
-}
-
-void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
-{
-	if (node->index == 0)
-		_redir_first_cmd(node, data);
-	else if (node->index != data->cmd_nbr - 1)
-		_redir_in_pipes(node, data);
-	else if (node->index == data->cmd_nbr - 1 && data->cmd_nbr != 1)
-		_redir_last_cmd(node, data);
-}
-
-void	_heredoc(t_prg *data, t_cmd_lst *tmp, int i)
-{
-	char	*line;
-	char	*buf;
-	int		longest;
-
-	line = NULL;
-	while (1)
-	{
-		longest = ft_strlen(tmp->heredoc_delimiter[i]);
-		buf = readline("> ");
-		if (ft_strlen(buf) > longest)
-			longest = ft_strlen(buf);
-		if (ft_strncmp(buf, tmp->heredoc_delimiter[i], longest) == 0)
-		{
-			free(buf);
-			break ;
-		}
-		buf = ft_strjoin_hd(buf, "\n");
-		line = ft_strjoin_hd(line, buf);
-		free(buf);
-	}
-	buf = line;
-	line = ft_forge_new_line_heredoc(data, line);
-	free(buf);
-	if (!tmp->heredoc_delimiter[i + 1])
-	{
-		close(tmp->pipe_hd[0]);
-		write(tmp->pipe_hd[1], line, ft_strlen(line));
-		close(tmp->pipe_hd[1]);
-	}
-	free(line);
-}
-
 int	_set_fd(t_cmd_lst *tmp, t_prg *data)
 {
 	tmp->redir_fd = malloc(sizeof(int) * tmp->redir_nbr);
 	if (tmp->redir_fd == NULL)
-	{
-		// free and return
-		exit (0);
-	}
+		_ft_free_and_exit(data);
 	_init_fd(data);
 	_set_pipes(data, tmp);
 	if (tmp->heredoc_delimiter[0])
@@ -229,10 +86,4 @@ int	_set_fd(t_cmd_lst *tmp, t_prg *data)
 	if (is_builtin_fork(data, tmp))
 		exit (0);
 	exit (_ft_execve(data, tmp));
-}
-
-void	check_cmd(t_cmd_lst *tmp)
-{
-	dprintf(2, "\n\ncmd == %s\n\n", tmp->cmd_and_dep[0]);
-	return ;
 }

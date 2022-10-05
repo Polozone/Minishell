@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 10:14:52 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/05 14:12:38 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 		if (node->is_cmd_builtin == unset)
 			_unset_env_parent(data, node);
 		if (node->is_cmd_builtin == cd)
-			_ch_dir(data);
+			_ch_dir(data, NULL);
 		if (node->is_cmd_builtin == quit)
 		{
 			exit_value = _exit_builtins(node, -1, 0, 0);
@@ -50,42 +50,15 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 	{
 		if ((strcmp(node->cmd_and_dep[0], "export") == 0)
 			&& node->cmd_and_dep[1] == NULL)
-		{
 			_print_env_declare(data);
-			return (1);
-		}
 		if (node->is_cmd_builtin == echo)
-		{
 			_echo_exe(node, 1);
-			return (1);
-		}
 		if (node->is_cmd_builtin == pwd)
-		{
 			_pwd_exe();
-			return (1);
-		}
 		if (node->is_cmd_builtin == env)
-		{
 			_print_env(data->env_lst);
-			return (1);
-		}
+		return (1);
 	}
-	return (0);
-}
-
-int	_init_pipe(t_prg *data)
-{
-	int	i;
-
-	i = -1;
-	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr - 1) * 2));
-	if (data->pipe == NULL)
-	{
-		// gerer ce retour d'erreur
-		return (-1);
-	}
-	while (++i < data->cmd_nbr - 1)
-		pipe(&data->pipe[i * 2]);
 	return (0);
 }
 
@@ -104,8 +77,6 @@ void	ft_sigignore(int sig)
 
 void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 {
-	int	exit_status;
-
 	tmp = data->cmd_list;
 	while (tmp)
 	{
@@ -115,10 +86,10 @@ void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 			if (data->pid[data->nbr_pid] == -1)
 			{
 				if (data->fork_capacity_met == false)
-					ft_putstr_fd("minishell: fork: Resource temporarily unavailable\n", 2);
+					ft_putstr_fd("minishell: fork: Resource "
+						"temporarily unavailable\n", 2);
 				data->fork_capacity_met = true;
-				// FREE ALL;
-				// exit(0);
+				_ft_free_and_exit(data);
 			}
 			else if (data->pid[data->nbr_pid] == 0)
 			{
@@ -126,95 +97,8 @@ void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 				signal(SIGINT, ft_sigignore);
 				signal(SIGQUIT, ft_sigignore);
 			}
-			if (tmp->heredoc_delimiter[0])
-			{
-				close(tmp->pipe_hd[0]);
-				close(tmp->pipe_hd[1]);
-			}
+			check_heredoc(tmp);
 			data->nbr_pid++;
-		}
-		tmp = tmp->next;
-	}
-}
-
-void	_set_index_list(t_prg *data)
-{
-	t_cmd_lst	*tmp;
-	int			i;
-
-	i = 0;
-	tmp = data->cmd_list;
-	while (tmp)
-	{
-		tmp->index = i;
-		i++;
-		tmp = tmp->next;
-	}
-}
-
-int	_alloc_exe_var(t_prg *data)
-{
-	data->pid = malloc(sizeof(int) * data->cmd_nbr);
-	if (data->pid == NULL)
-	{
-		// GERER CE RETURN;
-		return (-1);
-	}
-	return (0);
-}
-
-void	sig_parent_hd(void)
-{
-	write(2, "\n", 1);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIG_IGN);
-}
-
-void	sig_handler_parent_hd(int sig)
-{
-	if (sig == SIGINT)
-		g_error = 1;
-	sig_parent_hd();
-}
-
-void	sig_child(void)
-{
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
-}
-
-void	_init_heredoc(t_prg *data)
-{
-	t_cmd_lst	*tmp;
-	int			i;
-	int			pid;
-
-	tmp = data->cmd_list;
-	i = 0;
-	while (tmp)
-	{
-		if (tmp->heredoc_delimiter[i])
-		{
-			while (tmp->heredoc_delimiter[i])
-			{
-				if (!tmp->heredoc_delimiter[i + 1])
-					pipe(tmp->pipe_hd);
-				signal(SIGINT, sig_handler_parent_hd);
-				pid = fork();
-				if (pid == -1)
-				{
-					// FREE AND EXIT;
-				}
-				else if (pid == 0)
-				{
-					sig_child();
-					_heredoc(data, tmp, i);
-					exit (0);
-				}
-				waitpid(pid, NULL, 0);
-				i++;
-			}
-			i = 0;
 		}
 		tmp = tmp->next;
 	}
@@ -229,7 +113,7 @@ int	_ft_exe(t_prg *data)
 	_set_index_list(data);
 	if (_init_pipe(data) || _alloc_exe_var(data))
 		return (-1);
-	_init_heredoc(data);
+	_init_heredoc(data, 0, 0);
 	_ft_forks(data, NULL);
 	return (0);
 }
