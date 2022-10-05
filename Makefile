@@ -1,4 +1,5 @@
 SRCS =	srcs/main.c				\
+		srcs/init.c			\
 		srcs/parsing/split.c			\
 		srcs/parsing/printing_ft.c		\
 		srcs/parsing/quote.c			\

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 11:45:56 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 14:30:30 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,11 @@ typedef struct s_prg
 }					t_prg;
 
 void			rl_replace_line(const char *text, int clear_undo);
+
+/***** FT_INIT *****/
+
+void			ft_init(char **env, t_prg *data);
+void			env_to_tab(t_prg *prg, int i);
 
 /***** SIGNAUX.C *****/
 
@@ -296,7 +301,6 @@ void			_add_node(char *name, char *content, t_prg *prg);
 int				is_builtin_nofork(t_prg *data, t_cmd_lst *node);
 int				is_builtin_fork(t_prg *data, t_cmd_lst *node);
 int				count_builtins_nofork(t_cmd_lst *list);
-void			env_to_tab(t_prg *prg, int i);
 int				_exit_builtins(t_cmd_lst *node);
 
 /***** EXECUTIONS.C *****/
