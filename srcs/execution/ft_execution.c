@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_execution.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
+/*   Updated: 2022/10/05 09:02:24 by pmulin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-extern int g_error;
+extern int	g_error;
 
-int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
+int	is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 {
-	int exit_value;
+	int	exit_value;
 
-	if (node->is_cmd_builtin == unset || node->is_cmd_builtin == cd || node->is_cmd_builtin == quit
+	if (node->is_cmd_builtin == unset || node->is_cmd_builtin == cd
+		|| node->is_cmd_builtin == quit
 		|| (node->is_cmd_builtin == export && node->cmd_and_dep[1] != NULL))
 	{
 		if (data->cmd_nbr != 1)
@@ -33,10 +45,11 @@ int is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 
 int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 {
-	if (node->is_cmd_builtin == echo || node->is_cmd_builtin == pwd 
+	if (node->is_cmd_builtin == echo || node->is_cmd_builtin == pwd
 		|| node->is_cmd_builtin == env || node->is_cmd_builtin == export)
 	{
-		if ((strcmp(node->cmd_and_dep[0], "export") == 0) && node->cmd_and_dep[1] == NULL)
+		if ((strcmp(node->cmd_and_dep[0], "export") == 0)
+			&& node->cmd_and_dep[1] == NULL)
 		{
 			_print_env_declare(data);
 			return (1);
@@ -60,16 +73,15 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 	return (0);
 }
 
-int _init_pipe(t_prg *data)
+int	_init_pipe(t_prg *data)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr  - 1) * 2));
+	data->pipe = malloc(sizeof(int) * ((data->cmd_nbr - 1) * 2));
 	if (data->pipe == NULL)
 	{
-		// FREE ALL AND EXIT
-		// free_data();
+		// gerer ce retour d'erreur
 		return (-1);
 	}
 	while (++i < data->cmd_nbr - 1)
@@ -79,7 +91,6 @@ int _init_pipe(t_prg *data)
 
 void	ft_sigignore(int sig)
 {
-	// (void) sig;
 	if (sig == 2)
 	{
 		exit(130);
@@ -91,11 +102,11 @@ void	ft_sigignore(int sig)
 	}
 }
 
-void _ft_forks(t_prg *data, t_cmd_lst *tmp)
+void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 {
-	tmp = data->cmd_list;
 	int	exit_status;
 
+	tmp = data->cmd_list;
 	while (tmp)
 	{
 		if (is_builtin_nofork(data, tmp))
@@ -111,10 +122,9 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 			}
 			else if (data->pid[data->nbr_pid] == 0)
 			{
-				g_error =_set_fd(tmp, data);
+				g_error = _set_fd(tmp, data);
 				signal(SIGINT, ft_sigignore);
 				signal(SIGQUIT, ft_sigignore);
-
 			}
 			if (tmp->heredoc_delimiter[0])
 			{
@@ -127,10 +137,10 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 	}
 }
 
-void _set_index_list(t_prg *data)
+void	_set_index_list(t_prg *data)
 {
-	t_cmd_lst *tmp;
-	int i;
+	t_cmd_lst	*tmp;
+	int			i;
 
 	i = 0;
 	tmp = data->cmd_list;
@@ -144,10 +154,10 @@ void _set_index_list(t_prg *data)
 
 int	_alloc_exe_var(t_prg *data)
 {
-	data->pid = malloc(sizeof(int) * data->cmd_nbr); // I WILL HAVE TO FREE PID ARRAY FOR EACH CMD
+	data->pid = malloc(sizeof(int) * data->cmd_nbr);
 	if (data->pid == NULL)
 	{
-		// free and return;
+		// GERER CE RETURN;
 		return (-1);
 	}
 	return (0);
@@ -177,9 +187,9 @@ void	_init_heredoc(t_prg *data)
 {
 	t_cmd_lst	*tmp;
 	int			i;
+	int			pid;
 
 	tmp = data->cmd_list;
-	int		pid;
 	i = 0;
 	while (tmp)
 	{

@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/05 09:15:21 by pmulin            #+#    #+#             */
+/*   Updated: 2022/10/05 09:16:35 by pmulin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 extern int	g_error;
 
-int		_exit_builtins(t_cmd_lst *node)
+int	_exit_builtins(t_cmd_lst *node)
 {
 	int					len;
 	int					i;

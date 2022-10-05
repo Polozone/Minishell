@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/05 09:12:16 by pmulin            #+#    #+#             */
+/*   Updated: 2022/10/05 09:15:09 by pmulin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 extern int	g_error;
 
-void _print_env(t_env_lst *head)
+void	_print_env(t_env_lst *head)
 {
-	t_env_lst *tmp;
+	t_env_lst	*tmp;
 
 	tmp = head;
 	while (tmp != NULL)
@@ -19,10 +30,10 @@ void _print_env(t_env_lst *head)
 	}
 }
 
-void _unset_env_parent(t_prg *prg, t_cmd_lst *node)
+void	_unset_env_parent(t_prg *prg, t_cmd_lst *node)
 {
-	size_t i;
-	size_t lenght;
+	size_t	i;
+	size_t	lenght;
 
 	i = 1;
 	lenght = ft_strlen_2d(node->cmd_and_dep);
@@ -33,7 +44,7 @@ void _unset_env_parent(t_prg *prg, t_cmd_lst *node)
 	}
 }
 
-void _unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
+void	_unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
 {
 	t_env_lst	*tmp;
 	t_env_lst	*before;
@@ -45,7 +56,7 @@ void _unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
 		free(prg->env_lst->name);
 		free(prg->env_lst->content);
 		free(prg->env_lst);
-		prg->env_lst = ((t_env_lst*)prg->env_lst->next);
+		prg->env_lst = ((t_env_lst *)prg->env_lst->next);
 		return ;
 	}
 	while (tmp)
@@ -62,7 +73,7 @@ void _unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
 	}
 }
 
-int _parsing_export(char *cmd, t_prg *prg)
+int	_parsing_export(char *cmd, t_prg *prg)
 {
 	int		i;
 
@@ -75,7 +86,8 @@ int _parsing_export(char *cmd, t_prg *prg)
 	i = 0;
 	while (cmd[i])
 	{
-		if (!((64 < cmd[i] && cmd[i] < 91) || (96 < cmd[i] && cmd[i] < 123) || (47 < cmd[i] && cmd[i] < 58) || cmd[i] == '_'))
+		if (!((64 < cmd[i] && cmd[i] < 91) || (96 < cmd[i] && cmd[i] < 123)
+				|| (47 < cmd[i] && cmd[i] < 58) || cmd[i] == '_'))
 		{
 			printf("export: `%s': not a valid identifier\n", cmd);
 			g_error = 1;
@@ -86,7 +98,7 @@ int _parsing_export(char *cmd, t_prg *prg)
 	return (0);
 }
 
-void _add_node(char *name, char *content, t_prg *prg)
+void	_add_node(char *name, char *content, t_prg *prg)
 {
 	t_env_lst	*tmp;
 	char		*tmp_line;
@@ -102,14 +114,14 @@ void _add_node(char *name, char *content, t_prg *prg)
 			tmp_line = tmp->name;
 			tmp->name = name;
 			free(tmp_line);
-			return;
+			return ;
 		}
 		tmp = tmp->next;
 	}
 	ft_add_back_env_list(&prg->env_lst, ft_lstnew_env_list(name, content));
 }
 
-void _add_env(t_prg *prg, int i)
+void	_add_env(t_prg *prg, int i)
 {
 	char	*name;
 	char	*content;
@@ -133,14 +145,15 @@ void _add_env(t_prg *prg, int i)
 			i++;
 		if (i > len)
 			break ;
-		content = ft_substr(prg->cmd_list->cmd_and_dep[i], sep + 1, ft_strlen(prg->cmd_list->cmd_and_dep[i]) - sep);
+		content = ft_substr(prg->cmd_list->cmd_and_dep[i], sep + 1,
+				ft_strlen(prg->cmd_list->cmd_and_dep[i]) - sep);
 		_add_node(name, content, prg);
 	}
 }
 
-void _print_env_declare(t_prg *prg)
+void	_print_env_declare(t_prg *prg)
 {
-	t_env_lst *tmp;
+	t_env_lst	*tmp;
 
 	tmp = prg->env_lst;
 	while (tmp)
@@ -153,10 +166,10 @@ void _print_env_declare(t_prg *prg)
 	}
 }
 
-int _lst_size_env(t_env_lst *head)
+int	_lst_size_env(t_env_lst *head)
 {
-	t_env_lst *tmp;
-	int i;
+	t_env_lst	*tmp;
+	int			i;
 
 	tmp = head;
 	i = 0;
@@ -168,7 +181,7 @@ int _lst_size_env(t_env_lst *head)
 	return (i);
 }
 
-int _export_env(t_prg *prg, t_cmd_lst *node)
+int	_export_env(t_prg *prg, t_cmd_lst *node)
 {
 	_add_env(prg, 0);
 	return (0);

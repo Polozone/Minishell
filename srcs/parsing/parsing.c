@@ -56,7 +56,6 @@ void	ft_parse(t_prg *prg)
 	ft_fill_cmd_lst(prg);
 	ft_heredoc_counter(prg);
 	t_cmd_lst *buff2 = prg->cmd_list;
-}
 	// while (buff2)
 	// {
 	// 	printf ("IN PARSE\n");
@@ -82,3 +81,4 @@ void	ft_parse(t_prg *prg)
 	// 		printf("is_cmd_builtin = %d\n", buff2->is_cmd_builtin);
 	// 	buff2 = buff2->next;
 	// }
+}
