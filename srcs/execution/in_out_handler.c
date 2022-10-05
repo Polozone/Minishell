@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:53:40 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/04 14:54:55 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/05 16:58:12 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,7 @@ int	_last_infile(t_cmd_lst *tmp)
 
 	i = 0;
 	while (i < tmp->redir_nbr && tmp->redir_type[i] == 0)
-	{
-		if (access(tmp->file[i], R_OK) == -1)
-		{
-			write(2, tmp->file[i], ft_strlen(tmp->file[i]));
-			write(2, ": Permission denied\n", 20);
-			exit (0);
-		}
 		i++;
-	}
 	return (i);
 }
 
