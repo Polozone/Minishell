@@ -27,6 +27,7 @@ SRCS =	srcs/main.c				\
 		srcs/strings_manip/strings_search.c	\
 		srcs/strings_manip/ft_itoa.c	\
 		srcs/builtins/env.c			\
+		srcs/builtins/env2.c			\
 		srcs/builtins/echo.c			\
 		srcs/builtins/cd.c			\
 		srcs/builtins/exit.c			\
@@ -37,8 +38,11 @@ SRCS =	srcs/main.c				\
 		srcs/execution/_execute_cmds.c	\
 		srcs/execution/in_out_handler.c	\
 		srcs/execution/modify_env_lst.c	\
-		srcs/execution/get_next_line/get_next_line.c	\
-		srcs/execution/get_next_line/get_next_line_utils.c	\
+		srcs/execution/heredoc.c		\
+		srcs/execution/heredoc2.c		\
+		srcs/execution/dup_in_out.c		\
+		srcs/execution/dup_pipes.c		\
+		srcs/execution/init_exe.c
 
 OBJS = $(SRCS:.c=.o)
 
