@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 14:24:53 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/30 17:22:29 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:26:08 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,9 @@ int	ft_char_is_dollz(t_prg *prg, char *line, char **new_line, int i)
 
 void	ft_add_c_to_nl(t_var_quote quote, char **new_line, char *line, int i)
 {
-	// if ((quote == not_in_quote)
-	// 	&& (line[i] == '\'' || line[i] == '\"'))
-	// 	;
-	// else
 		*new_line = ft_join_shrtct(*new_line, ft_substr(line, i, 1));
 }
+// if ((quote == not_in_quote)
+// 	&& (line[i] == '\'' || line[i] == '\"'))
+// 	;
+// else

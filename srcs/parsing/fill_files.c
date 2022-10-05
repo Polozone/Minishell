@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 13:46:45 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/03 13:39:25 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:11:51 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_token *line_token, int len)
 		else if (line_token[i] == rednfile)
 			ft_multiple_files_line(cmd_list->file, line_split[i], &file_ct);
 		else if (line_token[i] == cmdnredirnfile)
-			ft_multiple_files_line(cmd_list->file, line_split[i], &file_ct);	
+			ft_multiple_files_line(cmd_list->file, line_split[i], &file_ct);
 	}
 	cmd_list->file[file_ct] = 0;
 }

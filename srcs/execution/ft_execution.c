@@ -82,12 +82,12 @@ void	ft_sigignore(int sig)
 	// (void) sig;
 	if (sig == 2)
 	{
-		exit(130);
+		g_error = 130;
 	}
 	if (sig == 3)
 	{
 		ft_putstr_fd("Quit: 3", 2);
-		exit(131);
+		g_error = 131;
 	}
 }
 
@@ -96,6 +96,8 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 	tmp = data->cmd_list;
 	int	exit_status;
 
+	signal(SIGINT, ft_sigignore);
+	signal(SIGQUIT, ft_sigignore);
 	while (tmp)
 	{
 		if (is_builtin_nofork(data, tmp))
@@ -112,8 +114,6 @@ void _ft_forks(t_prg *data, t_cmd_lst *tmp)
 			else if (data->pid[data->nbr_pid] == 0)
 			{
 				g_error =_set_fd(tmp, data);
-				signal(SIGINT, ft_sigignore);
-				signal(SIGQUIT, ft_sigignore);
 
 			}
 			if (tmp->heredoc_delimiter[0])

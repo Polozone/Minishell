@@ -22,6 +22,7 @@ SRCS =	srcs/main.c				\
 		srcs/parsing/memory_dealloc.c			\
 		srcs/parsing/atoi.c						\
 		srcs/strings_manip/strings_reproduction.c	\
+		srcs/strings_manip/strings_reproduction_two.c	\
 		srcs/strings_manip/strings_size.c	\
 		srcs/strings_manip/strings_search.c	\
 		srcs/strings_manip/ft_itoa.c	\
