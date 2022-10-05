@@ -148,3 +148,12 @@ ECRIRE EXIT SUR CTRL + D
 LEAK SUR CD + qund homme is not set, messqge d'erreur + code erreur 1
 
 delimiter heredoc gerer : test1<<test2<<test3
+
+cat | cat | cat | cat et CTRL + C : Ne doit afficher qu'un seul \n (gestion du status de waitpid doit se faire seulement pour la derniere commande)
+
+cat | ls : Affiche un \n en trop
+
+CTRL + \ dans le prompt fou la merde
+
+ls | exit 42 : retour d'erreur
+
