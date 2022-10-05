@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/05 09:11:45 by pmulin            #+#    #+#             */
+/*   Updated: 2022/10/05 09:12:05 by pmulin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		check_args_echo(char	*str)
+int	check_args_echo(char	*str)
 {
 	int		i;
 
@@ -18,7 +29,7 @@ int		check_args_echo(char	*str)
 	return (1);
 }
 
-int		_echo_exe(t_cmd_lst *node, int i)
+int	_echo_exe(t_cmd_lst *node, int i)
 {
 	int		flag;
 
