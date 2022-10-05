@@ -6,17 +6,17 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 17:33:22 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 12:59:36 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:21:36 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_dup_cmd(char **cmd, char **split_line, int j)
+int	ft_dup_cmd(char **cmd, char **split_line, int *j)
 {
 	*cmd = ft_strdup(*split_line);
-	j ++;
-	return (j);
+	*j += 1;
+	return (*j);
 }
 
 char	*ft_join_shrtct(char *str1, char *str2)

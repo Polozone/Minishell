@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   heredoc2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 14:23:03 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 14:25:28 by pmulin           ###   ########.fr       */
+/*   Created: 2022/10/05 14:16:13 by pmulin            #+#    #+#             */
+/*   Updated: 2022/10/05 14:20:48 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,23 @@
 
 extern int	g_error;
 
-void	sig_handler_hd(void)
+void	_close_pipe_hd(t_cmd_lst	*tmp, char *line, char *buf, int i)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	free(buf);
+	if (!tmp->heredoc_delimiter[i + 1])
+	{
+		close(tmp->pipe_hd[0]);
+		write(tmp->pipe_hd[1], line, ft_strlen(line));
+		close(tmp->pipe_hd[1]);
+	}
+	free(line);
 }
 
-void	_sig_stp_main(int sig)
+void	check_heredoc(t_cmd_lst *tmp)
 {
-	if (sig == 2)
+	if (tmp->heredoc_delimiter[0])
 	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_error = 1;
+		close(tmp->pipe_hd[0]);
+		close(tmp->pipe_hd[1]);
 	}
 }

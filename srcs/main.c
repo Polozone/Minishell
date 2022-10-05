@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 13:28:36 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:49:36 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,21 +81,21 @@ static t_bool	ft_line_is_blank_space(char *line)
 
 static void	ft_parse_n_exec(t_prg *prg)
 {
-			add_history(prg->line);
-			if (ft_syntax_error(prg) == true)
-				g_error = 258;
-			else
-			{
-				env_to_tab(prg, 0);
-				ft_parse(prg);
-				tcsetattr(0, TCSANOW, &prg->new_termios);
-				_ft_exe(prg);
-				tcsetattr(0, TCSANOW, &prg->old_termios);
-				close_pipe(prg);
-				_wait_pids(prg);
-				_ft_free_exe(prg);
-				ft_free_parsing(prg);
-			}
+	add_history(prg->line);
+	if (ft_syntax_error(prg) == true)
+		g_error = 258;
+	else
+	{
+		env_to_tab(prg, 0);
+		ft_parse(prg);
+		tcsetattr(0, TCSANOW, &prg->new_termios);
+		_ft_exe(prg);
+		tcsetattr(0, TCSANOW, &prg->old_termios);
+		close_pipe(prg);
+		_wait_pids(prg);
+		_ft_free_exe(prg);
+		ft_free_parsing(prg);
+	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -104,7 +104,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	ft_init(env, &prg);	
+	ft_init(env, &prg);
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
@@ -115,7 +115,7 @@ int	main(int ac, char **av, char **env)
 		{
 			ft_putstr_fd("exit\n", 2);
 			tcsetattr(0, TCSANOW, &prg.old_termios);
-			exit(g_error);
+			exit(0);
 		}
 		else if (ft_line_is_blank_space(prg.line) == false)
 		{

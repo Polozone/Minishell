@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 14:30:30 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:15:58 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ char			*ft_substr(char *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strjoin_backslash(char const *s1, char const *s2);
 char			*ft_join_shrtct(char *str1, char *str2);
-int				ft_dup_cmd(char **cmd, char **split_line, int j);
+int				ft_dup_cmd(char **cmd, char **split_line, int *j);
 
 /***** STRING_SEARCH.C *****/
 
@@ -283,6 +283,10 @@ int				checker_lli(char *to_cmp);
 
 void			_print_env_declare(t_prg *prg);
 
+/***** ENV2.C *****/
+
+int	_parsing_export(char *cmd, t_prg *prg);
+
 /***** BUILTINS.C *****/
 
 void			_print_env(t_env_lst *head);
@@ -290,18 +294,19 @@ void			_unset_env(t_prg *prg, size_t i, t_cmd_lst *node);
 void			_unset_env_parent(t_prg *prg, t_cmd_lst *node);
 int				_export_env(t_prg *prg, t_cmd_lst *node);
 int				_export_env_parse(t_prg *prg);
-void			_add_env(t_prg *prg, int i);
+void			_add_env(t_prg *prg, int i, int len);
 int				_is_name_in_env(t_prg *prg, char *name_to_find);
 void			_set_content_env(t_env_lst *node, char *content,
 					char **content2d, int mode);
 int				_echo_exe(t_cmd_lst *node, int i);
 int				_pwd_exe(void);
-int				_ch_dir(t_prg *data);
+int				_ch_dir(t_prg *data, char *old_pwd);
 void			_add_node(char *name, char *content, t_prg *prg);
 int				is_builtin_nofork(t_prg *data, t_cmd_lst *node);
 int				is_builtin_fork(t_prg *data, t_cmd_lst *node);
 int				count_builtins_nofork(t_cmd_lst *list);
-int				_exit_builtins(t_cmd_lst *node);
+void			env_to_tab(t_prg *prg, int i);
+int				_exit_builtins(t_cmd_lst *node, int i, int len, long long exit_value);
 
 /***** EXECUTIONS.C *****/
 
@@ -313,6 +318,15 @@ int				_set_fd(t_cmd_lst *tmp, t_prg *data);
 void			_heredoc(t_prg *data, t_cmd_lst *tmp, int i);
 void			_set_pipes(t_prg	*data, t_cmd_lst	*node);
 char			*ft_strjoin_hd(char const *s1, char const *s2);
+void			_init_heredoc(t_prg *data, int i, int pid);
+void			check_heredoc(t_cmd_lst *tmp);
+void			_close_pipe_hd(t_cmd_lst	*tmp, char *line, char *buf, int i);
+
+/***** INIT_EXE.C *****/
+
+int		_init_pipe(t_prg *data);
+int		_alloc_exe_var(t_prg *data);
+void	_set_index_list(t_prg *data);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
@@ -323,6 +337,11 @@ int				_is_outfile(t_cmd_lst *tmp);
 void			_close_files(t_prg	*data, t_cmd_lst *node);
 void			_open_all_outfile(t_cmd_lst *node);
 int				is_file(const char *path);
+
+/***** DUP_IN_OUT.C*****/
+
+void	_set_dup_infile(t_cmd_lst *node);
+void	_set_dup_outfile(t_cmd_lst *node, t_prg *data);
 
 /***** ERROR_PRINT.C *****/
 
@@ -338,6 +357,7 @@ void			_ft_free_exe(t_prg *data);
 void			ft_free_1d(void	**to_free);
 void			ft_free_2d(void	***to_free);
 void			ft_free_char_array(char **array);
+void			_ft_free_and_exit(t_prg *data);
 
 /***** MEMORY_DEALLOC.C *****/
 
