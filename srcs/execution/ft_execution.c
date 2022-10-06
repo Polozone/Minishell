@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 15:25:21 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 10:40:51 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,11 @@ int	_ft_exe(t_prg *data)
 	_set_index_list(data);
 	if (_init_pipe(data) || _alloc_exe_var(data))
 		return (-1);
+	int *pid;
 	_init_heredoc(data, 0, 0);
-	_ft_forks(data, NULL);
+	if (data->has_heredoc_been_sig_ended == false)
+		_ft_forks(data, NULL);
+	else
+		data->has_heredoc_been_sig_ended = false;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 18:25:15 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 10:42:37 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,26 @@ void	_wait_pids(t_prg *data)
 	while (i < data->cmd_nbr - data->nbr_builtins)
 	{
 		waitpid(data->pid[i], &g_error, 0);
-		
-		// if (i == data->nbr_pid)
-		// {
-			if (data->fork_capacity_met == true)
-				g_error = 1;
-			else if (WIFEXITED(g_error) == 1)
-				g_error = WEXITSTATUS(g_error);
-			else if (WIFSIGNALED(g_error) == 1)
+		if (data->fork_capacity_met == true)
+			g_error = 1;
+		else if (WIFEXITED(g_error) == 1)
+			g_error = WEXITSTATUS(g_error);
+		else if (WIFSIGNALED(g_error) == 1)
+		{
+			if (WTERMSIG(g_error) == 2)
 			{
-				if (WTERMSIG(g_error) == 2)
-					g_error = 130;
-				if (WTERMSIG(g_error) == 3)
-					g_error = 131;
+				g_error = 130;
 				write(2, "\n", 1);
-		// }
+			}
+			if (WTERMSIG(g_error) == 3)
+			{
+				g_error = 131;
+				write(2, "\n", 1);
+			}
 		}
 		i++;
 	}
+	if (data->heredoc_nbr == 0)
 	data->fork_capacity_met = false;
 	return ;
 }
