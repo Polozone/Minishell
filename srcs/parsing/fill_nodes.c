@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 08:49:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 16:20:23 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:19:13 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ static void	ft_fill_cmd_and_dep(t_cmd_lst *cmd_lst, char **line_split,
 		if (line_token[i] == none)
 			j = ft_dup_cmd(&cmd_lst->cmd_and_dep[j], &line_split[i], &j);
 		else if (line_token[i] == cmdnredirnfile)
-			j = ft_dup_cmd(&cmd_lst->cmd_and_dep[j], &line_split[i], &j);
+			j = ft_dup_cmd(&cmd_lst->cmd_and_dep[j],
+				ft_get_dep(&line_split[i]), &j);
 	}
 	cmd_lst->cmd_and_dep[j] = 0;
 }
