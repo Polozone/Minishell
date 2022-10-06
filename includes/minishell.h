@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/06 10:40:39 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 10:45:24 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,10 +339,12 @@ int				_is_outfile(t_cmd_lst *tmp);
 void			_close_files(t_prg	*data, t_cmd_lst *node);
 void			_open_all_outfile(t_cmd_lst *node);
 int				is_file(const char *path);
+void			_handler_errors_infiles(t_cmd_lst	*node, int index);
+void			_handler_errors_outfiles(t_cmd_lst	*node, char *name);
 
 /***** DUP_IN_OUT.C*****/
 
-void	_set_dup_infile(t_cmd_lst *node);
+void	_set_dup_infile(t_prg *data, t_cmd_lst *node);
 void	_set_dup_outfile(t_cmd_lst *node, t_prg *data);
 
 /***** ERROR_PRINT.C *****/

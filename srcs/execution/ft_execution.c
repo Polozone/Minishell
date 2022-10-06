@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/06 10:40:51 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 10:46:14 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 					ft_putstr_fd("minishell: fork: Resource "
 						"temporarily unavailable\n", 2);
 				data->fork_capacity_met = true;
-				_ft_free_and_exit(data);
 			}
 			else if (data->pid[data->nbr_pid] == 0)
 			{
