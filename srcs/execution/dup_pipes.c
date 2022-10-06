@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:29:05 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 13:29:38 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/06 08:49:13 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern int	g_error;
 void	_redir_first_cmd(t_cmd_lst	*node, t_prg *data)
 {
 	if (_is_infile(node))
-		_set_dup_infile(node);
+		_set_dup_infile(data, node);
 	if (_is_outfile(node))
 		_set_dup_outfile(node, data);
 	else
@@ -30,7 +30,7 @@ void	_redir_first_cmd(t_cmd_lst	*node, t_prg *data)
 void	_redir_in_pipes(t_cmd_lst	*node, t_prg *data)
 {
 	if (_is_infile(node))
-		_set_dup_infile(node);
+		_set_dup_infile(data, node);
 	else
 		dup2(data->pipe[(node->index - 1) * 2], 0);
 	if (_is_outfile(node))
@@ -42,7 +42,7 @@ void	_redir_in_pipes(t_cmd_lst	*node, t_prg *data)
 void	_redir_last_cmd(t_cmd_lst *node, t_prg *data)
 {
 	if (_is_infile(node))
-		_set_dup_infile(node);
+		_set_dup_infile(data, node);
 	else
 		dup2(data->pipe[(node->index - 1) * 2], 0);
 	if (_is_outfile(node))
