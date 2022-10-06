@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 16:49:36 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 09:35:53 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,15 @@ void	_wait_pids(t_prg *data)
 		else if (WIFSIGNALED(g_error) == 1)
 		{
 			if (WTERMSIG(g_error) == 2)
+			{
+				write(2, "\n", 1);
 				g_error = 130;
+			}
 			if (WTERMSIG(g_error) == 3)
+			{
+				write(2, "\n", 1);
 				g_error = 131;
-			write(2, "\n", 1);
+			}
 		}
 		i++;
 	}
