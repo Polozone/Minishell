@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/06 10:46:14 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:00:13 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ int	_ft_exe(t_prg *data)
 	_set_index_list(data);
 	if (_init_pipe(data) || _alloc_exe_var(data))
 		return (-1);
-	int *pid;
 	_init_heredoc(data, 0, 0);
 	if (data->has_heredoc_been_sig_ended == false)
 		_ft_forks(data, NULL);

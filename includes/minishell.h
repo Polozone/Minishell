@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/06 10:45:24 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:15:12 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,7 @@ void			_print_env_declare(t_prg *prg);
 
 /***** ENV2.C *****/
 
-int	_parsing_export(char *cmd, t_prg *prg);
+int	_parsing_export(char *cmd, t_prg *prg, char *name_content);
 
 /***** BUILTINS.C *****/
 
@@ -296,7 +296,7 @@ void			_unset_env(t_prg *prg, size_t i, t_cmd_lst *node);
 void			_unset_env_parent(t_prg *prg, t_cmd_lst *node);
 int				_export_env(t_prg *prg, t_cmd_lst *node);
 int				_export_env_parse(t_prg *prg);
-void			_add_env(t_prg *prg, int i, int len);
+void			_add_env(t_prg *prg, int i, int len, t_cmd_lst *node);
 int				_is_name_in_env(t_prg *prg, char *name_to_find);
 void			_set_content_env(t_env_lst *node, char *content,
 					char **content2d, int mode);
