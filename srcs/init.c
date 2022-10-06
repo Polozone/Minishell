@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:03:42 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 13:28:12 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 09:26:11 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	_init_exe_var(t_prg *data)
 	data->pid = NULL;
 	data->pipe = NULL;
 	data->fork_capacity_met = false;
+	data->has_heredoc_been_sig_ended = false;
 }
 
 void	ft_init(char **env, t_prg *prg)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/06 08:46:27 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/06 10:45:24 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,10 @@ typedef struct s_prg
 	int				cmd_nbr;
 	int				nbr_builtins;
 	int				nbr_pid;
+	int				index_hd;
 	t_cmd_lst		*cmd_list;
 	t_env_lst		*env_lst;
+	t_bool			has_heredoc_been_sig_ended;
 	t_bool			is_there_path;
 	t_bool			fork_capacity_met;
 	struct termios	old_termios;
@@ -156,7 +158,7 @@ char			*ft_substr(char *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strjoin_backslash(char const *s1, char const *s2);
 char			*ft_join_shrtct(char *str1, char *str2);
-int				ft_dup_cmd(char **cmd, char **split_line, int *j);
+int				ft_dup_cmd(char **cmd, char **split_line, int *j, t_token t);
 
 /***** STRING_SEARCH.C *****/
 

@@ -6,15 +6,32 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 17:33:22 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 16:21:36 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 09:03:28 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_dup_cmd(char **cmd, char **split_line, int *j)
+static char	*ft_get_dep(char *word)
 {
-	*cmd = ft_strdup(*split_line);
+	int	i;
+
+	i = 0;
+	while (word[i])
+	{
+		if (word[i] == '>' || word[i] == '<')
+			break ;
+		i ++;
+	}
+	return (ft_substr(word, 0, i));
+}
+
+int	ft_dup_cmd(char **cmd, char **split_line, int *j, t_token t)
+{
+	if (t == none)
+		*cmd = ft_strdup(*split_line);
+	if (t == cmdnredirnfile)
+		*cmd = ft_get_dep(*split_line);
 	*j += 1;
 	return (*j);
 }
