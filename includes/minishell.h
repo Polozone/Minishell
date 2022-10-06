@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/06 10:45:24 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:48:05 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,6 +352,8 @@ void	_set_dup_outfile(t_cmd_lst *node, t_prg *data);
 int				ft_error_print_one(t_cmd_lst *node,
 					int error_code, char *error_source);
 int				ft_error_print_two(t_cmd_lst *node,
+					int error_code, char *error_source);
+int				ft_error_print_three(t_cmd_lst *node,
 					int error_code, char *error_source);
 t_bool			ft_syntax_error_print(int error_code);
 

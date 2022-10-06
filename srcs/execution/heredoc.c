@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:17:26 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/06 10:46:24 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:37:16 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ extern int	g_error;
 
 void	sig_parent_hd(void)
 {
-	write(2, "\n", 1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_IGN);
 }
@@ -28,7 +27,7 @@ void	sig_handler_parent_hd(int sig)
 	sig_parent_hd();
 }
 
-t_bool	ft_waitpid_hd(int pid)
+t_bool	ft_waitpid_hd(t_prg *data, int pid)
 {
 	int	ptr;
 
@@ -41,7 +40,10 @@ t_bool	ft_waitpid_hd(int pid)
 	if (WIFSIGNALED(ptr) == 1)
 	{
 		if (WTERMSIG(ptr) == 2)
+		{
+			data->has_heredoc_been_sig_ended = true;
 			return (true);
+		}
 	}
 	return (false);
 }
@@ -53,7 +55,7 @@ void	_init_heredoc(t_prg *data, int i, int pid)
 	tmp = data->cmd_list;
 	while (tmp)
 	{
-		while (tmp->heredoc_delimiter[i])
+		while (tmp->heredoc_delimiter[++i])
 		{
 			if (!tmp->heredoc_delimiter[i + 1])
 				pipe(tmp->pipe_hd);
@@ -67,10 +69,10 @@ void	_init_heredoc(t_prg *data, int i, int pid)
 				_heredoc(data, tmp, i);
 				exit (0);
 			}
-			data->has_heredoc_been_sig_ended = ft_waitpid_hd(pid);
-			i++;
+			if (ft_waitpid_hd(data, pid) == true)
+				return;
 		}
-		i = 0;
+		i = -1;
 		tmp = tmp->next;
 	}
 }

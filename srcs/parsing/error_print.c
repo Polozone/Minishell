@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:28:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 11:11:01 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:41:29 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ extern int	g_error;
 int	ft_error_print_one(t_cmd_lst *node, int error_code, char *error_source)
 {
 	if ((error_code == 127)
-		&& (node->heredoc_delimiter[0]
-			== NULL && node->cmd_and_dep[0] != NULL
+		&& (node->cmd_and_dep[0] != NULL
 			&& node->is_cmd_builtin == not_built_in))
 	{
 		ft_putstr_fd("Minichell: ", 2);
@@ -54,6 +53,21 @@ int	ft_error_print_two(t_cmd_lst *node, int error_code, char *error_source)
 		ft_putstr_fd(error_source, 2);
 		ft_putstr_fd(": is a directory\n", 2);
 		g_error = 126;
+	}
+	return (g_error);
+}
+
+int	ft_error_print_three(t_cmd_lst *node, int error_code, char *error_source)
+{
+	if ((error_code == 127)
+		&& (node->heredoc_delimiter[0]
+			== NULL && node->cmd_and_dep[0] != NULL
+			&& node->is_cmd_builtin == not_built_in))
+	{
+		ft_putstr_fd("Minichell: ", 2);
+		ft_putstr_fd(error_source, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		g_error = 127;
 	}
 	return (g_error);
 }
