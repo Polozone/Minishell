@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:17:26 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 16:50:03 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/06 10:46:24 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	sig_handler_parent_hd(int sig)
 	sig_parent_hd();
 }
 
-void	ft_waitpid_hd(int pid)
+t_bool	ft_waitpid_hd(int pid)
 {
 	int	ptr;
 
@@ -36,7 +36,14 @@ void	ft_waitpid_hd(int pid)
 	if (WIFEXITED(ptr) == 1)
 	{
 		g_error = WEXITSTATUS(ptr);
+		return (false);
 	}
+	if (WIFSIGNALED(ptr) == 1)
+	{
+		if (WTERMSIG(ptr) == 2)
+			return (true);
+	}
+	return (false);
 }
 
 void	_init_heredoc(t_prg *data, int i, int pid)
@@ -60,7 +67,7 @@ void	_init_heredoc(t_prg *data, int i, int pid)
 				_heredoc(data, tmp, i);
 				exit (0);
 			}
-			ft_waitpid_hd(pid);
+			data->has_heredoc_been_sig_ended = ft_waitpid_hd(pid);
 			i++;
 		}
 		i = 0;

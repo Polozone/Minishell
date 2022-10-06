@@ -62,7 +62,7 @@ FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -
 
 NAME = minishell
 
-$(NAME): $(OBJS) $(INCL) Makefile ./minishell
+$(NAME): $(OBJS) $(INCL) Makefile
 	$(CC) -o $(NAME) $(OBJS) $(FLAGS)
 
 clean:
