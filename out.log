@@ -1,0 +1,36 @@
+Process:         minishell [28130]
+Path:            /Volumes/VOLUME/*/minishell
+Load Address:    0x1067b0000
+Identifier:      minishell
+Version:         ???
+Code Type:       X86-64
+Parent Process:  zsh [27048]
+
+Date/Time:       2022-10-07 14:58:19.411 +0200
+Launch Time:     2022-10-07 14:56:18.885 +0200
+OS Version:      Mac OS X 10.14.6 (18G103)
+Report Version:  7
+Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
+Analysis Tool Version:  Xcode 11.3.1 (11C505)
+
+Physical footprint:         708K
+Physical footprint (peak):  708K
+----
+
+leaks Report Version: 4.0
+Process 28130: 488 nodes malloced for 317 KB
+Process 28130: 11 leaks for 720 total leaked bytes.
+
+    11 (720 bytes) << TOTAL >>
+      1 (128 bytes) ROOT LEAK: 0x7f8f145006a0 [128]  length: 119  "VSCODE_GIT_ASKPASS_MAIN=/Applications/Visual Studio Code.app/Contents/Resources/ap..."
+      1 (112 bytes) ROOT LEAK: 0x7f8f14500590 [112]  length: 97  "VSCODE_GIT_IPC_HANDLE=/var/folders/zz/zyxvpxvq6csfxvn_n000bs6c002y9l/T/vscode-git-f..."
+      1 (112 bytes) ROOT LEAK: 0x7f8f14500720 [112]  length: 102  "GIT_ASKPASS=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions..."
+      1 (96 bytes) ROOT LEAK: 0x7f8f14500600 [96]  length: 84  "VSCODE_GIT_ASKPASS_NODE=/Applications/Visual Studio Code.app/Contents/MacOS/Electro..."
+      1 (64 bytes) ROOT LEAK: 0x7f8f14500660 [64]  length: 62  "VSCODE_GIT_ASKPASS_EXTRA_ARGS=--ms-enable-electron-run-as-node"
+      1 (48 bytes) ROOT LEAK: 0x7f8f14500790 [48]  length: 36  "_=/Users/mgolinva/Minish/./minishell"
+      1 (32 bytes) ROOT LEAK: 0x7f8f145004f0 [32]  length: 19  "TERM_PROGRAM=vscode"
+      1 (32 bytes) ROOT LEAK: 0x7f8f14500510 [32]  length: 16  "LANG=en_US.UTF-8"
+      1 (32 bytes) ROOT LEAK: 0x7f8f14500530 [32]  length: 27  "TERM_PROGRAM_VERSION=1.67.0"
+      1 (32 bytes) ROOT LEAK: 0x7f8f14500550 [32]  length: 19  "COLORTERM=truecolor"
+      1 (32 bytes) ROOT LEAK: 0x7f8f14500570 [32]  length: 19  "TERM=xterm-256color"
+
