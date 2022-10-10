@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/07 13:07:31 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 09:27:21 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,13 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 void	ft_sigignore(int sig)
 {
 	if (sig == 2)
+	{
+		write(2, "\n", 1);
 		g_error = 130;
+	}
 	else if (sig == 3)
 	{
-		ft_putstr_fd("Quit: 3", 2);
+		ft_putstr_fd("Quit: 3\n", 2);
 		g_error = 131;
 	}
 }
@@ -111,7 +114,7 @@ int	_ft_exe(t_prg *data)
 	if (_init_pipe(data) || _alloc_exe_var(data))
 		return (-1);
 	int *pid;
-	_init_heredoc(data, 0, 0);
+	_init_heredoc(data, -1, 0);
 	if (data->has_heredoc_been_sig_ended == false)
 		_ft_forks(data, NULL);
 	else
