@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:28:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 13:52:15 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 14:04:00 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_error_print_three(t_cmd_lst *node, int error_code, char *error_source)
 			== NULL && node->cmd_and_dep[0] != NULL
 			&& node->is_cmd_builtin == not_built_in))
 	{
-		if (is_file(error_source) == 0 && access(error_source, F_OK) == 0)
+		if (is_file(error_source) == 0 && access(error_source, F_OK) != 0)
 		{
 			ft_putstr_fd(error_source, 2);
 			ft_putstr_fd(": Not a directory\n", 2);

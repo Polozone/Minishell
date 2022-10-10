@@ -1,7 +1,0 @@
-PWD :
-
-JAMAIS MIS A JOUR
-
-CD :
-
-cd // nous emene dans / mais / et // on l'air d'etre le meme directory
