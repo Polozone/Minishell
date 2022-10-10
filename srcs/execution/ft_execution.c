@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 16:02:45 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 16:16:42 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 			_pwd_exe();
 		if (node->is_cmd_builtin == env)
 		{
-			if (check_launch_env(node))
+			if (check_launch_env(data, node))
 				_print_env(data->env_lst);
 		}
 		return (1);
