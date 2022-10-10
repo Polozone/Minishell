@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 15:45:13 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 16:02:45 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,7 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 
 void	ft_sigignore(int sig)
 {
-	if (sig == 2)
-	{
-		write(2, "\n", 1);
-		g_error = 130;
-	}
-	else if (sig == 3)
-	{
-		ft_putstr_fd("Quit: 3\n", 2);
-		g_error = 131;
-	}
+	(void) sig;
 }
 
 void	_ft_forks(t_prg *data, t_cmd_lst *tmp)

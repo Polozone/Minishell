@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 15:08:34 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 15:57:55 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,20 @@ void	_wait_pids(t_prg *data, int i)
 {
 	while (++i < data->cmd_nbr - data->nbr_builtins)
 		waitpid(data->pid[i], &g_error, 0);
-	signal(SIGINT, SIGSTOP);
 	if (data->fork_capacity_met == true)
 		g_error = 1;
 	if (WIFSIGNALED(g_error) == 1)
 	{
 		if (WTERMSIG(g_error) == 2)
+		{
+			write(2, "\n", 1);
 			g_error = 130;
+		}
 		else if (WTERMSIG(g_error) == 3)
+		{
+			ft_putstr_fd("Quit: 3\n", 2);
 			g_error = 131;
+		}
 	}
 	else if (WIFEXITED(g_error) == 1)
 		g_error = WEXITSTATUS(g_error);
