@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 14:11:03 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 16:16:29 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,7 @@ void			_print_env_declare(t_prg *prg);
 
 int				_parsing_export(char *cmd, t_prg *prg, char *name_content);
 int				_check_env(int i, int len, char *name);
-int				check_launch_env(t_cmd_lst *node);
+int				check_launch_env(t_prg *data, t_cmd_lst *node);
 
 /***** BUILTINS.C *****/
 

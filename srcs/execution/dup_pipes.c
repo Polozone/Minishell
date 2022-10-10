@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:29:05 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 14:10:51 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 16:17:37 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,16 @@ void	_set_pipes(t_prg	*data, t_cmd_lst	*node)
 		_redir_last_cmd(node, data);
 }
 
-int	check_launch_env(t_cmd_lst *node)
+int	check_launch_env(t_prg *data, t_cmd_lst *node)
 {
 	if (node->cmd_and_dep[1])
 	{
+		if (ft_strcmp(node->cmd_and_dep[1], "#") == 0)
+		{
+			g_error = 0;
+			_print_env(data->env_lst);
+			exit (g_error);
+		}
 		ft_putstr_fd(node->cmd_and_dep[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		g_error = 127;

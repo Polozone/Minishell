@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:16:48 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/07 15:02:39 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:27:56 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	_pwd_exe(void)
 	if (path == NULL)
 	{
 		perror("");
-		return (1);
+		exit (1);
 	}
 	printf("%s\n", path);
 	free(path);
