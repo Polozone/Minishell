@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 13:58:39 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 15:12:16 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 			_pwd_exe();
 		if (node->is_cmd_builtin == env)
 		{
-			if (check_launch_env(node))	
+			if (check_launch_env(node))
 				_print_env(data->env_lst);
 		}
 		return (1);
@@ -110,9 +110,7 @@ void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 				data->fork_capacity_met = true;
 			}
 			else if (data->pid[data->nbr_pid] == 0)
-			{
 				g_error = _set_fd(tmp, data);
-			}
 			check_heredoc(tmp);
 			data->nbr_pid++;
 		}

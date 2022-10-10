@@ -6,13 +6,21 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:28:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 14:04:00 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 14:23:13 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 extern int	g_error;
+
+static int	ft_is_reg(const char *path)
+{
+	struct stat		path_stat;
+
+	stat(path, &path_stat);
+	return (S_ISREG(path_stat.st_mode));
+}
 
 int	ft_error_print_one(t_cmd_lst *node, int error_code, char *error_source)
 {
@@ -60,13 +68,13 @@ int	ft_error_print_three(t_cmd_lst *node, int error_code, char *error_source)
 			== NULL && node->cmd_and_dep[0] != NULL
 			&& node->is_cmd_builtin == not_built_in))
 	{
-		if (is_file(error_source) == 0 && access(error_source, F_OK) != 0)
+		if (ft_is_reg(error_source) == 1 && access(error_source, F_OK) != 0)
 		{
 			ft_putstr_fd(error_source, 2);
 			ft_putstr_fd(": Not a directory\n", 2);
 			g_error = 126;
 		}
-		else if (access(error_source, F_OK) == 0)
+		else if (is_file(error_source) == 1 && access(error_source, F_OK) == 0)
 		{
 			ft_putstr_fd(error_source, 2);
 			ft_putstr_fd(": is a directory\n", 2);
