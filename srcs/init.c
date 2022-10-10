@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:03:42 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 11:53:19 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 15:33:11 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ void	env_to_tab(t_prg *prg, int i)
 	{
 		tmp_name = ft_strjoin(tmp->name, "=");
 		if (tmp->content == NULL)
-			tmp->content = ft_strdup("");
-		prg->envp[i] = ft_strjoin(tmp_name, tmp->content);
+			prg->envp[i] = ft_strjoin(tmp_name, ft_strdup(""));
+		else
+			prg->envp[i] = ft_strjoin(tmp_name, tmp->content);
 		tmp = tmp->next;
 		i++;
 		free(tmp_name);

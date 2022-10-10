@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 14:12:36 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 15:35:08 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,7 @@ void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 				data->fork_capacity_met = true;
 			}
 			else if (data->pid[data->nbr_pid] == 0)
-			{
 				g_error = _set_fd(tmp, data);
-			}
 			check_heredoc(tmp);
 			data->nbr_pid++;
 		}

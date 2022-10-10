@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 14:00:23 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 15:08:34 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	_wait_pids(t_prg *data, int i)
 {
 	while (++i < data->cmd_nbr - data->nbr_builtins)
 		waitpid(data->pid[i], &g_error, 0);
+	signal(SIGINT, SIGSTOP);
 	if (data->fork_capacity_met == true)
 		g_error = 1;
 	if (WIFSIGNALED(g_error) == 1)
