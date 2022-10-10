@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:07:23 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 12:53:41 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 14:00:27 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	ft_puterror_cd(t_prg *data, char *strerror, char *old_pwd)
 	g_error = 1;
 	free(old_pwd);
 	ft_get_pwd(data);
+	g_error = 1;
 }
 
 int	_ch_dir(t_prg *data, char *old_pwd)
@@ -96,7 +97,7 @@ int	_ch_dir(t_prg *data, char *old_pwd)
 	{
 		if (!_is_old_pwd(data, 1, old_pwd))
 			ft_add_back_env_list(&data->env_lst,
-				ft_lstnew_env_list("OLDPWD", old_pwd));
+				ft_lstnew_env_list(ft_strdup("OLDPWD"), ft_strdup(old_pwd)));
 		else
 			_is_old_pwd(data, 2, old_pwd);
 	}

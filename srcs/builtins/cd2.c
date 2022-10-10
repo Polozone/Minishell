@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 08:58:17 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 09:15:24 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 10:45:04 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	chdir_checks(t_prg *data, char *old_pwd)
 		free(path_home);
 		if (!_is_old_pwd(data, 1, old_pwd))
 			ft_add_back_env_list(&data->env_lst,
-				ft_lstnew_env_list("OLDPWD", old_pwd));
+				ft_lstnew_env_list(ft_strdup("OLDPWD"), old_pwd));
 		else
 			_is_old_pwd(data, 2, old_pwd);
 		return (1);
