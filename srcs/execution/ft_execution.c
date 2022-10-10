@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 15:12:16 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 15:35:08 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,6 @@ int	is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 		return (0);
 	}
 	return (1);
-}
-
-int	check_launch_env(t_cmd_lst *node)
-{
-	if (node->cmd_and_dep[1])
-	{
-		ft_putstr_fd(node->cmd_and_dep[1], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		g_error = 127;
-		exit (g_error);
-	}
-	else
-		return (1);
 }
 
 int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
