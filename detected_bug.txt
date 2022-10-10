@@ -17,3 +17,11 @@ Minichell_Drucker1.3$ echo $?
 127 -> doit etre 126
 cat + ctrl C -> ne met pas toujours ^C
 export+=BT
+
+
+
+minishekk dans minishell ctrl c
+
+ctrl d dans heredoc
+
+export luca

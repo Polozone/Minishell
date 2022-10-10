@@ -6,31 +6,31 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:42:34 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 14:01:18 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 14:05:38 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-extern int	g_error;
+extern int g_error;
 
-static t_cmd_lst	*ft_create_cmd_lst(t_prg *prg)
+static t_cmd_lst *ft_create_cmd_lst(t_prg *prg)
 {
-	int	i;
+	int i;
 
 	prg->cmd_list = ft_lstnew_cmd_list();
 	i = 1;
 	while (i < prg->cmd_nbr)
 	{
 		ft_add_back_cmd_list(&prg->cmd_list, ft_lstnew_cmd_list());
-		i ++;
+		i++;
 	}
 	return (prg->cmd_list);
 }
 
-static void	ft_heredoc_counter(t_prg *prg)
+static void ft_heredoc_counter(t_prg *prg)
 {
-	t_cmd_lst	*cmd_lst;
+	t_cmd_lst *cmd_lst;
 
 	cmd_lst = prg->cmd_list;
 	prg->heredoc_nbr = 0;
@@ -41,14 +41,14 @@ static void	ft_heredoc_counter(t_prg *prg)
 	}
 }
 
-void	ft_parse(t_prg *prg)
+void ft_parse(t_prg *prg)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	prg->cells = 0;
 	if (prg->line == NULL)
-		return ;
+		return;
 	prg->line_len = ft_strlen(prg->line);
 	prg->cells = ft_split(prg->line, '|');
 	prg->cmd_nbr = ft_array_len(prg->cells);
