@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:28:29 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/06 13:41:29 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 13:52:15 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,12 @@ int	ft_error_print_one(t_cmd_lst *node, int error_code, char *error_source)
 		&& (node->cmd_and_dep[0] != NULL
 			&& node->is_cmd_builtin == not_built_in))
 	{
-		ft_putstr_fd("Minichell: ", 2);
 		ft_putstr_fd(error_source, 2);
 		ft_putstr_fd(": command not found\n", 2);
 		g_error = 127;
 	}
 	if (error_code == 2)
 	{
-		ft_putstr_fd("Minichell: ", 2);
 		ft_putstr_fd(error_source, 2);
 		ft_putstr_fd(": filename argument required\n", 2);
 		ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
@@ -42,14 +40,12 @@ int	ft_error_print_two(t_cmd_lst *node, int error_code, char *error_source)
 		== NULL && node->cmd_and_dep[0] != NULL
 		&& node->is_cmd_builtin == not_built_in)
 	{
-		ft_putstr_fd("Minichell: ", 2);
 		ft_putstr_fd(error_source, 2);
 		ft_putstr_fd(": Permission denied\n", 2);
 		g_error = 126;
 	}
 	if (error_code == -126)
 	{
-		ft_putstr_fd("Minichell: ", 2);
 		ft_putstr_fd(error_source, 2);
 		ft_putstr_fd(": is a directory\n", 2);
 		g_error = 126;
@@ -64,10 +60,24 @@ int	ft_error_print_three(t_cmd_lst *node, int error_code, char *error_source)
 			== NULL && node->cmd_and_dep[0] != NULL
 			&& node->is_cmd_builtin == not_built_in))
 	{
-		ft_putstr_fd("Minichell: ", 2);
-		ft_putstr_fd(error_source, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		g_error = 127;
+		if (is_file(error_source) == 0 && access(error_source, F_OK) == 0)
+		{
+			ft_putstr_fd(error_source, 2);
+			ft_putstr_fd(": Not a directory\n", 2);
+			g_error = 126;
+		}
+		else if (access(error_source, F_OK) == 0)
+		{
+			ft_putstr_fd(error_source, 2);
+			ft_putstr_fd(": is a directory\n", 2);
+			g_error = 126;
+		}
+		else
+		{
+			ft_putstr_fd(error_source, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			g_error = 127;
+		}
 	}
 	return (g_error);
 }

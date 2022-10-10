@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:07:23 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 11:59:46 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 14:00:27 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,22 @@ void	ft_get_pwd(t_prg *data)
 
 void	ft_puterror_cd(t_prg *data, char *strerror, char *old_pwd)
 {
-	write(2, "cd: ", 4);
-	ft_putstr_fd(strerror, 2);
-	write(2, ": No such file or directory\n", 28);
+	struct stat		path_stat;
+
+	stat(strerror, &path_stat);
+	if (S_ISREG(path_stat.st_mode))
+	{
+		write(2, "cd: ", 4);
+		ft_putstr_fd(strerror, 2);
+		write(2, ": Not a directory\n", 19);
+	}
+	else
+	{
+		write(2, "cd: ", 4);
+		ft_putstr_fd(strerror, 2);
+		write(2, ": No such file or directory\n", 28);
+	}
+	g_error = 1;
 	free(old_pwd);
 	ft_get_pwd(data);
 	g_error = 1;

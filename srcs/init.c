@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:03:42 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 08:24:03 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 11:53:19 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ void	env_to_tab(t_prg *prg, int i)
 	while (tmp)
 	{
 		tmp_name = ft_strjoin(tmp->name, "=");
+		if (tmp->content == NULL)
+			tmp->content = ft_strdup("");
 		prg->envp[i] = ft_strjoin(tmp_name, tmp->content);
 		tmp = tmp->next;
-		free(tmp_name);
 		i++;
+		free(tmp_name);
 	}
 	prg->envp[i] = 0;
 }
