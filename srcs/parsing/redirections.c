@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 11:00:01 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/03 13:35:18 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:24:36 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ t_token *line_token, char **line_split)
 	split_len = ft_array_len(line_split);
 	cmd_lst->redir_nbr = ft_array_len(cmd_lst->file);
 	cmd_lst->redir_type = malloc(cmd_lst->redir_nbr * sizeof(t_redir));
+	if (cmd_lst->redir_type == NULL)
+		exit (1);
 	while (i < split_len)
 	{
 		if (line_token[i] == red)

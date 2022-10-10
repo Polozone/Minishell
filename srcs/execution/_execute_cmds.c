@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _execute_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:37:56 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 16:02:41 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 16:20:38 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,6 @@ int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 			exit (ft_error_print_three(tmp, 127, tmp->cmd_and_dep[0]));
 	}
 	exit (ft_error_print_one(tmp, 127, tmp->cmd_and_dep[0]));
-}
-
-void	ft_fout_r(int sig)
-{
-	printf("TEST2\n");
-	if (sig == 2)
-		;
 }
 
 int	_set_fd(t_cmd_lst *tmp, t_prg *data)
