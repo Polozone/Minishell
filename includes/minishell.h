@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 09:29:10 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 13:12:17 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,7 @@ void			_print_env_declare(t_prg *prg);
 /***** ENV2.C *****/
 
 int				_parsing_export(char *cmd, t_prg *prg, char *name_content);
+int				_check_env(int i, int len, char *name);
 
 /***** BUILTINS.C *****/
 

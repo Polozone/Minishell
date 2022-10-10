@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:07:23 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 09:15:05 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 11:59:46 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	ft_puterror_cd(t_prg *data, char *strerror, char *old_pwd)
 	write(2, ": No such file or directory\n", 28);
 	free(old_pwd);
 	ft_get_pwd(data);
+	g_error = 1;
 }
 
 int	_ch_dir(t_prg *data, char *old_pwd)
@@ -83,7 +84,7 @@ int	_ch_dir(t_prg *data, char *old_pwd)
 	{
 		if (!_is_old_pwd(data, 1, old_pwd))
 			ft_add_back_env_list(&data->env_lst,
-				ft_lstnew_env_list("OLDPWD", old_pwd));
+				ft_lstnew_env_list(ft_strdup("OLDPWD"), ft_strdup(old_pwd)));
 		else
 			_is_old_pwd(data, 2, old_pwd);
 	}

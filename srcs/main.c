@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 09:37:46 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 09:38:17 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ int	count_builtins_nofork(t_cmd_lst *list)
 void	_wait_pids(t_prg *data, int i)
 {
 	while (++i < data->cmd_nbr - data->nbr_builtins)
-	{
 		waitpid(data->pid[i], &g_error, 0);
-		i++;
-	}
 	if (data->fork_capacity_met == true)
 		g_error = 1;
 	if (WIFSIGNALED(g_error) == 1)
