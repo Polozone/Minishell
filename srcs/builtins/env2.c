@@ -6,13 +6,36 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:57:27 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 11:57:35 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 09:15:48 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 extern int	g_error;
+
+void	_add_node(char *name, char *content, t_prg *prg)
+{
+	t_env_lst	*tmp;
+	char		*tmp_line;
+
+	tmp = prg->env_lst;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, name))
+		{
+			tmp_line = tmp->content;
+			tmp->content = content;
+			free(tmp_line);
+			tmp_line = tmp->name;
+			tmp->name = name;
+			free(tmp_line);
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	ft_add_back_env_list(&prg->env_lst, ft_lstnew_env_list(name, content));
+}
 
 void	_print_env(t_env_lst *head)
 {
@@ -73,15 +96,14 @@ void	_unset_env(t_prg *prg, size_t i, t_cmd_lst *node)
 	}
 }
 
-int	_parsing_export(char *cmd, t_prg *prg)
+int	_parsing_export(char *cmd, t_prg *prg, char *name_content)
 {
 	int		i;
 
 	if ((cmd[0] == '=') || (48 <= cmd[0] && cmd[0] <= 57))
 	{
-		printf("export: `%s': not a valid identifier\n", cmd);
+		printf("export: `%s': not a valid identifier\n", name_content);
 		g_error = 1;
-		return (1);
 	}
 	i = 0;
 	while (cmd[i])
@@ -89,7 +111,7 @@ int	_parsing_export(char *cmd, t_prg *prg)
 		if (!((64 < cmd[i] && cmd[i] < 91) || (96 < cmd[i] && cmd[i] < 123)
 				|| (47 < cmd[i] && cmd[i] < 58) || cmd[i] == '_'))
 		{
-			printf("export: `%s': not a valid identifier\n", cmd);
+			printf("export: `%s': not a valid identifier\n", name_content);
 			g_error = 1;
 			return (1);
 		}

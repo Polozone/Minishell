@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/06 14:26:05 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 09:29:35 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,9 @@ int	count_builtins_nofork(t_cmd_lst *list)
 	return (nbr_builtins);
 }
 
-void	_wait_pids(t_prg *data)
+void	_wait_pids(t_prg *data, int i)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->cmd_nbr - data->nbr_builtins)
+	while (++i < data->cmd_nbr - data->nbr_builtins)
 	{
 		waitpid(data->pid[i], &g_error, 0);
 		i++;
@@ -90,7 +87,7 @@ static void	ft_parse_n_exec(t_prg *prg)
 		_ft_exe(prg);
 		tcsetattr(0, TCSANOW, &prg->old_termios);
 		close_pipe(prg);
-		_wait_pids(prg);
+		_wait_pids(prg, -1);
 		_ft_free_exe(prg);
 		ft_free_parsing(prg);
 	}

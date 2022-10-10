@@ -31,6 +31,7 @@ SRCS =	srcs/main.c				\
 		srcs/builtins/env2.c			\
 		srcs/builtins/echo.c			\
 		srcs/builtins/cd.c			\
+		srcs/builtins/cd2.c			\
 		srcs/builtins/exit.c			\
 		srcs/builtins/pwd.c			\
 		srcs/execution/ft_free_execution.c			\
