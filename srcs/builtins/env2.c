@@ -6,13 +6,36 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:57:27 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/06 11:55:20 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 09:15:48 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 extern int	g_error;
+
+void	_add_node(char *name, char *content, t_prg *prg)
+{
+	t_env_lst	*tmp;
+	char		*tmp_line;
+
+	tmp = prg->env_lst;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, name))
+		{
+			tmp_line = tmp->content;
+			tmp->content = content;
+			free(tmp_line);
+			tmp_line = tmp->name;
+			tmp->name = name;
+			free(tmp_line);
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	ft_add_back_env_list(&prg->env_lst, ft_lstnew_env_list(name, content));
+}
 
 void	_print_env(t_env_lst *head)
 {
