@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:03:42 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 15:33:11 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:22:55 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	env_to_tab(t_prg *prg, int i)
 
 	size_lst = _lst_size_env(prg->env_lst);
 	prg->envp = malloc((sizeof(char *)) * size_lst + 1);
+	if (!prg->envp)
+		exit (1);
 	tmp = prg->env_lst;
 	while (tmp)
 	{
