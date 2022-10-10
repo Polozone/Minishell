@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:17:26 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/06 13:37:16 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 13:55:30 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	_init_heredoc(t_prg *data, int i, int pid)
 				exit (0);
 			}
 			if (ft_waitpid_hd(data, pid) == true)
-				return;
+				return ;
 		}
 		i = -1;
 		tmp = tmp->next;

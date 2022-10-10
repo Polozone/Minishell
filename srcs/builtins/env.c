@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:12:16 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 09:15:45 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 12:58:55 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	_add_env(t_prg *prg, int i, int len, t_cmd_lst *node)
 		if (_parsing_export(name, prg, node->cmd_and_dep[i]))
 			i++;
 		if (i > len)
+		{
+			free(name);
 			break ;
+		}
 		content = ft_substr(node->cmd_and_dep[i], sep + 1,
 				ft_strlen(node->cmd_and_dep[i]) - sep);
 		_add_node(name, content, prg);
