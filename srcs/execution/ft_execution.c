@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/06 12:00:13 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 08:24:16 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 	signal(SIGQUIT, ft_sigignore);
 	while (tmp)
 	{
-		if (is_builtin_nofork(data, tmp))
+		if (is_builtin_nofork(data, tmp) == 1)
 		{
 			data->pid[data->nbr_pid] = fork();
 			if (data->pid[data->nbr_pid] == -1)
