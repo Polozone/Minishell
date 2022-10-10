@@ -29,6 +29,7 @@ SRCS =	srcs/main.c				\
 		srcs/strings_manip/ft_itoa.c	\
 		srcs/builtins/env.c			\
 		srcs/builtins/env2.c			\
+		srcs/builtins/env3.c			\
 		srcs/builtins/echo.c			\
 		srcs/builtins/cd.c			\
 		srcs/builtins/cd2.c			\
