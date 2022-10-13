@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:15:21 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 10:16:13 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/13 12:46:13 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	_exit_builtins(t_cmd_lst *node, int i, int len, long long exit_value)
 	{
 		write(2, node->cmd_and_dep[1], ft_strlen(node->cmd_and_dep[1]));
 		write(2, ": numeric argument required\n", 28);
+		exit (255);
 	}
 	return ((unsigned char)exit_value);
 }
