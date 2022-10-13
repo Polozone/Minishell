@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/13 14:14:16 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:16:07 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void			env_to_tab(t_prg *prg, int i);
 
 void			setup_term(void);
 void			handle_sigstp(int sig);
+void			ft_sigignore(int sig);
 
 /***** STRING_SIZE.C *****/
 

@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/13 14:32:54 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:26:11 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	count_builtins_nofork(t_prg *data, t_cmd_lst *list)
 	nbr_builtins = 0;
 	while (tmp)
 	{
-		if ((tmp->is_cmd_builtin == export && tmp->cmd_and_dep[0] == NULL && data->cmd_nbr == 1)
+		if ((tmp->is_cmd_builtin == export && tmp->cmd_and_dep[0]
+				== NULL && data->cmd_nbr == 1)
 			|| (tmp->is_cmd_builtin == unset && data->cmd_nbr == 1)
 			|| (tmp->is_cmd_builtin == cd && data->cmd_nbr == 1)
 			|| (tmp->is_cmd_builtin == quit && data->cmd_nbr == 1))
@@ -32,7 +33,6 @@ int	count_builtins_nofork(t_prg *data, t_cmd_lst *list)
 		}
 		tmp = tmp->next;
 	}
-	dprintf(2, "builtins nbr == %d\n", nbr_builtins);
 	return (nbr_builtins);
 }
 

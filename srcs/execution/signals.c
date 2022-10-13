@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 14:23:03 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 16:39:47 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:26:27 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,9 @@ void	_sig_stp_main(int sig)
 		rl_redisplay();
 		g_error = 1;
 	}
+}
+
+void	ft_sigignore(int sig)
+{
+	(void) sig;
 }
