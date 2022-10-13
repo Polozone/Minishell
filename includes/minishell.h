@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 16:16:29 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/13 14:14:16 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,7 +308,7 @@ int				_ch_dir(t_prg *data, char *old_pwd);
 void			_add_node(char *name, char *content, t_prg *prg);
 int				is_builtin_nofork(t_prg *data, t_cmd_lst *node);
 int				is_builtin_fork(t_prg *data, t_cmd_lst *node);
-int				count_builtins_nofork(t_cmd_lst *list);
+int				count_builtins_nofork(t_prg *data, t_cmd_lst *list);
 void			env_to_tab(t_prg *prg, int i);
 int				_exit_builtins(t_cmd_lst *node, int i, int len,
 					long long exit_value);

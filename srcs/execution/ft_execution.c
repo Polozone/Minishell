@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 16:16:42 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/13 14:41:23 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,28 @@ extern int	g_error;
 
 int	is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 {
-	int	exit_value;
-
 	if (node->is_cmd_builtin == unset || node->is_cmd_builtin == cd
 		|| node->is_cmd_builtin == quit
 		|| (node->is_cmd_builtin == export && node->cmd_and_dep[1] != NULL))
 	{
+		if (data->cmd_nbr != 1 && node->is_cmd_builtin == quit)
+			return (1);
+		if (node->is_cmd_builtin == quit)
+		{
+			g_error = _exit_builtins(node, -1, 0, 0);
+			if (g_error == -1)
+				return (0);
+			else
+				exit(g_error);
+		}
 		if (data->cmd_nbr != 1)
-			return (0);
+			return (1);
 		if (node->is_cmd_builtin == export)
 			_export_env(data, node);
 		if (node->is_cmd_builtin == unset)
 			_unset_env_parent(data, node);
 		if (node->is_cmd_builtin == cd)
 			_ch_dir(data, NULL);
-		if (node->is_cmd_builtin == quit)
-		{
-			exit_value = _exit_builtins(node, -1, 0, 0);
-			if (exit_value == -1)
-				return (0);
-			else
-				exit(exit_value);
-		}
 		return (0);
 	}
 	return (1);
@@ -46,8 +46,17 @@ int	is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 {
 	if (node->is_cmd_builtin == echo || node->is_cmd_builtin == pwd
-		|| node->is_cmd_builtin == env || node->is_cmd_builtin == export)
+		|| node->is_cmd_builtin == env || node->is_cmd_builtin == export
+		|| (node->is_cmd_builtin == quit && data->cmd_nbr != 1))
 	{
+		if (node->is_cmd_builtin == quit)
+		{
+			g_error = _exit_builtins(node, -1, 0, 0);
+			if (g_error == -1)
+				return (0);
+			else
+				exit(g_error);
+		}
 		if ((strcmp(node->cmd_and_dep[0], "export") == 0)
 			&& node->cmd_and_dep[1] == NULL)
 			_print_env_declare(data);
@@ -75,6 +84,7 @@ void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 	tmp = data->cmd_list;
 	signal(SIGINT, ft_sigignore);
 	signal(SIGQUIT, ft_sigignore);
+	signal(SIGPIPE, ft_sigignore);
 	while (tmp)
 	{
 		if (is_builtin_nofork(data, tmp) == 1)
@@ -100,7 +110,7 @@ int	_ft_exe(t_prg *data)
 {
 	data->nbr_pid = 0;
 	data->cmd_list->redir_fd = NULL;
-	data->nbr_builtins = count_builtins_nofork(data->cmd_list);
+	data->nbr_builtins = count_builtins_nofork(data, data->cmd_list);
 	data->cmd_nbr = get_size_lst(data);
 	_set_index_list(data);
 	if (_init_pipe(data) || _alloc_exe_var(data))

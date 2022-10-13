@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:25 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/10 15:57:55 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/13 14:32:54 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_error;
 
-int	count_builtins_nofork(t_cmd_lst *list)
+int	count_builtins_nofork(t_prg *data, t_cmd_lst *list)
 {
 	t_cmd_lst	*tmp;
 	int			nbr_builtins;
@@ -23,15 +23,16 @@ int	count_builtins_nofork(t_cmd_lst *list)
 	nbr_builtins = 0;
 	while (tmp)
 	{
-		if ((tmp->is_cmd_builtin == export && tmp->cmd_and_dep[0] == NULL)
-			|| tmp->is_cmd_builtin == unset
-			|| tmp->is_cmd_builtin == cd
-			|| tmp->is_cmd_builtin == quit)
+		if ((tmp->is_cmd_builtin == export && tmp->cmd_and_dep[0] == NULL && data->cmd_nbr == 1)
+			|| (tmp->is_cmd_builtin == unset && data->cmd_nbr == 1)
+			|| (tmp->is_cmd_builtin == cd && data->cmd_nbr == 1)
+			|| (tmp->is_cmd_builtin == quit && data->cmd_nbr == 1))
 		{
 			nbr_builtins++;
 		}
 		tmp = tmp->next;
 	}
+	dprintf(2, "builtins nbr == %d\n", nbr_builtins);
 	return (nbr_builtins);
 }
 
@@ -54,7 +55,7 @@ void	_wait_pids(t_prg *data, int i)
 			g_error = 131;
 		}
 	}
-	else if (WIFEXITED(g_error) == 1)
+	if (WIFEXITED(g_error) == 1)
 		g_error = WEXITSTATUS(g_error);
 	if (data->heredoc_nbr == 0)
 		data->fork_capacity_met = false;
