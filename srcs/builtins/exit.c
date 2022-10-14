@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:15:21 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/13 16:30:02 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/14 08:56:57 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ int	ft_isalpha(char	*str)
 	return (0);
 }
 
-int	_exit_builtins(t_cmd_lst *node, int i, int len, long long exit_value)
+int	_exit_builtins(t_prg *data, t_cmd_lst *node, int len, long long exit_value)
 {
 	if (!node->cmd_and_dep[1])
 	{
-		write(1, "exit\n", 5);
+		if (data->cmd_nbr == 1)
+			write(1, "exit\n", 5);
 		exit (0);
 	}
-	len = ft_strlen_2d(node->cmd_and_dep);
 	if (len > 2 && ft_isalpha(node->cmd_and_dep[1]) == 0)
 	{
 		write(2, "exit\nexit: too many arguments\n", 30);
@@ -64,7 +64,8 @@ int	_exit_builtins(t_cmd_lst *node, int i, int len, long long exit_value)
 	}
 	if (_parsing_exit(node))
 		exit (255);
-	write(2, "exit\n", 5);
+	if (data->cmd_nbr == 1)
+		write(2, "exit\n", 5);
 	exit_value = ft_atol(node->cmd_and_dep[1]);
 	if (!checker_lli(node->cmd_and_dep[1]) || ft_isalpha(node->cmd_and_dep[1]))
 	{

@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/13 16:24:50 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/14 08:44:39 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 extern int	g_error;
 
-int	builtins_exit(t_cmd_lst *node)
+int	builtins_exit(t_prg *data, t_cmd_lst *node)
 {
-	g_error = _exit_builtins(node, -1, 0, 0);
+	g_error = _exit_builtins(data, node, ft_strlen_2d(node->cmd_and_dep), 0);
 	if (g_error == -1)
 	{
 		g_error = 1;
@@ -36,7 +36,7 @@ int	is_builtin_nofork(t_prg *data, t_cmd_lst *node)
 			return (1);
 		if (node->is_cmd_builtin == quit)
 		{
-			if (builtins_exit(node))
+			if (builtins_exit(data, node))
 				return (0);
 		}
 		if (data->cmd_nbr != 1)
@@ -60,7 +60,7 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 	{
 		if (node->is_cmd_builtin == quit)
 		{
-			if (builtins_exit(node))
+			if (builtins_exit(data, node))
 				return (0);
 		}
 		if ((strcmp(node->cmd_and_dep[0], "export") == 0)

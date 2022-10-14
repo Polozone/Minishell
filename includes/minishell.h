@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/13 16:16:07 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/14 08:43:02 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,12 +311,13 @@ int				is_builtin_nofork(t_prg *data, t_cmd_lst *node);
 int				is_builtin_fork(t_prg *data, t_cmd_lst *node);
 int				count_builtins_nofork(t_prg *data, t_cmd_lst *list);
 void			env_to_tab(t_prg *prg, int i);
-int				_exit_builtins(t_cmd_lst *node, int i, int len,
+int				_exit_builtins(t_prg *data, t_cmd_lst *node, int len,
 					long long exit_value);
 int				_is_old_pwd(t_prg *data, int mode, char *old_pwd);
 char			*get_home_path(t_prg *data);
 int				chdir_checks(t_prg *data, char *old_pwd);
 char			*ft_get_env_var_content(t_prg *data, char *var);
+int				builtins_exit(t_prg *data, t_cmd_lst *node);
 
 /***** EXECUTIONS.C *****/
 
