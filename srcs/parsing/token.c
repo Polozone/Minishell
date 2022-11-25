@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:13:31 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/05 11:37:04 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:25:24 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ t_token	*ft_assign_token(char **split, t_token *line_token, int i)
 {
 	i = -1;
 	line_token = malloc((ft_array_len(split) + ft_ct_fl_st(split) + 1) * 8);
+	if (line_token == NULL)
+		exit (1);
 	while (split[++i])
 	{
 		if (split[i][0] == '<' || split[i][0] == '>')
@@ -88,9 +90,7 @@ t_token	*ft_assign_token(char **split, t_token *line_token, int i)
 		else if (i > 0 && line_token[i - 1] == red)
 		{
 			if (ft_ghetto(split[i]) == true)
-			{
 				line_token[i] = ft_assign_rdnfile(split, i);
-			}
 			else
 				line_token[i] = file;
 		}

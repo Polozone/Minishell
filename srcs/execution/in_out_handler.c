@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:53:40 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/06 08:56:46 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 14:48:24 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ void	_open_all_outfile(t_cmd_lst *node)
 	{
 		if (node->redir_type[i] == 1 || node->redir_type[i] == 2)
 		{
-			fd = open(node->file[i], O_CREAT | O_RDWR, 0644);
+			if (node->redir_type[i] == 1)
+				fd = open(node->file[i], O_CREAT | O_RDWR | O_TRUNC, 0644);
+			else if (node->redir_type[i] == 2)
+				fd = open(node->file[i], O_CREAT | O_RDWR | O_APPEND, 0644);
 			_handler_errors_outfiles(node, node->file[i]);
 			node->redir_fd[node->index_fd] = fd;
 			node->index_fd++;

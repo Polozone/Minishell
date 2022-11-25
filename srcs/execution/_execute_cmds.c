@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _execute_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:37:56 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/06 13:43:41 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:32:10 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 {
 	if (execve(tmp->path, tmp->cmd_and_dep, data->envp) == -1)
 	{
-		if (tmp->cmd_and_dep[0] && ft_strncmp(tmp->cmd_and_dep[0], "/", 1) == 0
-			&& access(tmp->path, F_OK) == 0)
+		if (tmp->cmd_and_dep[0] && ft_strncmp(tmp->cmd_and_dep[0], "./", 2) == 0
+			&& is_file(tmp->cmd_and_dep[0]) == 1)
 			exit (ft_error_print_two(tmp, -126, tmp->cmd_and_dep[0]));
-		else if (access(tmp->path, X_OK) != 0
-			&& ft_strncmp(tmp->cmd_and_dep[0], "./", 2) == 0)
+		else if ((access(tmp->cmd_and_dep[0], X_OK) != 0)
+			&& (access(tmp->cmd_and_dep[0], F_OK) == 0)
+			&& (ft_strncmp(tmp->cmd_and_dep[0], "./", 2) == 0))
 			exit (ft_error_print_two(tmp, 126, tmp->cmd_and_dep[0]));
 		else if (tmp->cmd_and_dep[0] != 0
 			&& ft_strcmp(tmp->cmd_and_dep[0], ".") == 0)
@@ -65,11 +66,11 @@ int	_ft_execve(t_prg *data, t_cmd_lst *tmp)
 			|| (tmp->cmd_and_dep[0] != 0
 				&& ft_strcmp(tmp->cmd_and_dep[0], "..") == 0))
 			exit (ft_error_print_one(tmp, 127, tmp->cmd_and_dep[0]));
-		else if ((ft_strstr(tmp->cmd_and_dep[0], "/") != 0)
-				&& (tmp->cmd_and_dep[0] && is_file(tmp->cmd_and_dep[0]) == 0))
+		else if ((tmp->cmd_and_dep[0])
+			&& (ft_strstr(tmp->cmd_and_dep[0], "/") != 0))
 			exit (ft_error_print_three(tmp, 127, tmp->cmd_and_dep[0]));
 	}
-	exit (0);
+	exit (ft_error_print_one(tmp, 127, tmp->cmd_and_dep[0]));
 }
 
 int	_set_fd(t_cmd_lst *tmp, t_prg *data)

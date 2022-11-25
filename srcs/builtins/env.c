@@ -6,7 +6,7 @@
 /*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:12:16 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/05 11:57:24 by pmulin           ###   ########.fr       */
+/*   Updated: 2022/10/10 15:33:18 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,31 @@
 
 extern int	g_error;
 
-void	_add_node(char *name, char *content, t_prg *prg)
-{
-	t_env_lst	*tmp;
-	char		*tmp_line;
-
-	tmp = prg->env_lst;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, name))
-		{
-			tmp_line = tmp->content;
-			tmp->content = content;
-			free(tmp_line);
-			tmp_line = tmp->name;
-			tmp->name = name;
-			free(tmp_line);
-			return ;
-		}
-		tmp = tmp->next;
-	}
-	ft_add_back_env_list(&prg->env_lst, ft_lstnew_env_list(name, content));
-}
-
-void	_add_env(t_prg *prg, int i, int len)
+void	_add_env(t_prg *prg, int i, int len, t_cmd_lst *node)
 {
 	char	*name;
 	char	*content;
 	int		sep;
 
-	len = ft_strlen_2d(prg->cmd_list->cmd_and_dep) - 1;
-	while (prg->cmd_list->cmd_and_dep[++i])
+	while (node->cmd_and_dep[++i])
 	{
-		sep = ft_strlen_to_char(prg->cmd_list->cmd_and_dep[i], '=');
+		sep = ft_strlen_to_char(node->cmd_and_dep[i], '=');
 		if (sep)
-			name = ft_substr(prg->cmd_list->cmd_and_dep[i], 0, sep);
+			name = ft_substr(node->cmd_and_dep[i], 0, sep);
 		else
-			name = ft_strdup(prg->cmd_list->cmd_and_dep[i]);
+			name = ft_strdup(node->cmd_and_dep[i]);
 		if (i == 1 && (name[0] == '#' || name[0] == '$'))
 		{
 			_print_env_declare(prg);
+			free(name);
 			return ;
 		}
-		if (_parsing_export(name, prg))
+		if (_parsing_export(name, prg, node->cmd_and_dep[i]))
 			i++;
-		if (i > len)
-			break ;
-		content = ft_substr(prg->cmd_list->cmd_and_dep[i], sep + 1,
-				ft_strlen(prg->cmd_list->cmd_and_dep[i]) - sep);
+		if (_check_env(i, len, name))
+			return ;
+		content = ft_substr(node->cmd_and_dep[i], sep + 1,
+				ft_strlen(node->cmd_and_dep[i]) - sep);
 		_add_node(name, content, prg);
 	}
 }
@@ -96,8 +73,30 @@ int	_lst_size_env(t_env_lst *head)
 	return (i);
 }
 
+int	_is_env(t_prg *data, char *name)
+{
+	t_env_lst	*tmp;
+
+	tmp = data->env_lst;
+	while (tmp)
+	{
+		if (!ft_strcmp(name, tmp->name))
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 int	_export_env(t_prg *prg, t_cmd_lst *node)
 {
-	_add_env(prg, 0, 0);
+	int		i;
+
+	i = 0;
+	g_error = 0;
+	while (node->cmd_and_dep[++i])
+	{
+		if (_is_env(prg, node->cmd_and_dep[i]) == 0)
+			_add_env(prg, 0, ft_strlen_2d(node->cmd_and_dep) - 1, node);
+	}
 	return (0);
 }

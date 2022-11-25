@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   env3.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 14:23:03 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/10 14:58:45 by mgolinva         ###   ########.fr       */
+/*   Created: 2022/10/10 12:59:18 by pmulin            #+#    #+#             */
+/*   Updated: 2022/10/10 16:11:29 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,12 @@
 
 extern int	g_error;
 
-void	sig_handler_hd(void)
+int	_check_env(int i, int len, char *name)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-void	_sig_stp_main(int sig)
-{
-	if (sig == 2)
+	if (i > len)
 	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_error = 1;
+		free(name);
+		return (1);
 	}
+	return (0);
 }

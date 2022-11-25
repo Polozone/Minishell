@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 08:49:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/06 09:04:04 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:24:10 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	ft_heredoc_delimiter(t_prg *prg, t_cmd_lst *cmd_lst, char **l_split)
 	while (i < cmd_lst->redir_nbr)
 		i ++;
 	cmd_lst->heredoc_delimiter = malloc((i + 1) * sizeof(char *));
+	if (cmd_lst->heredoc_delimiter == NULL)
+		exit (1);
 	i = 0;
 	while (cmd_lst->file[i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:07:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/10/06 11:48:05 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:16:29 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,9 @@ void			_print_env_declare(t_prg *prg);
 
 /***** ENV2.C *****/
 
-int	_parsing_export(char *cmd, t_prg *prg);
+int				_parsing_export(char *cmd, t_prg *prg, char *name_content);
+int				_check_env(int i, int len, char *name);
+int				check_launch_env(t_prg *data, t_cmd_lst *node);
 
 /***** BUILTINS.C *****/
 
@@ -296,7 +298,7 @@ void			_unset_env(t_prg *prg, size_t i, t_cmd_lst *node);
 void			_unset_env_parent(t_prg *prg, t_cmd_lst *node);
 int				_export_env(t_prg *prg, t_cmd_lst *node);
 int				_export_env_parse(t_prg *prg);
-void			_add_env(t_prg *prg, int i, int len);
+void			_add_env(t_prg *prg, int i, int len, t_cmd_lst *node);
 int				_is_name_in_env(t_prg *prg, char *name_to_find);
 void			_set_content_env(t_env_lst *node, char *content,
 					char **content2d, int mode);
@@ -308,12 +310,17 @@ int				is_builtin_nofork(t_prg *data, t_cmd_lst *node);
 int				is_builtin_fork(t_prg *data, t_cmd_lst *node);
 int				count_builtins_nofork(t_cmd_lst *list);
 void			env_to_tab(t_prg *prg, int i);
-int				_exit_builtins(t_cmd_lst *node, int i, int len, long long exit_value);
+int				_exit_builtins(t_cmd_lst *node, int i, int len,
+					long long exit_value);
+int				_is_old_pwd(t_prg *data, int mode, char *old_pwd);
+char			*get_home_path(t_prg *data);
+int				chdir_checks(t_prg *data, char *old_pwd);
+char			*ft_get_env_var_content(t_prg *data, char *var);
 
 /***** EXECUTIONS.C *****/
 
 int				_ft_exe(t_prg *data);
-void			_wait_pids(t_prg *data);
+void			_wait_pids(t_prg *data, int i);
 int				_execute_cmds(t_prg *data, size_t i, t_cmd_lst *tmp);
 void			close_pipe(t_prg *data);
 int				_set_fd(t_cmd_lst *tmp, t_prg *data);
@@ -326,9 +333,9 @@ void			_close_pipe_hd(t_cmd_lst	*tmp, char *line, char *buf, int i);
 
 /***** INIT_EXE.C *****/
 
-int		_init_pipe(t_prg *data);
-int		_alloc_exe_var(t_prg *data);
-void	_set_index_list(t_prg *data);
+int				_init_pipe(t_prg *data);
+int				_alloc_exe_var(t_prg *data);
+void			_set_index_list(t_prg *data);
 
 /***** EXECUTIONS//IN_OUT_HANDLER.C*****/
 
@@ -344,8 +351,8 @@ void			_handler_errors_outfiles(t_cmd_lst	*node, char *name);
 
 /***** DUP_IN_OUT.C*****/
 
-void	_set_dup_infile(t_prg *data, t_cmd_lst *node);
-void	_set_dup_outfile(t_cmd_lst *node, t_prg *data);
+void			_set_dup_infile(t_prg *data, t_cmd_lst *node);
+void			_set_dup_outfile(t_cmd_lst *node, t_prg *data);
 
 /***** ERROR_PRINT.C *****/
 

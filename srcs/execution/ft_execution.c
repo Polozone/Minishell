@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmulin <pmulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:56:09 by pmulin            #+#    #+#             */
-/*   Updated: 2022/10/06 14:25:56 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:16:42 by pmulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 		if (node->is_cmd_builtin == pwd)
 			_pwd_exe();
 		if (node->is_cmd_builtin == env)
-			_print_env(data->env_lst);
+		{
+			if (check_launch_env(data, node))
+				_print_env(data->env_lst);
+		}
 		return (1);
 	}
 	return (0);
@@ -64,16 +67,7 @@ int	is_builtin_fork(t_prg *data, t_cmd_lst *node)
 
 void	ft_sigignore(int sig)
 {
-	if (sig == 2)
-	{
-		write(2, "\n", 1);
-		g_error = 130;
-	}
-	else if (sig == 3)
-	{
-		ft_putstr_fd("Quit: 3\n", 2);
-		g_error = 131;
-	}
+	(void) sig;
 }
 
 void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
@@ -83,7 +77,7 @@ void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 	signal(SIGQUIT, ft_sigignore);
 	while (tmp)
 	{
-		if (is_builtin_nofork(data, tmp))
+		if (is_builtin_nofork(data, tmp) == 1)
 		{
 			data->pid[data->nbr_pid] = fork();
 			if (data->pid[data->nbr_pid] == -1)
@@ -94,9 +88,7 @@ void	_ft_forks(t_prg *data, t_cmd_lst *tmp)
 				data->fork_capacity_met = true;
 			}
 			else if (data->pid[data->nbr_pid] == 0)
-			{
 				g_error = _set_fd(tmp, data);
-			}
 			check_heredoc(tmp);
 			data->nbr_pid++;
 		}
@@ -113,7 +105,6 @@ int	_ft_exe(t_prg *data)
 	_set_index_list(data);
 	if (_init_pipe(data) || _alloc_exe_var(data))
 		return (-1);
-	int *pid;
 	_init_heredoc(data, -1, 0);
 	if (data->has_heredoc_been_sig_ended == false)
 		_ft_forks(data, NULL);

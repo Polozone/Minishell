@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 09:25:00 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/09/21 17:28:05 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:24:47 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ char	**ft_split(char *str, char sep)
 	count = ft_sep_count(str, sep);
 	banana = malloc((count + 1) * sizeof(char *));
 	if (!banana)
-		exit (0);
+		exit (1);
 	return (ft_actual_split(banana, str, sep, count));
 }
