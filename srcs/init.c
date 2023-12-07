@@ -54,3 +54,4 @@ void	ft_init(char **env, t_prg *prg)
 	prg->new_termios = prg->old_termios;
 	prg->new_termios.c_lflag &= ~ECHOCTL;
 }
+
