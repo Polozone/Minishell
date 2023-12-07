@@ -94,3 +94,4 @@ void	ft_lstclear_cmd_list(t_cmd_lst **lst)
 	}
 	*lst = NULL;
 }
+

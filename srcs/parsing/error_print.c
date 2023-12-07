@@ -107,3 +107,4 @@ t_bool	ft_syntax_error_print(int error_code)
 	else
 		return (false);
 }
+
